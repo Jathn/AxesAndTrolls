@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Tile.hpp"
+#include "utility/Randoms.hpp"
 
 /**
  * @file ResourceLoading.hpp
@@ -20,7 +21,7 @@ public:
     /**
      * @brief Constructs a Map object.
      */
-    Map(const int& tile_size=32) : tile_size_(tile_size) { loadMap(); generate(); }
+    Map(const int& width=32, const int& height=20);
 
     /**
      * @brief Destroys the Map object.
@@ -43,7 +44,7 @@ public:
     void loadMap();
 
     /**
-     * @brief Generates the map.
+     * @brief Generates a random map.
      */
     void generate();
 
@@ -51,11 +52,12 @@ public:
      * @brief Adds a tile to the map.
      * @param id The id of the tile.
      */
-    void addTile(int id);
+    void addTile(int id, TileType type);
 
-private:
-    int tile_size_; /**< The size of each tile. */
-    std::vector<Tile> map_; /**< The map data. */
+private: /**< The size of each tile. */
+    const int& width_; /**< The width of the map. */
+    const int& height_; /**< The height of the map. */
+    std::vector<std::vector<Tile>> map_; /**< The map data. */
 };
 
 #endif // MAP_HPP
