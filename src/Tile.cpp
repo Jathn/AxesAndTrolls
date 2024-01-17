@@ -1,15 +1,26 @@
 #include "Tile.hpp"
 
-Tile::Tile(const int& id, const TileType& type) : id_(id), type_(type) { }
+Tile::Tile(const int& id, const std::vector<Tile>& neighbors) : id_(id), neighbors_(neighbors) { 
+    TileType majorityType = getNeighborMajorityType();
+    std::map<TileType, double> typeOdds = {
+        {TileType::GRASS, 35},
+        {TileType::FOREST, 20},
+        {TileType::WATER, 20},
+        {TileType::MOUNTAIN, 5},
+    };
+    typeOdds[majorityType] += 10;
+
+    type_ = chooseAlternative<TileType>(typeOdds);
+}
 
 Tile::~Tile() { }
 
-void Tile::setNeighbors(std::vector<Tile> neighbors) {
+void Tile::setNeighbors(const std::vector<Tile>& neighbors) {
     neighbors_ = neighbors;
 }
 
-TileType Tile::getType() {
-    return type_;
+std::vector<Tile> Tile::getNeighbours() {
+    return neighbors_;
 }
 
 TileType Tile::getNeighborMajorityType() {
@@ -19,7 +30,7 @@ TileType Tile::getNeighborMajorityType() {
         typeCount[neighbor.getType()]++;
     }
 
-    TileType majorityType;
+    TileType majorityType = TileType::MOUNTAIN;
     int maxCount = 0;
 
     for (const auto& pair : typeCount) {
@@ -30,4 +41,23 @@ TileType Tile::getNeighborMajorityType() {
     }
 
     return majorityType;
+}
+
+TileType Tile::getType() {
+    return type_;
+}
+
+char Tile::getTypeChar() {
+    switch (type_) {
+        case TileType::GRASS:
+            return 'G';
+        case TileType::FOREST:
+            return 'F';
+        case TileType::WATER:
+            return 'W';
+        case TileType::MOUNTAIN:
+            return 'M';
+        default:
+            return ' ';
+    }
 }

@@ -2,9 +2,10 @@
 #define TILE_HPP
 
 #include <vector>
+#include <map>
 
-#include <SFML/Graphics.hpp>
-#include "Map.hpp"
+#include <MapTester.hpp>
+#include <Randoms.hpp>
 
 /**
  * @brief The TileType enum represents the type of a tile.
@@ -32,7 +33,7 @@ public:
      * @brief Constructor for Tile class.
      * @param id The id of the tile.
      */
-    Tile(const int& id, const TileType& type);
+    Tile(const int& id, const std::vector<Tile>& neighbors);
 
     /**
      * @brief Destructor for Tile class.
@@ -43,7 +44,20 @@ public:
      * @brief Function for setting the neighbors of a tile.
      * @param neighbors The neighbors of the tile.
      */
-    void setNeighbors(std::vector<Tile> neighbors);
+    void setNeighbors(const std::vector<Tile>& neighbors);
+
+    /**
+     * @brief Getter for neighbors of this tile.
+     * 
+     * @return std::vector<Tile> 
+     */
+    std::vector<Tile> getNeighbours();
+
+    /**
+     * @brief Gets the neighbor majority
+     * 
+     */
+    TileType getNeighborMajorityType();
 
     /**
      * @brief Getter for type 
@@ -52,14 +66,14 @@ public:
     TileType getType();
 
     /**
-     * @brief Gets the neighbor majority
+     * @brief 
      * 
      */
-    TileType getNeighborMajorityType();
+    char getTypeChar();
 
 private:
-    const int& id_;
-    const TileType& type_;
+    int id_;
+    TileType type_;
     std::vector<Tile> neighbors_;
 };
 #endif // TILE_HPP
