@@ -11,7 +11,10 @@ int MapTester::runTest() {
     
     std::cout << "## Map generation test ##" << std::endl;
     /* Important algorithm that will always be needed at map generation ( except of course if map is handmade ) */
-
+    std::cout << "Enter width: " << std::endl;
+    std::cin >> width;
+    std::cout << "Enter height: " << std::endl;
+    std::cin >> height;
     std::string mapString = "";
     for (int i = 0; i < width * height; i++) {
         std::vector<Tile> neighbors;
@@ -33,7 +36,7 @@ int MapTester::runTest() {
     }
 
     std::cout << mapString << std::endl;
-    
+
     if (mapString[2] == map[2 + width].getNeighbours()[1].getTypeChar()) {
         addCompleted("Map generation");
     } else {
