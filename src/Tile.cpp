@@ -1,6 +1,6 @@
 #include "Tile.hpp"
 
-Tile::Tile(const int& id, const std::vector<Tile>& neighbors) : id_(id), neighbors_(neighbors) { 
+Tile::Tile(const int& id, const std::vector<std::shared_ptr<Tile>>& neighbors) : id_(id), neighbors_(neighbors) { 
     TileType majorityType = getNeighborMajorityType();
     std::map<TileType, double> typeOdds = {
         {TileType::GRASS, 35},
@@ -15,11 +15,11 @@ Tile::Tile(const int& id, const std::vector<Tile>& neighbors) : id_(id), neighbo
 
 Tile::~Tile() { }
 
-void Tile::setNeighbors(const std::vector<Tile>& neighbors) {
+void Tile::setNeighbors(const std::vector<std::shared_ptr<Tile>>& neighbors) {
     neighbors_ = neighbors;
 }
 
-std::vector<Tile> Tile::getNeighbours() {
+std::vector<std::shared_ptr<Tile>> Tile::getNeighbors() {
     return neighbors_;
 }
 
@@ -27,7 +27,7 @@ TileType Tile::getNeighborMajorityType() {
     std::map<TileType, int> typeCount;
 
     for (auto neighbor : neighbors_) {
-        typeCount[neighbor.getType()]++;
+        typeCount[neighbor->getType()]++;
     }
 
     TileType majorityType = TileType::MOUNTAIN;
