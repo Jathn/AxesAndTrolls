@@ -17,12 +17,12 @@ int MapTester::runTest() {
     std::cin >> height;
     std::string mapString = "";
     for (int i = 0; i < width * height; i++) {
-        std::vector<Tile> neighbors;
+        std::vector<std::shared_ptr<Tile>> neighbors;
         if (i % width != 0) {
-            neighbors.push_back(map[i - 1]);
+            neighbors.push_back(std::make_shared<Tile>(map[i - 1]));
         }
         if (i >= width) {
-            neighbors.push_back(map[i - width]);
+            neighbors.push_back(std::make_shared<Tile>(map[i - width]));
         }
         Tile tile = Tile(i, neighbors);
 
@@ -37,7 +37,7 @@ int MapTester::runTest() {
 
     std::cout << mapString << std::endl;
 
-    if (mapString[2] == map[2 + width].getNeighbours()[1].getTypeChar()) {
+    if (mapString[2] == map[2 + width].getNeighbors().at(1)->getTypeChar()) {
         addCompleted("Map generation");
     } else {
         addUnsuccessful("Map generation");

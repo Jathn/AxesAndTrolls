@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include <memory>
 
 #include <MapTester.hpp>
 #include <Randoms.hpp>
@@ -33,7 +34,7 @@ public:
      * @brief Constructor for Tile class.
      * @param id The id of the tile.
      */
-    Tile(const int& id, const std::vector<Tile>& neighbors);
+    Tile(const int& id, const std::vector<std::shared_ptr<Tile>>& neighbors);
 
     /**
      * @brief Destructor for Tile class.
@@ -44,14 +45,14 @@ public:
      * @brief Function for setting the neighbors of a tile.
      * @param neighbors The neighbors of the tile.
      */
-    void setNeighbors(const std::vector<Tile>& neighbors);
+    void setNeighbors(const std::vector<std::shared_ptr<Tile>>& neighbors);
 
     /**
      * @brief Getter for neighbors of this tile.
      * 
      * @return std::vector<Tile> 
      */
-    std::vector<Tile> getNeighbours();
+    std::vector<std::shared_ptr<Tile>> getNeighbors();
 
     /**
      * @brief Gets the neighbor majority
@@ -74,6 +75,6 @@ public:
 private:
     int id_;
     TileType type_;
-    std::vector<Tile> neighbors_;
+    std::vector<std::shared_ptr<Tile>> neighbors_;
 };
 #endif // TILE_HPP
