@@ -1,9 +1,9 @@
-#ifndef Map_TESTER_HPP
-#define Map_TESTER_HPP
+#ifndef MAP_TESTER_HPP
+#define MAP_TESTER_HPP
 
 #include <string>
 
-#include <Tile.hpp>
+#include "GameStateManager.hpp"
 
 /**
  * @brief Class for testing functionality of the Map.
@@ -27,7 +27,7 @@ public:
      *
      * @return The result of the test. 0 if successful, otherwise -1.
      */
-    int runTest();
+    std::pair<int, int> runTest();
 
     /**
      * @brief Update statistics for a completed test.
@@ -42,8 +42,8 @@ public:
     void addUnsuccessful(const std::string& str);
 
 private:
-    int tests_total_;
-    int tests_completed_;
+    std::pair<int, int> test_results_;
+    GameStateManager game_state_manager_;
 };
 
-#endif // Map_TESTER_HPP
+#endif // MAP_TESTER_HPP

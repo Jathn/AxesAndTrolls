@@ -5,7 +5,6 @@
 #include <map>
 #include <memory>
 
-#include <MapTester.hpp>
 #include <Randoms.hpp>
 
 /**
@@ -48,6 +47,13 @@ public:
     void setNeighbors(const std::vector<std::shared_ptr<Tile>>& neighbors);
 
     /**
+     * @brief Adds a neighbor to the tile.
+     * 
+     * @param neighbor The neighbor to add.
+     */
+    void addNeighbor(const std::shared_ptr<Tile>& neighbor);
+
+    /**
      * @brief Getter for neighbors of this tile.
      * 
      * @return std::vector<Tile> 
@@ -72,6 +78,7 @@ public:
      */
     char getTypeChar();
 
+    const int& getId() const;
 private:
     int id_;
     TileType type_;

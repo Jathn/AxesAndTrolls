@@ -28,7 +28,7 @@ public:
      *
      * @return The result of the test. 0 if successful, otherwise -1.
      */
-    int runTest();
+    std::pair<int, int> runTest();
 
     /**
      * @brief Update statistics for a completed test.
@@ -43,8 +43,7 @@ public:
     void addUnsuccessful(const std::string& str);
 
 private:
-    int tests_total_;
-    int tests_completed_;
+    std::pair<int, int> test_results_;
 };
 
 #endif // SFML_TESTER_HPP

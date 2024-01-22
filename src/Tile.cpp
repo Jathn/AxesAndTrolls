@@ -19,6 +19,10 @@ void Tile::setNeighbors(const std::vector<std::shared_ptr<Tile>>& neighbors) {
     neighbors_ = neighbors;
 }
 
+void Tile::addNeighbor(const std::shared_ptr<Tile>& neighbor) {
+    neighbors_.push_back(neighbor);
+}
+
 std::vector<std::shared_ptr<Tile>> Tile::getNeighbors() {
     return neighbors_;
 }
@@ -60,4 +64,8 @@ char Tile::getTypeChar() {
         default:
             return ' ';
     }
+}
+
+const int& Tile::getId() const {
+    return id_;
 }
