@@ -1,60 +1,63 @@
 #include "MapTester.hpp"
 #include <iostream>
+#include <algorithm>
 
-MapTester::MapTester() { }
+MapTester::MapTester() : test_results_(std::make_pair<int,int>(0,0)) { }
 
-int MapTester::runTest() {
+std::pair<int, int> MapTester::runTest() {
 
     std::vector<Tile> map;
     int width = 5;
     int height = 3;
-    
+
     std::cout << "## Map generation test ##" << std::endl;
-    /* Important algorithm that will always be needed at map generation ( except of course if map is handmade ) */
     std::cout << "Enter width: " << std::endl;
     std::cin >> width;
     std::cout << "Enter height: " << std::endl;
     std::cin >> height;
-    std::string mapString = "";
-    for (int i = 0; i < width * height; i++) {
-        std::vector<std::shared_ptr<Tile>> neighbors;
-        if (i % width != 0) {
-            neighbors.push_back(std::make_shared<Tile>(map[i - 1]));
-        }
-        if (i >= width) {
-            neighbors.push_back(std::make_shared<Tile>(map[i - width]));
-        }
-        Tile tile = Tile(i, neighbors);
+    std::pair<int, int> map_size = std::make_pair(width, height);
+    game_state_manager_ = GameStateManager(map_size);
 
-        map.push_back(tile);
-
-        mapString += tile.getTypeChar();
-
-        if ((i + 1) % width == 0) {
-            mapString += '\n';
+    bool isNeighbor = false; // Initialize isNeighbor to false
+    for (auto tile : game_state_manager_.getMap()) {
+        /* For each tile: find their neighbors */
+        std::cout << "[" << tile.getTypeChar() << "]";
+        if (tile.getId() % width == width - 1) {
+            std::cout << std::endl;
         }
+
     }
 
-    std::cout << mapString << std::endl;
+    for (auto neighbor : game_state_manager_.getMap().at(width + 4).getNeighbors()) {
+        /* For each neighbor: find their neighbors */
+        const std::vector<std::shared_ptr<Tile>>& list_of_neighbors = neighbor->getNeighbors();
 
-    if (mapString[2] == map[2 + width].getNeighbors().at(1)->getTypeChar()) {
+        /* Search the tile at index width + 4 */
+        std::find_if(list_of_neighbors.begin(), list_of_neighbors.end(), [&width, &isNeighbor](const std::shared_ptr<Tile>& tile) {
+            if (tile->getId() == width + 4) {
+                isNeighbor = true;
+            }
+            return isNeighbor;
+        });
+
+    }
+
+    /* Checking if the map is generated correctly */
+    if (isNeighbor) {
         addCompleted("Map generation");
     } else {
         addUnsuccessful("Map generation");
     }
-
-    /* Checking if the map is generated correctly */
-    
-    return 0;
+    return test_results_;
 }
 
 void MapTester::addCompleted(const std::string& str) {
-    tests_completed_++;
-    tests_total_++;
+    test_results_.first += 1;
+    test_results_.second += 1;
     std::cout << "Test completed: " << str << std::endl;
 }
 
 void MapTester::addUnsuccessful(const std::string& str) {
-    tests_total_++;
+    test_results_.first += 1;
     std::cout << "Test unsuccessful: " << str << std::endl;
 }

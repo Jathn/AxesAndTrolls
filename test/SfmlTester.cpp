@@ -1,23 +1,23 @@
 #include <SfmlTester.hpp>
 #include <ResourceStorage.hpp>
 
-SfmlTester::SfmlTester() : tests_total_(0), tests_completed_(0) { }
+SfmlTester::SfmlTester() : test_results_(std::make_pair<int,int>(0,0)) { }
 
 
 void SfmlTester::addCompleted(const std::string& str) {
   std::cout << "Test completed: " << str << std::endl;
-  tests_total_++;
-  tests_completed_++;
+  test_results_.first += 1;
+  test_results_.second += 1;
 }
 
 
 void SfmlTester::addUnsuccessful(const std::string& str) {
   std::cout << "Test unsuccessful: " << str << std::endl;
-  tests_total_++;
+  test_results_.first += 1;
 }
 
 
-int SfmlTester::runTest() {
+std::pair<int, int> SfmlTester::runTest() {
   char window_display_check = 'y';
   /* Test 1 */
 
@@ -75,13 +75,5 @@ int SfmlTester::runTest() {
 
   window_display_check == 'y' ? addCompleted("Window Display Test") : addUnsuccessful("Window Display Test");
 
-  std::cout << "### Final Result ###" << std::endl;
-  std::cout << "Tests passed: " << tests_completed_ << "/" << tests_total_ << std::endl;
-
-  if (tests_completed_ < tests_total_) {
-    return -1;
-  }
-
-  return 0;
-
+  return test_results_;
 }
