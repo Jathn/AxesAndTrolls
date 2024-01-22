@@ -18,7 +18,7 @@ std::pair<int, int> SfmlTester::runTest() {
   if (storage.getFonts().size() == 0) {
     addUnsuccessful("Font Loading");
   } else {
-    storage.getFonts()[0] != nullptr ? addCompleted("Font Loading") : addUnsuccessful("Font Loading");
+    storage.getFonts()[0] != nullptr ? addSuccessful("Font Loading") : addUnsuccessful("Font Loading");
   }
 
   /* Tests whether or not ResourceStorage and sf::Sprite's work together as wanted. */
@@ -26,7 +26,7 @@ std::pair<int, int> SfmlTester::runTest() {
   if (storage.getTextures().size() == 0) {
     addUnsuccessful("Font Loading");
   } else {
-    storage.getTextures()[0] != nullptr ? addCompleted("Texture Loading") : addUnsuccessful("Font Loading");
+    storage.getTextures()[0] != nullptr ? addSuccessful("Texture Loading") : addUnsuccessful("Font Loading");
   }
 
   /* End of test 1 */
@@ -60,7 +60,7 @@ std::pair<int, int> SfmlTester::runTest() {
   std::cout << "Did you see a window with text and the game logo? [y]/n ";
   std::cin >> window_display_check;
 
-  window_display_check == 'y' ? addCompleted("Window Display Test") : addUnsuccessful("Window Display Test");
+  window_display_check == 'y' ? addSuccessful("Window Display Test") : addUnsuccessful("Window Display Test");
 
   return test_results_;
 }

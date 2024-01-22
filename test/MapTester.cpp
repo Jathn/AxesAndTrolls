@@ -7,21 +7,31 @@ MapTester::MapTester() : Tester() { }
 std::pair<int, int> MapTester::runTest() {
 
     std::vector<Tile> map;
-    int width = 5;
+    int width = 4;
     int height = 3;
 
-    std::cout << "## Map generation test ##" << std::endl;
+    std::cout << "## Map GENERATION TEST ##" << std::endl;
     std::cout << "Enter width: " << std::endl;
     std::cin >> width;
     std::cout << "Enter height: " << std::endl;
     std::cin >> height;
+    if (width < 4) {
+        width = 4;
+    }
+    if (height < 3) {
+        height = 3;
+    }
     std::pair<int, int> map_size = std::make_pair(width, height);
     game_state_manager_ = GameStateManager(map_size);
-
+    game_state_manager_.setCurrentTile(5);
     bool isNeighbor = false; // Initialize isNeighbor to false
     for (auto tile : game_state_manager_.getMap()) {
         /* For each tile: find their neighbors */
-        std::cout << "[" << tile.getTypeChar() << "]";
+        if (tile.getId() == game_state_manager_.getCurrentTile()->getId()) {
+            std::cout << "[>" << tile.getTypeChar() << "<]";
+        } else {
+            std::cout << "[" << tile.getTypeChar() << "]";
+        }
         if (tile.getId() % width == width - 1) {
             std::cout << std::endl;
         }
@@ -44,7 +54,7 @@ std::pair<int, int> MapTester::runTest() {
 
     /* Checking if the map is generated correctly */
     if (isNeighbor) {
-        addCompleted("Map generation");
+        addSuccessful("Map generation");
     } else {
         addUnsuccessful("Map generation");
     }

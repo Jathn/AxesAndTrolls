@@ -28,10 +28,10 @@ public:
     virtual std::pair<int, int> runTest() = 0;
 
     /**
-     * @brief Update statistics for a completed test.
+     * @brief Update statistics for a successful test.
      * 
      */
-    void addCompleted(const std::string& str);
+    void addSuccessful(const std::string& str);
 
     /**
      * @brief Update statistics for an unsuccessful test.
