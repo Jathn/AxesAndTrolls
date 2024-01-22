@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <ResourceLoading.hpp>
+#include "Tester.hpp"
 
 class ResourceStorage;
 
@@ -12,7 +13,7 @@ class ResourceStorage;
  * This class provides a simple interface to test SFML features & make sure the library builds correctly.
  * 
  */
-class SfmlTester {
+class SfmlTester : public Tester {
 public:
     /**
      * @brief Constructor for SfmlTester.
@@ -29,21 +30,6 @@ public:
      * @return The result of the test. 0 if successful, otherwise -1.
      */
     std::pair<int, int> runTest();
-
-    /**
-     * @brief Update statistics for a completed test.
-     * 
-     */
-    void addCompleted(const std::string& str);
-
-    /**
-     * @brief Update statistics for a unsuccessful test.
-     * 
-     */
-    void addUnsuccessful(const std::string& str);
-
-private:
-    std::pair<int, int> test_results_;
 };
 
 #endif // SFML_TESTER_HPP

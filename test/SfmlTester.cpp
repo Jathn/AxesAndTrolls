@@ -1,20 +1,7 @@
 #include <SfmlTester.hpp>
 #include <ResourceStorage.hpp>
 
-SfmlTester::SfmlTester() : test_results_(std::make_pair<int,int>(0,0)) { }
-
-
-void SfmlTester::addCompleted(const std::string& str) {
-  std::cout << "Test completed: " << str << std::endl;
-  test_results_.first += 1;
-  test_results_.second += 1;
-}
-
-
-void SfmlTester::addUnsuccessful(const std::string& str) {
-  std::cout << "Test unsuccessful: " << str << std::endl;
-  test_results_.first += 1;
-}
+SfmlTester::SfmlTester() : Tester() { }
 
 
 std::pair<int, int> SfmlTester::runTest() {

@@ -4,6 +4,7 @@
 #include <string>
 
 #include "GameStateManager.hpp"
+#include "Tester.hpp"
 
 /**
  * @brief Class for testing functionality of the Map.
@@ -11,7 +12,7 @@
  * This class provides a simple interface to test Map features & make sure everything works correctly.
  * 
  */
-class MapTester {
+class MapTester : public Tester {
 public:
     /**
      * @brief Constructor for MapTester.
@@ -25,24 +26,11 @@ public:
      *
      * This function runs a test and returns the result.
      *
-     * @return The result of the test. 0 if successful, otherwise -1.
+     * @return The result of the test. (total, successful).
      */
-    std::pair<int, int> runTest();
-
-    /**
-     * @brief Update statistics for a completed test.
-     * 
-     */
-    void addCompleted(const std::string& str);
-
-    /**
-     * @brief Update statistics for a unsuccessful test.
-     * 
-     */
-    void addUnsuccessful(const std::string& str);
+    std::pair<int, int> runTest() override;
 
 private:
-    std::pair<int, int> test_results_;
     GameStateManager game_state_manager_;
 };
 

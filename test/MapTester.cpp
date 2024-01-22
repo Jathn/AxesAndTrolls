@@ -2,7 +2,7 @@
 #include <iostream>
 #include <algorithm>
 
-MapTester::MapTester() : test_results_(std::make_pair<int,int>(0,0)) { }
+MapTester::MapTester() : Tester() { }
 
 std::pair<int, int> MapTester::runTest() {
 
@@ -49,15 +49,4 @@ std::pair<int, int> MapTester::runTest() {
         addUnsuccessful("Map generation");
     }
     return test_results_;
-}
-
-void MapTester::addCompleted(const std::string& str) {
-    test_results_.first += 1;
-    test_results_.second += 1;
-    std::cout << "Test completed: " << str << std::endl;
-}
-
-void MapTester::addUnsuccessful(const std::string& str) {
-    test_results_.first += 1;
-    std::cout << "Test unsuccessful: " << str << std::endl;
 }
