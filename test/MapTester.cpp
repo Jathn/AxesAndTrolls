@@ -27,18 +27,18 @@ std::pair<int, int> MapTester::runTest() {
     bool isNeighbor = false; // Initialize isNeighbor to false
     for (auto tile : game_state_manager_.getMap()) {
         /* For each tile: find their neighbors */
-        if (tile.getId() == game_state_manager_.getCurrentTile()->getId()) {
-            std::cout << "[>" << tile.getTypeChar() << "<]";
+        if (tile->getId() == game_state_manager_.getCurrentTile()->getId()) {
+            std::cout << "[>" << tile->getTypeChar() << "<]";
         } else {
-            std::cout << "[" << tile.getTypeChar() << "]";
+            std::cout << "[" << tile->getTypeChar() << "]";
         }
-        if (tile.getId() % width == width - 1) {
+        if (tile->getId() % width == width - 1) {
             std::cout << std::endl;
         }
 
     }
 
-    for (auto neighbor : game_state_manager_.getMap().at(width + 4).getNeighbors()) {
+    for (auto neighbor : game_state_manager_.getMap().at(width + 4)->getNeighbors()) {
         /* For each neighbor: find their neighbors */
         const std::vector<std::shared_ptr<Tile>>& list_of_neighbors = neighbor->getNeighbors();
 

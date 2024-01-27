@@ -6,6 +6,7 @@ SfmlTester::SfmlTester() : Tester() { }
 
 std::pair<int, int> SfmlTester::runTest() {
   char window_display_check = 'y';
+  const std::string& base_path = "C:/Users/jonne/Documents/OOPC/AxesAndTrolls/";
   /* Test 1 */
 
   std::cout << "## LOAD TEST ##" << std::endl;
@@ -13,20 +14,33 @@ std::pair<int, int> SfmlTester::runTest() {
   ResourceStorage storage = ResourceStorage();
 
   /* Tests whether or not ResourceStorage and sf::Font's work together as wanted. */
-  sf::Text text = loadText("Close the window by clicking x!", storage, "../resources/fonts/TTF/Crimson-Italic.ttf", 50);
+  sf::Text text = loadText("Close the window by clicking x!", storage, base_path + "resources/fonts/TTF/Crimson-Italic.ttf", 50);
+
+  if (text.getFont() != nullptr) {
+    addSuccessful("Font Loading");
+  } else {
+    addUnsuccessful("Font Loading");
+  }
   // Record result
   if (storage.getFonts().size() == 0) {
-    addUnsuccessful("Font Loading");
+    addUnsuccessful("Font Storing");
   } else {
-    storage.getFonts()[0] != nullptr ? addSuccessful("Font Loading") : addUnsuccessful("Font Loading");
+    addSuccessful("Font Storing");
   }
 
   /* Tests whether or not ResourceStorage and sf::Sprite's work together as wanted. */
-  sf::Sprite background = loadSprite(storage, "../resources/pics/GameLogo.png");
-  if (storage.getTextures().size() == 0) {
-    addUnsuccessful("Font Loading");
+  sf::Sprite background = loadSprite(storage, base_path + "resources/pics/GameLogo.png");
+  if (background.getTexture() != nullptr) {
+    addSuccessful("Sprite Loading");
   } else {
-    storage.getTextures()[0] != nullptr ? addSuccessful("Texture Loading") : addUnsuccessful("Font Loading");
+    addUnsuccessful("Sprite Loading");
+  }
+
+  /* Tests the storing */
+  if (storage.getTextures().size() == 0) {
+    addUnsuccessful("Sprite Storing");
+  } else {
+    addSuccessful("Sprite & Storing");
   }
 
   /* End of test 1 */
@@ -51,8 +65,12 @@ std::pair<int, int> SfmlTester::runTest() {
     
     window.clear();
 
-    window.draw(background);
-    window.draw(text);
+    if (background.getTexture() != nullptr) {
+      window.draw(background);
+    }
+    if (text.getFont() != nullptr) {
+      window.draw(text);
+    }
 
     window.display();
   }
