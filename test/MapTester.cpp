@@ -38,18 +38,15 @@ std::pair<int, int> MapTester::runTest() {
 
     }
 
-    for (auto neighbor : game_state_manager_.getMap().at(width + 4)->getNeighbors()) {
-        /* For each neighbor: find their neighbors */
-        const std::vector<std::weak_ptr<Tile>>& list_of_neighbors = neighbor.lock()->getNeighbors();
+    /* Checking whether tiles are in the right place */
+    if (width + 4 < width * height) {
+            /* If the tile is not at the bottom of the map */    
+            auto list_of_neighbors = game_state_manager_.getMap().at(width + 4)->getNeighbors();
 
-        /* Search the tile at index width + 4 */
-        std::find_if(list_of_neighbors.begin(), list_of_neighbors.end(), [&width, &isNeighbor](const std::weak_ptr<Tile>& tile) {
-            if (tile.lock()->getId() == width + 4) {
-                isNeighbor = true;
-            }
-            return isNeighbor;
-        });
-
+            isNeighbor = std::any_of(list_of_neighbors.begin(), list_of_neighbors.end(),
+                                    [&width](const std::weak_ptr<Tile>& tile) {
+                                        return tile.lock()->getId() == width + 4;
+                                    });
     }
 
     /* Checking if the map is generated correctly */
