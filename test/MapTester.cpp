@@ -40,11 +40,11 @@ std::pair<int, int> MapTester::runTest() {
 
     for (auto neighbor : game_state_manager_.getMap().at(width + 4)->getNeighbors()) {
         /* For each neighbor: find their neighbors */
-        const std::vector<std::shared_ptr<Tile>>& list_of_neighbors = neighbor->getNeighbors();
+        const std::vector<std::weak_ptr<Tile>>& list_of_neighbors = neighbor.lock()->getNeighbors();
 
         /* Search the tile at index width + 4 */
-        std::find_if(list_of_neighbors.begin(), list_of_neighbors.end(), [&width, &isNeighbor](const std::shared_ptr<Tile>& tile) {
-            if (tile->getId() == width + 4) {
+        std::find_if(list_of_neighbors.begin(), list_of_neighbors.end(), [&width, &isNeighbor](const std::weak_ptr<Tile>& tile) {
+            if (tile.lock()->getId() == width + 4) {
                 isNeighbor = true;
             }
             return isNeighbor;

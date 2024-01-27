@@ -1,10 +1,16 @@
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include <iostream>
+#include <sstream>
 
 #include <SFML/Graphics.hpp>
 #include <SfmlTester.hpp>
 #include <MapTester.hpp>
 
 int main() {
+     
     int runMapTest = 0;
     int runSfmlTest = 0;
     int tests_total = 0;

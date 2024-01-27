@@ -42,7 +42,7 @@ public:
      * 
      * @return std::vector<Tile> The game map
      */
-    std::vector<Tile> getMap();
+    std::vector<std::shared_ptr<Tile>> getMap();
 
     /**
      * @brief Function for getting the map size
@@ -58,7 +58,7 @@ public:
     std::shared_ptr<Tile> getCurrentTile();
 
 private:
-    std::vector<Tile> map_;
+    std::vector<std::shared_ptr<Tile>> map_;
     std::pair<int, int> map_size_;
     std::shared_ptr<Tile> current_tile_;
 };

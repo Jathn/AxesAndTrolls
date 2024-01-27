@@ -1,9 +1,10 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
-#include <vector>
+#include <iostream>
 #include <map>
 #include <memory>
+#include <vector>
 
 #include <Randoms.hpp>
 
@@ -44,7 +45,7 @@ public:
      * @brief Function for setting the neighbors of a tile.
      * @param neighbors The neighbors of the tile.
      */
-    void setNeighbors(const std::vector<std::shared_ptr<Tile>>& neighbors);
+    void setNeighbors(const std::vector<std::weak_ptr<Tile>>& neighbors);
 
     /**
      * @brief Adds a neighbor to the tile.
@@ -58,7 +59,7 @@ public:
      * 
      * @return std::vector<Tile> 
      */
-    std::vector<std::shared_ptr<Tile>> getNeighbors();
+    std::vector<std::weak_ptr<Tile>> getNeighbors();
 
     /**
      * @brief Gets the neighbor majority
@@ -82,6 +83,6 @@ public:
 private:
     int id_;
     TileType type_;
-    std::vector<std::shared_ptr<Tile>> neighbors_;
+    std::vector<std::weak_ptr<Tile>> neighbors_;
 };
 #endif // TILE_HPP

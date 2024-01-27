@@ -1,6 +1,10 @@
 #include "Tile.hpp"
 
-Tile::Tile(const int& id, const std::vector<std::shared_ptr<Tile>>& neighbors) : id_(id), neighbors_(neighbors) { 
+Tile::Tile(const int& id, const std::vector<std::shared_ptr<Tile>>& neighbors) : id_(id) {
+    for (auto neighbor : neighbors) {
+        std::weak_ptr<Tile> neighbor_weak = neighbor;
+        neighbors_.push_back(neighbor_weak);
+    } 
     TileType majorityType = getNeighborMajorityType();
     std::map<TileType, double> typeOdds = {
         {TileType::GRASS, 35},
@@ -15,15 +19,16 @@ Tile::Tile(const int& id, const std::vector<std::shared_ptr<Tile>>& neighbors) :
 
 Tile::~Tile() { }
 
-void Tile::setNeighbors(const std::vector<std::shared_ptr<Tile>>& neighbors) {
+void Tile::setNeighbors(const std::vector<std::weak_ptr<Tile>>& neighbors) {
     neighbors_ = neighbors;
 }
 
 void Tile::addNeighbor(const std::shared_ptr<Tile>& neighbor) {
-    neighbors_.push_back(neighbor);
+    std::weak_ptr<Tile> weak_ptr = neighbor;
+    neighbors_.push_back(weak_ptr);
 }
 
-std::vector<std::shared_ptr<Tile>> Tile::getNeighbors() {
+std::vector<std::weak_ptr<Tile>> Tile::getNeighbors() {
     return neighbors_;
 }
 
@@ -31,7 +36,12 @@ TileType Tile::getNeighborMajorityType() {
     std::map<TileType, int> typeCount;
 
     for (auto neighbor : neighbors_) {
-        typeCount[neighbor->getType()]++;
+        try {
+            neighbor.lock()->getType();
+        } catch (const std::bad_weak_ptr& e) {
+            std::cout << "Bad weak pointer: " << e.what() << std::endl;
+            continue;
+        }
     }
 
     TileType majorityType = TileType::MOUNTAIN;
