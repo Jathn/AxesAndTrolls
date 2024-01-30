@@ -45,7 +45,7 @@ std::pair<int, int> MapTester::runTest() {
 
             isNeighbor = std::any_of(list_of_neighbors.begin(), list_of_neighbors.end(),
                                     [&width](const std::weak_ptr<Tile>& tile) {
-                                        return tile.lock()->getId() == width + 4;
+                                        return tile.lock()->getId() == 4;
                                     });
     }
 

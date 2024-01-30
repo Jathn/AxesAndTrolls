@@ -46,7 +46,7 @@ public:
      * 
      * @param tile The tile to be added.
      */
-    void addTile(const Tile& tile);
+    void addTile(const std::shared_ptr<Tile>& tile);
 
     /**
      * @brief Removes a tile from the player's tiles.
@@ -60,7 +60,7 @@ public:
      * 
      * @return The vector of tiles owned by the player.
      */
-    std::vector<std::shared_ptr<Tile>> getTiles() const;
+    const std::vector<std::weak_ptr<Tile>>& getTiles() const;
 
 //     /**
 //      * @brief Adds a unit to the player's units.
@@ -107,7 +107,7 @@ public:
 
 private:
     // std::vector<Resource> resources; /**< The resources owned by the player. */
-    std::vector<std::shared_ptr<Tile>> tiles_; /**< The tiles owned by the player. */
+    std::vector<std::weak_ptr<Tile>> tiles_; /**< The tiles owned by the player. */
     PlayerType player_type_;
     // std::vector<Unit> units; /**< The units owned by the player. */
     // std::vector<City> cities; /**< The cities owned by the player. */
