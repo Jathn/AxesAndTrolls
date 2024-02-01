@@ -55,5 +55,13 @@ std::pair<int, int> MapTester::runTest() {
     } else {
         addUnsuccessful("Map generation");
     }
+
+    /* Checking coordinates of width + 4 tile */
+    if (game_state_manager_.getMap().at(width + 4)->getX() == 4 && game_state_manager_.getMap().at(width + 4)->getY() == 1) {
+        addSuccessful("Tile coordinates");
+    } else {
+        addUnsuccessful("Tile coordinates");
+    }
+
     return test_results_;
 }

@@ -1,6 +1,6 @@
 #include "Tile.hpp"
 
-Tile::Tile(const int& id, const std::vector<std::shared_ptr<Tile>>& neighbors) : id_(id) {
+Tile::Tile(const int& id, const int& x, const int& y, const std::vector<std::shared_ptr<Tile>>& neighbors) : id_(id), x_(x), y_(y) {
     for (auto neighbor : neighbors) {
         std::weak_ptr<Tile> neighbor_weak = neighbor;
         neighbors_.push_back(neighbor_weak);
@@ -18,15 +18,6 @@ Tile::Tile(const int& id, const std::vector<std::shared_ptr<Tile>>& neighbors) :
 }
 
 Tile::~Tile() { }
-
-void Tile::setNeighbors(const std::vector<std::weak_ptr<Tile>>& neighbors) {
-    neighbors_ = neighbors;
-}
-
-void Tile::addNeighbor(const std::shared_ptr<Tile>& neighbor) {
-    std::weak_ptr<Tile> weak_ptr = neighbor;
-    neighbors_.push_back(weak_ptr);
-}
 
 std::vector<std::weak_ptr<Tile>> Tile::getNeighbors() {
     return neighbors_;
@@ -78,4 +69,30 @@ char Tile::getTypeChar() {
 
 const int& Tile::getId() const {
     return id_;
+}
+
+const int& Tile::getX() const {
+    return x_;
+}
+
+const int& Tile::getY() const {
+    return y_;
+}
+
+const std::vector<std::weak_ptr<Unit>>& Tile::getUnits() const {
+    return units_;
+}
+
+void Tile::setNeighbors(const std::vector<std::weak_ptr<Tile>>& neighbors) {
+    neighbors_ = neighbors;
+}
+
+void Tile::addNeighbor(const std::shared_ptr<Tile>& neighbor) {
+    std::weak_ptr<Tile> weak_ptr = neighbor;
+    neighbors_.push_back(weak_ptr);
+}
+
+void Tile::addUnit(const std::shared_ptr<Unit>& unit) {
+    std::weak_ptr<Unit> weak_ptr = unit;
+    units_.push_back(weak_ptr);
 }

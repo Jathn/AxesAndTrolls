@@ -22,7 +22,7 @@ void GameStateManager::generateMap() {
         if (i >= width) {
             neighbors.push_back(tiles[i - width]);
         }
-        std::shared_ptr<Tile> tile = std::make_shared<Tile>(i, neighbors);
+        std::shared_ptr<Tile> tile = std::make_shared<Tile>(i, i%width, i/width, neighbors);
 
         tiles.push_back(tile);
     }
