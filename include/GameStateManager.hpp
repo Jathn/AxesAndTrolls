@@ -7,8 +7,12 @@
 #include "Tile.hpp"
 
 /**
- * @brief The GameStateManager class is responsible for managing the game state.
+ * @file GameStateManager.hpp
+ * @author Jonathan Ramstedt
+ * @brief GameStateManager handles the state of the game from unit positions to tile types and handles communication between components.
  * 
+ * @version 0.1
+ * @date 2024-01-23
  */
 class GameStateManager {
 public:

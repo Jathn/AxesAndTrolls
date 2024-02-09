@@ -8,10 +8,12 @@
 class ResourceStorage;
 
 /**
- * @brief Class for testing functionality of the SFML library.
+ * @file SfmlTester.hpp
+ * @author Jonathan Ramstedt
+ * @brief File containing SfmlTester class, which is used to test the sfml functionality.
  * 
- * This class provides a simple interface to test SFML features & make sure the library builds correctly.
- * 
+ * @version 0.1
+ * @date 2024-01-10
  */
 class SfmlTester : public Tester {
 public:
