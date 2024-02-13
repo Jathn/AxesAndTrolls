@@ -4,6 +4,7 @@ Unit::Unit(const int& hit_level, const int& cost, const int& movement, const std
 
 Unit::~Unit() {}
 
+// Say hello to the getters and setter, they are our friends. (Maybe not the setters, they are a bit too friendly.)
 int Unit::getHitLevel() const {
     return hit_level_;
 }
@@ -20,6 +21,18 @@ std::string Unit::getBenefits() const {
     return benefits_;
 }
 
+int Unit::getMovement() const {
+    return movement_;
+}
+
+int Unit::getMovementLeft() const {
+    return movement_left_;
+}
+
+std::shared_ptr<Tile> Unit::getTile() const {
+    return tile_.lock();
+}
+
 void Unit::setCost(int cost) {
     cost_ = cost;
 }
@@ -30,6 +43,14 @@ void Unit::setCombinedUnit(const std::shared_ptr<Unit>& combined_unit) {
 
 void Unit::setBenefits(const std::string& benefits) {
     benefits_ = benefits;
+}
+
+void Unit::setMovementLeft(int movement_left) {
+    movement_left_ = movement_left;
+}
+
+void Unit::setTile(const std::shared_ptr<Tile>& tile) {
+    tile_ = tile;
 }
 
 std::pair<bool, int> Unit::rollToHit() const {

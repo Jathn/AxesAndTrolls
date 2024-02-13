@@ -40,6 +40,27 @@ public:
     std::string getBenefits() const;
 
     /**
+     * @brief Get the movement of the unit.
+     * 
+     * @return int The movement of the unit.
+     */
+    int getMovement() const;
+
+    /**
+     * @brief Get the movement left of the unit.
+     * 
+     * @return int The movement left of the unit.
+     */
+    int getMovementLeft() const;
+
+    /**
+     * @brief Get the tile of the unit.
+     * 
+     * @return std::shared_ptr<Tile> The tile of the unit.
+     */
+    std::shared_ptr<Tile> getTile() const;
+
+    /**
      * @brief Set the cost of the unit.
      * @param cost The cost of the unit.
      */
@@ -57,6 +78,18 @@ public:
      */
     void setBenefits(const std::string& benefits);
 
+    /**
+     * @brief Set the movement left of the unit.
+     * @param movement_left The movement left of the unit.
+     */
+    void setMovementLeft(int movement_left);
+
+    /**
+     * @brief Set the tile of the unit.
+     * @param tile The tile of the unit.
+     */
+    void setTile(const std::shared_ptr<Tile>& tile);
+    
     /**
      * @brief Rolls a dice to determine if unit hits. Returns a pair with the first element being the boolean outcome and the second element being the rolled number.
      * 
@@ -77,6 +110,7 @@ protected:
     int movement_left_; /**< Amount of steps left in the current round. */
     std::weak_ptr<Unit> combined_unit_; /**< True if the unit has a combined unit, false otherwise. */
     std::string benefits_; /**< The benefits of the unit. */
+    std::weak_ptr<Tile> tile_; /**< The tile the unit is currently on. */
 };
 
 #endif // UNIT_HPP
