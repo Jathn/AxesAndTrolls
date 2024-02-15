@@ -45,49 +45,71 @@ int countFScore(std::shared_ptr<Tile> tile, const std::shared_ptr<Tile>& goal, i
  * @param tile the tile that we're calculating to
  * @return int distance between the unit and the tile
  */
-int calculateDistance(const std::shared_ptr<Tile>& start, const std::shared_ptr<Tile>& goal) {
-    // A* algorithm
+std::pair<int, std::vector<int>> calculateDistance(const std::shared_ptr<Tile>& start, const std::shared_ptr<Tile>& goal) {
     std::shared_ptr<Tile> current_tile = start;
+    std::cout << "Starting tile" << current_tile->getId() << std::endl;
     std::vector<int> visited;
-    std::map<std::weak_ptr<Tile>, double> possibilities;
+    std::map<std::shared_ptr<Tile>, double> possibilities;
+
+    possibilities[current_tile] = 0;
 
     int gScore = 0;
     current_tile = start;
     visited.push_back(current_tile->getId());
 
-    while(!possibilities.empty()) {
-
+    while (!possibilities.empty()) {
+        std::cout << "Possibilities not empty" << std::endl;
+        
         if (current_tile->getId() == goal->getId()) {
-            return gScore;
+            std::cout << "Found goal" << std::endl;
+            std::cout << "### PATH ###" << std::endl;
+            for (auto tile : visited) {
+                std::cout << tile << std::endl;
+            }
+            return std::make_pair(gScore, visited);
         }
 
-        std::map<std::weak_ptr<Tile>, double>::iterator it = possibilities.begin();
-        while(it->first.lock().get() != current_tile.get() && it != possibilities.end()) {
-            it++;
-        }
-
-        possibilities.erase(it);
         for (auto neighbor : current_tile->getNeighbors()) {
+            std::cout << "Calculating f-value for tile nr. " << neighbor.lock()->getId() << std::endl;
             int f_value = countFScore(neighbor.lock(), goal, gScore);
-            possibilities[neighbor] = f_value;
+            std::cout << "f-value: " << f_value << std::endl;
+            if (std::find(visited.begin(), visited.end(), neighbor.lock()->getId()) != visited.end()) {
+                std::cout << "Tile nr. " << neighbor.lock()->getId() << " was already in visited" << std::endl;
+                continue;
+            }
+            std::cout << "Adding to possibilities" << std::endl;
+            possibilities[neighbor.lock()] = f_value;
         }
+
+        possibilities.erase(current_tile);
 
         double lowest = 1000000;
-
-        for (auto possibility : possibilities) {
+        std::cout << "Searching for lowest from possibilties" << std::endl;
+        for (const auto& possibility : possibilities) {
             if (possibility.second < lowest) {
-                current_tile = possibility.first.lock();
+                std::cout << "Assigning new lowest: " << possibility.first->getId() << " score: " << possibility.second  << std::endl; 
+                current_tile = possibility.first;
                 lowest = possibility.second;
             }
         }
 
+        // Removing the other possibilities except the lowest
+        for (auto it = possibilities.begin(); it != possibilities.end(); ) {
+            if (it->first->getId() != current_tile->getId()) {
+                it = possibilities.erase(it);
+            } else {
+                it++;
+            }
+        }
+
+        std::cout << "Lowest was tile nr. " << current_tile->getId() << " with score " << lowest << std::endl;
+    
         gScore++;
         visited.push_back(current_tile->getId());
     }
-    
-    
+
     // No possibilities found
-    return -1;
+    return std::make_pair(-1, visited);
 }
 
 #endif // MOVEMENT_HPP

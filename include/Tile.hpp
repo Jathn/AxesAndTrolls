@@ -36,7 +36,7 @@ public:
      * @brief Constructor for Tile class.
      * @param id The id of the tile.
      */
-    Tile(const int& id, const int& x, const int& y, const std::vector<std::shared_ptr<Tile>>& neighbors);
+    Tile(const int& id, const int& x, const int& y, const std::vector<std::shared_ptr<Tile>>& neighbors, bool random = true, TileType type = TileType::GRASS);
 
     /**
      * @brief Destructor for Tile class.
@@ -115,5 +115,11 @@ private:
     TileType type_;
     std::vector<std::weak_ptr<Tile>> neighbors_;
     std::vector<std::weak_ptr<Unit>> units_;
+
+    /**
+     * @brief Randomizes the type of the tile, by calculating the majority type of the neighbors and then adding a random factor.
+     * 
+     */
+    void randomizeType();
 };
 #endif // TILE_HPP

@@ -1,20 +1,13 @@
 #include "Tile.hpp"
 
-Tile::Tile(const int& id, const int& x, const int& y, const std::vector<std::shared_ptr<Tile>>& neighbors) : id_(id), x_(x), y_(y) {
+Tile::Tile(const int& id, const int& x, const int& y, const std::vector<std::shared_ptr<Tile>>& neighbors, bool random, TileType type) : id_(id), x_(x), y_(y), type_(type) {
     for (auto neighbor : neighbors) {
         std::weak_ptr<Tile> neighbor_weak = neighbor;
         neighbors_.push_back(neighbor_weak);
     } 
-    TileType majorityType = getNeighborMajorityType();
-    std::map<TileType, double> typeOdds = {
-        {TileType::GRASS, 35},
-        {TileType::FOREST, 20},
-        {TileType::WATER, 20},
-        {TileType::MOUNTAIN, 5},
-    };
-    typeOdds[majorityType] += 10;
-
-    type_ = chooseAlternative<TileType>(typeOdds);
+    if (random) {
+        randomizeType();
+    }
 }
 
 Tile::~Tile() { }
@@ -26,12 +19,16 @@ std::vector<std::weak_ptr<Tile>> Tile::getNeighbors() {
 TileType Tile::getNeighborMajorityType() {
     std::map<TileType, int> typeCount;
 
+    typeCount[TileType::GRASS] = 0;
+    typeCount[TileType::FOREST] = 0;
+    typeCount[TileType::WATER] = 0;
+    typeCount[TileType::MOUNTAIN] = 0;
+
     for (auto neighbor : neighbors_) {
-        try {
-            neighbor.lock()->getType();
-        } catch (const std::bad_weak_ptr& e) {
-            std::cout << "Bad weak pointer: " << e.what() << std::endl;
-            continue;
+        std::shared_ptr<Tile> lockedNeighbor = neighbor.lock();
+        if (lockedNeighbor != nullptr) {
+            TileType neighborType = lockedNeighbor->getType();
+            typeCount[neighborType] = typeCount[neighborType] + 1;
         }
     }
 
@@ -77,6 +74,19 @@ const int& Tile::getX() const {
 
 const int& Tile::getY() const {
     return y_;
+}
+
+// Private methods
+void Tile::randomizeType() {
+    TileType majorityType = getNeighborMajorityType();
+        std::map<TileType, double> typeOdds = {
+            {TileType::GRASS, 25},
+            {TileType::FOREST, 15},
+            {TileType::WATER, 20},
+            {TileType::MOUNTAIN, 5},
+        };
+    typeOdds[majorityType] += 35;
+    type_ = chooseAlternative<TileType>(typeOdds);
 }
 
 const std::vector<std::weak_ptr<Unit>>& Tile::getUnits() const {
