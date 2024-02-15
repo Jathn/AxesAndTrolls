@@ -26,7 +26,7 @@
  * @return int 
  */
 double manhattanDistance(const std::shared_ptr<Tile>& tile1, const std::shared_ptr<Tile>& tile2) {
-    return std::abs(tile1->getX() - tile2->getX()) + std::abs(tile1->getY() - tile2->getY());
+    return std::sqrt(std::pow((double)tile1->getX() - (double)tile2->getX(), 2) + std::pow((double)tile1->getY() - (double)tile2->getY(), 2));
 }
 
 /**
@@ -45,9 +45,10 @@ int countFScore(std::shared_ptr<Tile> tile, const std::shared_ptr<Tile>& goal, i
  * @param tile the tile that we're calculating to
  * @return int distance between the unit and the tile
  */
-std::pair<int, std::vector<int>> calculateDistance(const std::shared_ptr<Tile>& start, const std::shared_ptr<Tile>& goal) {
+std::pair<int, std::vector<int>> calculateDistanceGBFS(const std::shared_ptr<Tile>& start, const std::shared_ptr<Tile>& goal) {
+    // GBFS algorithm
+
     std::shared_ptr<Tile> current_tile = start;
-    std::cout << "Starting tile" << current_tile->getId() << std::endl;
     std::vector<int> visited;
     std::map<std::shared_ptr<Tile>, double> possibilities;
 
@@ -57,37 +58,29 @@ std::pair<int, std::vector<int>> calculateDistance(const std::shared_ptr<Tile>& 
     current_tile = start;
     visited.push_back(current_tile->getId());
 
+    // Continue until goal is found or all possible states are visited
     while (!possibilities.empty()) {
-        std::cout << "Possibilities not empty" << std::endl;
         
         if (current_tile->getId() == goal->getId()) {
-            std::cout << "Found goal" << std::endl;
-            std::cout << "### PATH ###" << std::endl;
             for (auto tile : visited) {
                 std::cout << tile << std::endl;
             }
             return std::make_pair(gScore, visited);
         }
-
+        // Add suitable niehgbors to possible solutions
         for (auto neighbor : current_tile->getNeighbors()) {
-            std::cout << "Calculating f-value for tile nr. " << neighbor.lock()->getId() << std::endl;
-            int f_value = countFScore(neighbor.lock(), goal, gScore);
-            std::cout << "f-value: " << f_value << std::endl;
+            double f_value = manhattanDistance(neighbor.lock(), goal);
             if (std::find(visited.begin(), visited.end(), neighbor.lock()->getId()) != visited.end()) {
-                std::cout << "Tile nr. " << neighbor.lock()->getId() << " was already in visited" << std::endl;
                 continue;
             }
-            std::cout << "Adding to possibilities" << std::endl;
             possibilities[neighbor.lock()] = f_value;
         }
 
         possibilities.erase(current_tile);
 
         double lowest = 1000000;
-        std::cout << "Searching for lowest from possibilties" << std::endl;
         for (const auto& possibility : possibilities) {
             if (possibility.second < lowest) {
-                std::cout << "Assigning new lowest: " << possibility.first->getId() << " score: " << possibility.second  << std::endl; 
                 current_tile = possibility.first;
                 lowest = possibility.second;
             }
@@ -101,8 +94,6 @@ std::pair<int, std::vector<int>> calculateDistance(const std::shared_ptr<Tile>& 
                 it++;
             }
         }
-
-        std::cout << "Lowest was tile nr. " << current_tile->getId() << " with score " << lowest << std::endl;
     
         gScore++;
         visited.push_back(current_tile->getId());
