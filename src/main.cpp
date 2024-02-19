@@ -5,7 +5,14 @@
 #include <sstream>
 
 #include "../include/testmain.hpp"
-#include "../include/Movement.hpp"
+
+bool notMountain(std::shared_ptr<Tile> tile) {
+    return tile->getType() != TileType::MOUNTAIN;
+}
+
+bool notForest(std::shared_ptr<Tile> tile) {
+    return tile->getType() != TileType::FOREST;
+}
 
 int main() {
     bool testmode = false;
@@ -27,7 +34,14 @@ int main() {
         if (i >= width) {
             neighbors.push_back(map[i - width]);
         }
-        std::shared_ptr<Tile> tile = std::make_shared<Tile>(i, i%width, i/width, neighbors, false, TileType::GRASS);
+        TileType type = TileType::GRASS;
+        if (i % 3 == 0) {
+            type = TileType::FOREST;
+        }
+        if (i % 4 == 0) {
+            type = TileType::MOUNTAIN;
+        }
+        std::shared_ptr<Tile> tile = std::make_shared<Tile>(i, i%width, i/width, neighbors, false, type);
 
         map.push_back(tile);
     }
@@ -47,8 +61,8 @@ int main() {
         std::cout << "Y: " << map[i]->getY() << std::endl;
     }
     
-    std::cout << "Calculating distance between tile 0 and tile 15" << std::endl;
-    std::pair<int, std::vector<int>> path = calculateDistance(map[5], map[42]);
+    std::cout << "Calculating distance between tiles" << std::endl;
+    std::pair<int, std::vector<int>> path = calculateDistanceGBFS(map[24], map[30], notMountain, notForest);
     std::cout << "Distance: " << path.first << std::endl;
     std::cout << "Path: " << std::endl;
     int box_space = 0;
@@ -76,6 +90,7 @@ int main() {
             }
             std::cout << tile->getId() << "]";
         }
+        
         if (tile->getId() % width == width - 1) {
             std::cout << std::endl;
         }

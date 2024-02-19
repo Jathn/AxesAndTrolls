@@ -76,21 +76,16 @@ const int& Tile::getY() const {
     return y_;
 }
 
-// Private methods
-void Tile::randomizeType() {
-    TileType majorityType = getNeighborMajorityType();
-        std::map<TileType, double> typeOdds = {
-            {TileType::GRASS, 25},
-            {TileType::FOREST, 15},
-            {TileType::WATER, 20},
-            {TileType::MOUNTAIN, 5},
-        };
-    typeOdds[majorityType] += 35;
-    type_ = chooseAlternative<TileType>(typeOdds);
-}
-
 const std::vector<std::weak_ptr<Unit>>& Tile::getUnits() const {
     return units_;
+}
+
+const std::weak_ptr<Player>& Tile::getOwner() const {
+    return owner_;
+}
+
+void Tile::setOwner(const std::shared_ptr<Player>& owner) {
+    owner_ = owner;
 }
 
 void Tile::setNeighbors(const std::vector<std::weak_ptr<Tile>>& neighbors) {
@@ -105,4 +100,32 @@ void Tile::addNeighbor(const std::shared_ptr<Tile>& neighbor) {
 void Tile::addUnit(const std::shared_ptr<Unit>& unit) {
     std::weak_ptr<Unit> weak_ptr = unit;
     units_.push_back(weak_ptr);
+}
+
+void Tile::removeUnit(const std::shared_ptr<Unit>& unit) {
+    std::remove_if(units_.begin(), units_.end(), [unit](std::weak_ptr<Unit> weak_unit) {
+        return weak_unit.lock() == unit;
+    });
+}
+
+
+bool Tile::isFull() {
+    return units_.size() > 4;
+}
+
+bool Tile::isHomogenous() {
+    return true;
+}
+
+// Private methods
+void Tile::randomizeType() {
+    TileType majorityType = getNeighborMajorityType();
+        std::map<TileType, double> typeOdds = {
+            {TileType::GRASS, 25},
+            {TileType::FOREST, 15},
+            {TileType::WATER, 20},
+            {TileType::MOUNTAIN, 5},
+        };
+    typeOdds[majorityType] += 35;
+    type_ = chooseAlternative<TileType>(typeOdds);
 }

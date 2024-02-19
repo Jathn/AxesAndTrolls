@@ -6,6 +6,8 @@
 
 #include "Randoms.hpp"
 #include "Tile.hpp"
+#include "Player.hpp"
+#include "Movement.hpp"
 
 class Unit {
 public:
@@ -54,6 +56,20 @@ public:
     int getMovementLeft() const;
 
     /**
+     * @brief Get the owner of the unit.
+     * 
+     * @return std::shared_ptr<Player> The owner of the unit.
+     */
+    std::shared_ptr<Player> getOwner() const;
+
+    /**
+     * @brief Get the reachable tiles of the unit.
+     * 
+     * Used to mark the tiles the unit can reach.
+     */
+    std::vector<std::shared_ptr<Tile>> getReachableTiles() const;
+
+    /**
      * @brief Get the tile of the unit.
      * 
      * @return std::shared_ptr<Tile> The tile of the unit.
@@ -85,16 +101,53 @@ public:
     void setMovementLeft(int movement_left);
 
     /**
+     * @brief Set the owner of the unit.
+     * 
+     */
+    void setOwner(const std::shared_ptr<Player>& owner);
+
+    /**
      * @brief Set the tile of the unit.
      * @param tile The tile of the unit.
      */
     void setTile(const std::shared_ptr<Tile>& tile);
     
+    
+    /**
+     * @brief Appends a tile to the reachable tiles of the unit.
+     * 
+     * Helper function for update reachable tiles.
+     * 
+     * @param tile 
+     */
+    void addReachableTile(const std::shared_ptr<Tile>& tile);
+
     /**
      * @brief Rolls a dice to determine if unit hits. Returns a pair with the first element being the boolean outcome and the second element being the rolled number.
      * 
      */
     std::pair<bool, int> rollToHit() const;
+
+    /**
+     * @brief Checks if a tile is leavable.
+     * 
+     * A tile is leavable if it is not occupied by an enemy unit.
+     */
+    bool isLeavableTile(const std::shared_ptr<Tile>& tile);
+
+    /**
+     * @brief Checks if a tile is reachable.
+     * 
+     * A tile is reachable if it is within the movement range of the unit.
+     */
+    bool isReachableTile(const std::shared_ptr<Tile>& tile);
+
+    /**
+     * @brief Updates the reachable tiles of the unit.
+     * 
+     * The reachable tiles are the tiles the unit can reach.
+     */
+    void updateReachableTiles();
 
 protected:
 
@@ -111,6 +164,8 @@ protected:
     std::weak_ptr<Unit> combined_unit_; /**< True if the unit has a combined unit, false otherwise. */
     std::string benefits_; /**< The benefits of the unit. */
     std::weak_ptr<Tile> tile_; /**< The tile the unit is currently on. */
+    std::weak_ptr<Player> owner_; /**< The owner of the unit. */
+    std::vector<std::weak_ptr<Tile>> reachable_tiles_; /**< The tiles the unit can reach. */
 };
 
 #endif // UNIT_HPP

@@ -18,6 +18,7 @@ bool Unit::hasCombinedUnit() const {
 }
 
 std::string Unit::getBenefits() const {
+    // Only string TODO: Implement to enum class
     return benefits_;
 }
 
@@ -27,6 +28,10 @@ int Unit::getMovement() const {
 
 int Unit::getMovementLeft() const {
     return movement_left_;
+}
+
+std::shared_ptr<Player> Unit::getOwner() const {
+    return owner_.lock();
 }
 
 std::shared_ptr<Tile> Unit::getTile() const {
@@ -49,9 +54,52 @@ void Unit::setMovementLeft(int movement_left) {
     movement_left_ = movement_left;
 }
 
+void Unit::setOwner(const std::shared_ptr<Player>& owner) {
+    owner_ = owner;
+}
+
 void Unit::setTile(const std::shared_ptr<Tile>& tile) {
     tile_ = tile;
 }
+
+bool Unit::isReachableTile(const std::shared_ptr<Tile>& tile) {
+    std::pair<int, std::vector<int>> distance = calculateDistanceGBFS(tile_.lock(), tile);
+
+    return distance.first <= movement_left_;
+}
+
+bool Unit::isLeavableTile(const std::shared_ptr<Tile>& tile) {
+    return getOwner() == tile->getOwner().lock();
+}
+
+/*
+
+TODO:
+
+Implement a checkLegalMove function
+
+A tile is not always reachable or possible to pass through, e.g. if it is occupied 
+by another unit or if it is not within 
+the movement range of the unit. The function 
+checkLegalMove should take a shared pointer to 
+a tile as input and return a boolean indicating 
+whether the move is legal or not. 
+
+This function can then be passed as a parameter
+to the calculateDistanceGBFS function in the
+Movement file. (It also requires update.)
+
+*/
+
+/*
+
+TODO:
+
+Now that checkLegalMove is implemented,
+implement the move function & a function that
+returns all legal moves.
+
+*/
 
 std::pair<bool, int> Unit::rollToHit() const {
 

@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <memory>
 #include <string>
+#include <functional>
 
 #include "Tile.hpp"
 #include "Unit.hpp"
@@ -25,7 +26,7 @@
  * @param tile2 
  * @return int 
  */
-double manhattanDistance(const std::shared_ptr<Tile>& tile1, const std::shared_ptr<Tile>& tile2) {
+inline double manhattanDistance(const std::shared_ptr<Tile>& tile1, const std::shared_ptr<Tile>& tile2) {
     return std::sqrt(std::pow((double)tile1->getX() - (double)tile2->getX(), 2) + std::pow((double)tile1->getY() - (double)tile2->getY(), 2));
 }
 
@@ -35,8 +36,17 @@ double manhattanDistance(const std::shared_ptr<Tile>& tile1, const std::shared_p
  * @param tile 
  * @return int 
  */
-int countFScore(std::shared_ptr<Tile> tile, const std::shared_ptr<Tile>& goal, int gScore) {
+inline int countFScore(std::shared_ptr<Tile> tile, const std::shared_ptr<Tile>& goal, int gScore) {
         return gScore + manhattanDistance(tile, goal);
+}
+
+/**
+ * @brief Base function for checking movement legality
+ * 
+ * @return true, always
+ */
+inline bool trueFunction(const std::shared_ptr<Tile>& tile) {
+    return true;
 }
 
 /**
@@ -45,9 +55,11 @@ int countFScore(std::shared_ptr<Tile> tile, const std::shared_ptr<Tile>& goal, i
  * @param tile the tile that we're calculating to
  * @return int distance between the unit and the tile
  */
-std::pair<int, std::vector<int>> calculateDistanceGBFS(const std::shared_ptr<Tile>& start, const std::shared_ptr<Tile>& goal) {
+inline std::pair<int, std::vector<int>> calculateDistanceGBFS(const std::shared_ptr<Tile>& start, 
+                                                              const std::shared_ptr<Tile>& goal, 
+                                                              std::function<bool(const std::shared_ptr<Tile>&)> check = trueFunction, 
+                                                              std::function<bool(const std::shared_ptr<Tile>&)> leaveCheck = trueFunction) {
     // GBFS algorithm
-
     std::shared_ptr<Tile> current_tile = start;
     std::vector<int> visited;
     std::map<std::shared_ptr<Tile>, double> possibilities;
@@ -70,7 +82,7 @@ std::pair<int, std::vector<int>> calculateDistanceGBFS(const std::shared_ptr<Til
         // Add suitable niehgbors to possible solutions
         for (auto neighbor : current_tile->getNeighbors()) {
             double f_value = manhattanDistance(neighbor.lock(), goal);
-            if (std::find(visited.begin(), visited.end(), neighbor.lock()->getId()) != visited.end()) {
+            if ((std::find(visited.begin(), visited.end(), neighbor.lock()->getId()) != visited.end()) || !check(neighbor.lock()) || !leaveCheck(current_tile)) {
                 continue;
             }
             possibilities[neighbor.lock()] = f_value;
