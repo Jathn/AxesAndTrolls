@@ -9,25 +9,8 @@ BattleSimulator::BattleSimulator(std::vector<std::shared_ptr<Unit>> attackers, s
     }
 }
 
-BattleSimulator::~BattleSimulator() {
-}
-
 // Currently always ends up returning true, since Player etc. is not properly implemented
 bool BattleSimulator::simulateBattle(const std::vector<std::shared_ptr<Unit>>& attacking, const std::vector<std::shared_ptr<Unit>>& defender) {
-    int attacking_hits = 0;
-    int defending_hits = 0;
-    for (auto& attacker : attacking) {
-        auto [hit, hits] = rollToHit(attacker);
-        if (hit) {
-            attacking_hits += hits;
-        }
-    }
-    for (auto& defender : defender) {
-        auto [hit, hits] = rollToHit(defender);
-        if (hit) {
-            defending_hits += hits;
-        }
-    }
     return true;
 }
 
