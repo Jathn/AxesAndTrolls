@@ -17,116 +17,27 @@ public:
      * @brief Destructor for the Unit class.
      */
     ~Unit();
-    /**
-     * @brief Get the hit level of the unit.
-     * @return The hit level of the unit.
-     */
+
+    /* Getter functions */
     int getHitLevel() const;
-
-    /**
-     * @brief Get the cost of the unit.
-     * @return The cost of the unit.
-     */
     int getCost() const;
-
-    /**
-     * @brief Check if the unit has a combined unit.
-     * @return True if the unit has a combined unit, false otherwise.
-     */
     bool hasCombinedUnit() const;
-
-    /**
-     * @brief Get the benefits of the unit.
-     * @return The benefits of the unit.
-     */
     std::string getBenefits() const;
-
-    /**
-     * @brief Get the movement of the unit.
-     * 
-     * @return int The movement of the unit.
-     */
     int getMovement() const;
-
-    /**
-     * @brief Get the movement left of the unit.
-     * 
-     * @return int The movement left of the unit.
-     */
     int getMovementLeft() const;
-
-    /**
-     * @brief Get the owner of the unit.
-     * 
-     * @return std::shared_ptr<Player> The owner of the unit.
-     */
     std::shared_ptr<Player> getOwner() const;
-
-    /**
-     * @brief Get the reachable tiles of the unit.
-     * 
-     * Used to mark the tiles the unit can reach.
-     */
     std::vector<std::shared_ptr<Tile>> getReachableTiles() const;
-
-    /**
-     * @brief Get the tile of the unit.
-     * 
-     * @return std::shared_ptr<Tile> The tile of the unit.
-     */
     std::shared_ptr<Tile> getTile() const;
-
-    /**
-     * @brief Set the cost of the unit.
-     * @param cost The cost of the unit.
-     */
     void setCost(int cost);
 
-    /**
-     * @brief Set whether the unit has a combined unit.
-     * @param hasCombinedUnit True if the unit has a combined unit, false otherwise.
-     */
+    /* Setter functions */
     void setCombinedUnit(const std::shared_ptr<Unit>& combined_unit);
-
-    /**
-     * @brief Set the benefits of t he unit.
-     * @param benefits The benefits of the unit.
-     */
     void setBenefits(const std::string& benefits);
-
-    /**
-     * @brief Set the movement left of the unit.
-     * @param movement_left The movement left of the unit.
-     */
     void setMovementLeft(int movement_left);
-
-    /**
-     * @brief Set the owner of the unit.
-     * 
-     */
+    void setMovement(int movement);
     void setOwner(const std::shared_ptr<Player>& owner);
-
-    /**
-     * @brief Set the tile of the unit.
-     * @param tile The tile of the unit.
-     */
     void setTile(const std::shared_ptr<Tile>& tile);
-    
-    
-    /**
-     * @brief Appends a tile to the reachable tiles of the unit.
-     * 
-     * Helper function for update reachable tiles.
-     * 
-     * @param tile 
-     */
     void addReachableTile(const std::shared_ptr<Tile>& tile);
-
-    /**
-     * @brief Rolls a dice to determine if unit hits. Returns a pair with the first element being the boolean outcome and the second element being the rolled number.
-     * 
-     */
-    std::pair<bool, int> rollToHit() const;
 
     /**
      * @brief Checks if a tile is leavable.
@@ -150,13 +61,6 @@ public:
     void updateReachableTiles();
 
 protected:
-
-    /**
-     * @brief Set the movement of the unit.
-     * 
-     */
-    void setMovement(int movement);
-
     int hit_level_; /**< The hit level of the unit. */
     int cost_; /**< The cost of the unit. */
     int movement_; /**< Amount of steps per round. */

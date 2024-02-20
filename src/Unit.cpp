@@ -18,7 +18,6 @@ bool Unit::hasCombinedUnit() const {
 }
 
 std::string Unit::getBenefits() const {
-    // Only string TODO: Implement to enum class
     return benefits_;
 }
 
@@ -100,19 +99,3 @@ implement the move function & a function that
 returns all legal moves.
 
 */
-
-std::pair<bool, int> Unit::rollToHit() const {
-
-    /* Distribution for dice roll */
-    std::map<int, double> alternatives;
-    for (int i = 1; i <= 6; i++) {
-        alternatives[i] = 1.0 / 6.0;
-    }
-
-    /* Outcome of dice roll */
-    int fall_out = chooseAlternative<int>(alternatives);
-
-    /* If the outcome is less than or equal to the hit level, the unit hits. First: boolean, Second: rolled number */
-    return std::make_pair(fall_out <= hit_level_, fall_out);
-
-}
