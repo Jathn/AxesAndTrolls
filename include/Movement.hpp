@@ -74,9 +74,6 @@ inline std::pair<int, std::vector<int>> calculateDistanceGBFS(const std::shared_
     while (!possibilities.empty()) {
         
         if (current_tile->getId() == goal->getId()) {
-            for (auto tile : visited) {
-                std::cout << tile << std::endl;
-            }
             return std::make_pair(gScore, visited);
         }
         // Add suitable niehgbors to possible solutions

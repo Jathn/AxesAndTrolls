@@ -5,6 +5,7 @@
 
 #include "GameStateManager.hpp"
 #include "Tester.hpp"
+#include "Movement.hpp"
 
 /**
  * @brief Class for testing functionality of the Map.

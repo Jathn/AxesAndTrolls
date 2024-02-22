@@ -17,12 +17,11 @@ class UnitCombiner {
 public:
     UnitCombiner();
     ~UnitCombiner();
-    std::shared_ptr<Unit> combineUnits(const std::shared_ptr<Unit>& unit1, const std::shared_ptr<Unit>& unit2);
+    void combineUnits(const std::shared_ptr<Unit>& unit1, const std::shared_ptr<Unit>& unit2);
     std::shared_ptr<Unit> getCombinedUnit(const std::shared_ptr<Unit>& unit);
     void removeCombinedUnit(const std::shared_ptr<Unit>& unit);
 private:
-    std::map<int, std::vector<std::shared_ptr<Unit>>> combined_units_;
+    std::map<int, std::vector<int>> combined_units_;
 };
 
 #endif // UNITCOMBINER_HPP
-

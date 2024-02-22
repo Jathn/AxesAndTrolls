@@ -9,22 +9,40 @@
 #include "Player.hpp"
 #include "Movement.hpp"
 
+
+enum class UnitType {
+    SURFACE_WARSHIP,
+    SEA_TRANSPORT,
+    INFANTRY,
+    SPEARMAN,
+    RIDER,
+    DRAGON
+};
+
+/**
+ * @file Unit.hpp
+ * @brief Unit is a class that represents a unit in the game.
+ * 
+ * @version 0.1
+ * @date 2024-01-23
+ */
 class Unit {
 public:
 
-    Unit(const int& hit_level, const int& cost, const int& movement, const std::string& benefits);
+    Unit(const int& hit_level, const int& cost, const int& movement, const std::string& benefits, const int& id);
     /**
      * @brief Destructor for the Unit class.
      */
     ~Unit();
 
     /* Getter functions */
-    int getHitLevel() const;
-    int getCost() const;
+    const int& getHitLevel() const;
+    const int& getCost() const;
+    const int& getMovement() const;
+    const int& getMovementLeft() const;
+    const int& getId() const;
     bool hasCombinedUnit() const;
     std::string getBenefits() const;
-    int getMovement() const;
-    int getMovementLeft() const;
     std::shared_ptr<Player> getOwner() const;
     std::vector<std::shared_ptr<Tile>> getReachableTiles() const;
     std::shared_ptr<Tile> getTile() const;
@@ -61,6 +79,7 @@ public:
     void updateReachableTiles();
 
 protected:
+    int id_; /**< The id of the unit. */
     int hit_level_; /**< The hit level of the unit. */
     int cost_; /**< The cost of the unit. */
     int movement_; /**< Amount of steps per round. */
