@@ -6,7 +6,6 @@ MapTester::MapTester() : Tester() { }
 
 std::pair<int, int> MapTester::runTest() {
 
-    std::vector<Tile> map;
     int width = 4;
     int height = 3;
 
@@ -61,6 +60,50 @@ std::pair<int, int> MapTester::runTest() {
         addSuccessful("Tile coordinates");
     } else {
         addUnsuccessful("Tile coordinates");
+    }
+
+    /* Checking distance calculating algorithm */
+    std::cout << "### Movement test ###" << std::endl;
+    std::cout << "Calculating distance between tiles" << std::endl;
+    std::vector<std::shared_ptr<Tile>> map = game_state_manager_.getMap();
+    std::pair<int, std::vector<int>> path = calculateDistanceGBFS(map[width * height - 3], map[0]);
+    std::cout << "Distance: " << path.first << std::endl;
+    std::cout << "Path: " << std::endl;
+    int box_space = 0;
+    for (auto tile : map) {
+        switch (tile->getId()) {
+            case 0:
+                box_space = 4;
+                break;
+            case 10:
+                box_space = 3;
+                break;
+            case 100:
+                box_space = 2;
+                break;
+            default:
+                break;
+        }
+        
+        if (std::find(path.second.begin(), path.second.end(), tile->getId()) != path.second.end()) {
+            std::cout << "[> " << tile->getId() << " <]";
+        } else {
+            std::cout << "[";
+            for (int i = 0; i < box_space; i++) {
+                std::cout << " ";
+            }
+            std::cout << tile->getId() << "]";
+        }
+        
+        if (tile->getId() % width == width - 1) {
+            std::cout << std::endl;
+        }
+    }
+
+    if (path.second.back() != 0) {
+        addUnsuccessful("Distance calculation");
+    } else {
+        addSuccessful("Distance calculation");
     }
 
     return test_results_;
