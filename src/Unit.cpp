@@ -65,41 +65,38 @@ void Unit::setTile(const std::shared_ptr<Tile>& tile) {
     tile_ = tile;
 }
 
+bool Unit::isLeavableTile(const std::shared_ptr<Tile>& tile) {
+    if (tile->getUnits().size() == 0) {
+        return true;
+    }
+
+    bool own_units_only = true;
+    for (auto unit : tile->getUnits()) {
+        if (unit.lock()->getOwner() != owner_.lock()) {
+            own_units_only = false;
+            break;
+        }
+    }
+
+    return own_units_only;
+}
+
 bool Unit::isReachableTile(const std::shared_ptr<Tile>& tile) {
     std::pair<int, std::vector<int>> distance = calculateDistanceGBFS(tile_.lock(), tile);
 
-    return distance.first <= movement_left_;
+    std::vector<std::shared_ptr<Tile>> route;
+
+    for (auto it = distance.second.begin(); it != distance.second.end(); it++) {
+        route.push_back(tile_.lock()->getNeighbor(*it));
+    }
+
+    bool all_are_leavable = true;
+    for (auto it = route.begin(); it != route.end(); it++) {
+        if (!isLeavableTile(*it)) {
+            all_are_leavable = false;
+            break;
+        }
+    }
+
+    return (distance.first <= movement_left_) && all_are_leavable;
 }
-
-bool Unit::isLeavableTile(const std::shared_ptr<Tile>& tile) {
-    return getOwner() == tile->getOwner().lock();
-}
-
-/*
-
-TODO:
-
-Implement a checkLegalMove function
-
-A tile is not always reachable or possible to pass through, e.g. if it is occupied 
-by another unit or if it is not within 
-the movement range of the unit. The function 
-checkLegalMove should take a shared pointer to 
-a tile as input and return a boolean indicating 
-whether the move is legal or not. 
-
-This function can then be passed as a parameter
-to the calculateDistanceGBFS function in the
-Movement file. (It also requires update.)
-
-*/
-
-/*
-
-TODO:
-
-Now that checkLegalMove is implemented,
-implement the move function & a function that
-returns all legal moves.
-
-*/

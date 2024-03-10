@@ -16,6 +16,16 @@ std::vector<std::weak_ptr<Tile>> Tile::getNeighbors() {
     return neighbors_;
 }
 
+std::shared_ptr<Tile> Tile::getNeighbor(int id) {
+    for (auto neighbor : neighbors_) {
+        std::shared_ptr<Tile> lockedNeighbor = neighbor.lock();
+        if (lockedNeighbor != nullptr && lockedNeighbor->getId() == id) {
+            return lockedNeighbor;
+        }
+    }
+    return nullptr;
+}
+
 TileType Tile::getNeighborMajorityType() {
     std::map<TileType, int> typeCount;
 

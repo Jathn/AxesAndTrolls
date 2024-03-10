@@ -53,6 +53,13 @@ public:
     std::vector<std::weak_ptr<Tile>> getNeighbors();
 
     /**
+     * @brief Return a tile with specific ID.
+     * 
+     * @return std::shared_ptr<Tile> 
+     */
+    std::shared_ptr<Tile> getNeighbor(int id);
+
+    /**
      * @brief Gets the neighbor majority
      * 
      */

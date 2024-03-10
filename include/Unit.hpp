@@ -78,6 +78,13 @@ public:
      */
     void updateReachableTiles();
 
+    /**
+     * @brief Moves the unit to a new tile.
+     * 
+     * @param tile The tile to move to.
+     */
+    void move(const std::shared_ptr<Tile>& tile);
+
 protected:
     int id_; /**< The id of the unit. */
     int hit_level_; /**< The hit level of the unit. */
