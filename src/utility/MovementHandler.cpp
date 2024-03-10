@@ -71,7 +71,9 @@ void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::sha
         }
 
         /* Move to the tile */
+        int current_movement = unit->getMovementLeft();
         unit->setTile(nextTile);
+        unit->setMovementLeft(current_movement - 1);
     }   
 }
 

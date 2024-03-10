@@ -14,7 +14,7 @@ enum class UnitType {
     SURFACE_WARSHIP,
     SEA_TRANSPORT,
     INFANTRY,
-    SPEARMAN,
+    ARTILLERY,
     RIDER,
     DRAGON
 };
@@ -26,10 +26,26 @@ enum class UnitType {
  * @version 0.1
  * @date 2024-01-23
  */
+
+/**
+ * @brief Class Unit represents a unit in the game.
+ * 
+ * Class variables:
+ * 
+ * - id_ (int): The id of the unit.
+ * - hit_level_ (int): The hit level of the unit.
+ * - cost_ (std::pair<int, int>): The cost of the unit. <food, wood>
+ * - movement_ (int): The amount of steps per round.
+ * - movement_left_ (int): The amount of steps left in the current round.
+ * - type_ (UnitType): The type of the unit.
+ * - tile_ (std::weak_ptr<Tile>): The tile the unit is currently on.
+ * - owner_ (std::weak_ptr<Player>): The owner of the unit.
+ * 
+ */
 class Unit {
 public:
 
-    Unit(const int& hit_level, const int& cost, const int& movement, const std::string& benefits, const int& id);
+    Unit(const int& id, UnitType type);
     /**
      * @brief Destructor for the Unit class.
      */
@@ -37,65 +53,44 @@ public:
 
     /* Getter functions */
     const int& getHitLevel() const;
-    const int& getCost() const;
+    const std::pair<int, int>& getCost() const;
     const int& getMovement() const;
     const int& getMovementLeft() const;
     const int& getId() const;
-    bool hasCombinedUnit() const;
-    std::string getBenefits() const;
     std::shared_ptr<Player> getOwner() const;
-    std::vector<std::shared_ptr<Tile>> getReachableTiles() const;
     std::shared_ptr<Tile> getTile() const;
-    void setCost(int cost);
+    void setCost(std::pair<int, int> cost);
 
     /* Setter functions */
-    void setCombinedUnit(const std::shared_ptr<Unit>& combined_unit);
-    void setBenefits(const std::string& benefits);
     void setMovementLeft(int movement_left);
     void setMovement(int movement);
     void setOwner(const std::shared_ptr<Player>& owner);
     void setTile(const std::shared_ptr<Tile>& tile);
-    void addReachableTile(const std::shared_ptr<Tile>& tile);
 
     /**
-     * @brief Checks if a tile is leavable.
+     * @brief Checks if a tile is leavable for this particular unit.
      * 
      * A tile is leavable if it is not occupied by an enemy unit.
      */
     bool isLeavableTile(const std::shared_ptr<Tile>& tile);
 
     /**
-     * @brief Checks if a tile is reachable.
+     * @brief Checks if a tile is reachable for this particular unit.
      * 
      * A tile is reachable if it is within the movement range of the unit.
      */
     bool isReachableTile(const std::shared_ptr<Tile>& tile);
 
-    /**
-     * @brief Updates the reachable tiles of the unit.
-     * 
-     * The reachable tiles are the tiles the unit can reach.
-     */
-    void updateReachableTiles();
-
-    /**
-     * @brief Moves the unit to a new tile.
-     * 
-     * @param tile The tile to move to.
-     */
-    void move(const std::shared_ptr<Tile>& tile);
-
 protected:
     int id_; /**< The id of the unit. */
     int hit_level_; /**< The hit level of the unit. */
-    int cost_; /**< The cost of the unit. */
+    std::pair<int, int> cost_; /**< The cost of the unit. */
     int movement_; /**< Amount of steps per round. */
     int movement_left_; /**< Amount of steps left in the current round. */
-    std::weak_ptr<Unit> combined_unit_; /**< True if the unit has a combined unit, false otherwise. */
-    std::string benefits_; /**< The benefits of the unit. */
+
+    UnitType type_; /**< The type of the unit. */
     std::weak_ptr<Tile> tile_; /**< The tile the unit is currently on. */
     std::weak_ptr<Player> owner_; /**< The owner of the unit. */
-    std::vector<std::weak_ptr<Tile>> reachable_tiles_; /**< The tiles the unit can reach. */
 };
 
 #endif // UNIT_HPP

@@ -1,6 +1,24 @@
 #include "Unit.hpp"
 
-Unit::Unit(const int& hit_level, const int& cost, const int& movement, const std::string& benefits, const int& id) : hit_level_(hit_level), cost_(cost), benefits_(benefits), movement_(movement), id_(id) {}
+std::map<UnitType, std::vector<int>> unitTypeMap = {
+    /* Format: 
+        {UnitType, {hit_level, cost_food, cost_wood, movement}}
+    */
+    {UnitType::SURFACE_WARSHIP, {4, 0, 10, 2}},
+    {UnitType::SEA_TRANSPORT, {0, 0, 5, 2}},
+    {UnitType::INFANTRY, {1, 3, 0, 1}},
+    {UnitType::ARTILLERY, {2, 2, 3, 1}},
+    {UnitType::RIDER, {2, 3, 3, 2}},
+    {UnitType::DRAGON, {4, 8, 4, 2}}
+};
+
+Unit::Unit(const int& id, UnitType type) 
+: id_(id), type_(type) {
+    hit_level_ = unitTypeMap[type][0];
+    cost_ = std::make_pair(unitTypeMap[type][1], unitTypeMap[type][2]);
+    movement_ = unitTypeMap[type][3];
+    movement_left_ = movement_;
+}
 
 Unit::~Unit() {}
 
@@ -9,7 +27,7 @@ const int& Unit::getHitLevel() const {
     return hit_level_;
 }
 
-const int& Unit::getCost() const {
+const std::pair<int, int>& Unit::getCost() const {
     return cost_;
 }
 
@@ -25,14 +43,6 @@ const int& Unit::getId() const {
     return id_;
 }
 
-bool Unit::hasCombinedUnit() const {
-    return !combined_unit_.expired();
-}
-
-std::string Unit::getBenefits() const {
-    return benefits_;
-}
-
 std::shared_ptr<Player> Unit::getOwner() const {
     return owner_.lock();
 }
@@ -41,16 +51,8 @@ std::shared_ptr<Tile> Unit::getTile() const {
     return tile_.lock();
 }
 
-void Unit::setCost(int cost) {
+void Unit::setCost(std::pair<int, int> cost) {
     cost_ = cost;
-}
-
-void Unit::setCombinedUnit(const std::shared_ptr<Unit>& combined_unit) {
-    combined_unit_ = combined_unit;
-}
-
-void Unit::setBenefits(const std::string& benefits) {
-    benefits_ = benefits;
 }
 
 void Unit::setMovementLeft(int movement_left) {
