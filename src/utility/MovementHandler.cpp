@@ -1,6 +1,13 @@
 #include "MovementHandler.hpp"
 
-MovementHandler::MovementHandler() {
+MovementHandler::MovementHandler(const std::shared_ptr<Territory>& territory) : territory_(territory) { }
+
+std::vector<std::shared_ptr<Unit>> MovementHandler::getUnits() const {
+    std::vector<std::shared_ptr<Unit>> units;
+    for (auto unit : units_) {
+        units.push_back(unit);
+    }
+    return units;
 }
 
 void MovementHandler::addUnit(const std::shared_ptr<Unit>& unit) {
@@ -9,7 +16,7 @@ void MovementHandler::addUnit(const std::shared_ptr<Unit>& unit) {
 
 void MovementHandler::removeUnit(const std::shared_ptr<Unit>& unit) {
     for (auto it = units_.begin(); it != units_.end(); it++) {
-        if (it->lock() == unit) {
+        if (*it == unit) {
             units_.erase(it);
             break;
         }
@@ -17,49 +24,82 @@ void MovementHandler::removeUnit(const std::shared_ptr<Unit>& unit) {
 }
 
 std::vector<std::shared_ptr<Tile>> MovementHandler::getAvailableTiles(const std::shared_ptr<Unit>& unit) {
-    std::vector<std::shared_ptr<Tile>> availableTiles;
-    
-    for (auto tile : map_) {
-        if (unit->isReachableTile(tile.lock())) {
-            availableTiles.push_back(tile.lock());
+    /* BFS algortihm */
+    std::vector<std::shared_ptr<Tile>> available_tiles;
+    std::queue<std::pair<std::shared_ptr<Tile>, int>> q;
+    std::set<std::shared_ptr<Tile>> visited;
+
+    q.push({unit->getTile(), 0});
+    visited.insert(unit->getTile());
+
+    while (!q.empty()) {
+        auto current = q.front();
+        q.pop();
+
+        std::shared_ptr<Tile> current_tile = current.first;
+        int current_distance = current.second;
+
+        if (current_distance <= unit->getMovementLeft()) {
+            available_tiles.push_back(current_tile);
         }
-    }
 
-    return availableTiles;
-}
-
-std::vector<std::shared_ptr<Tile>> MovementHandler::getAvailableTiles(const std::vector<std::shared_ptr<Unit>>& units) {
-    std::vector<std::shared_ptr<Tile>> availableTiles;
-    for (auto unit : units) {
-        for (auto tile : map_) {
-            if (unit->isReachableTile(tile.lock())) {
-                availableTiles.push_back(tile.lock());
+        if (current_distance < unit->getMovementLeft()) {
+            for (const auto& neighbor : current_tile->getNeighbors()) {
+                if (visited.find(neighbor.lock()) == visited.end()) {
+                    q.push({neighbor.lock(), current_distance + 1});
+                    visited.insert(neighbor.lock());
+                }
             }
         }
     }
+
+    return available_tiles;
+}
+
+std::vector<std::shared_ptr<Tile>> MovementHandler::getAvailableTiles(const std::vector<std::shared_ptr<Unit>>& units) {
+    std::vector<std::shared_ptr<Tile>> available_tiles;
+    std::map<std::shared_ptr<Tile>, int> tile_count;
+
+    for (const auto& unit : units) {
+        auto unit_tiles = getAvailableTiles(unit);
+        for (const auto& tile : unit_tiles) {
+            tile_count[tile]++;
+        }
+    }
+
+    for (const auto& tile : tile_count) {
+        if (tile.second == units.size()) {
+            available_tiles.push_back(tile.first);
+        }
+    }
     
-    return availableTiles;
+    return available_tiles;
 }
 
 void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile) {
     std::pair<int, std::vector<int>> route = calculateDistanceGBFS(unit->getTile(), tile);
-
+    std::vector<int> path = route.second;
+    path.erase(path.begin());
     /* Handle situation where the position isn't reachable */
     if (route.first == -1) {
         return;
     }
 
-    /* Handle situation where the path is longer than movement left */
-    if (route.first > unit->getMovementLeft()) {
-        return;
+    std::vector<std::shared_ptr<Tile>> available_tiles = getAvailableTiles(unit);
+
+    for (auto tile : available_tiles) {
     }
+    /* Handle situation where the tile is not in the available tiles */
+    if (std::find(available_tiles.begin(), available_tiles.end(), tile) == available_tiles.end()) {
+        return;
+    } 
 
     /* Movement: 
         Takes 1 step through the route at a time. For the sake of it this also has some safety nets.
         The idea is that at the time this is called, there is no possibility of enemy units being encountered.
         If the route is longer than the movement left, the route is shortened to the movement left.
     */
-    for (auto it = route.second.begin(); it != route.second.end(); it++) {
+    for (auto it = path.begin(); it != path.end(); it++) {
         if (unit->getMovementLeft() == 0) {
             break;
         }
@@ -72,12 +112,22 @@ void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::sha
 
         /* Move to the tile */
         int current_movement = unit->getMovementLeft();
+        unit->getTile()->removeUnit(unit);
         unit->setTile(nextTile);
+        nextTile->addUnit(unit);
         unit->setMovementLeft(current_movement - 1);
     }   
 }
 
 void MovementHandler::moveUnits(const std::vector<std::shared_ptr<Unit>>& units, const std::shared_ptr<Tile>& tile) {
+
+    /* Don't move if all units can't reach the tile */
+    for (auto unit : units) {
+        if (!unit->isReachableTile(tile)) {
+            return;
+        }
+    }
+
     for (auto unit : units) {
         moveUnit(unit, tile);
     }

@@ -12,6 +12,12 @@ void Player::removeTile(const int& id) {
                                 }), tiles_.end());
 }
 
-const std::vector<std::weak_ptr<Tile>>& Player::getTiles() const {
-    return tiles_;
+const std::vector<std::shared_ptr<Tile>> Player::getTiles() const {
+    std::vector<std::shared_ptr<Tile>> shared_tiles;
+    for (const auto& weak_tile : tiles_) {
+        if (auto shared_tile = weak_tile.lock()) {
+            shared_tiles.push_back(shared_tile);
+        }
+    }
+    return shared_tiles;
 }

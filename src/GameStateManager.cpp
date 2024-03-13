@@ -24,18 +24,16 @@ void GameStateManager::generateMap() {
         }
         std::shared_ptr<Tile> tile = std::make_shared<Tile>(i, i%width, i/width, neighbors);
 
+        if (i > 0) {
+            tiles[i - 1]->addNeighbor(tile);
+        }
+        if (i >= width) {
+            tiles[i - width]->addNeighbor(tile);
+        }
+
         tiles.push_back(tile);
     }
 
-    /* Add the remaining neighbors */
-    for (int i = 0; i < width * height; i++) {
-        if (i % width != width - 1) {
-            tiles[i]->addNeighbor(tiles[i + 1]);
-        }
-        if (i < width * (height - 1)) {
-            tiles[i]->addNeighbor(tiles[i + width]);
-        }
-    }
 
     /* Assign the tile vector to map */
     map_ = tiles;

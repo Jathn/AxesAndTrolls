@@ -2,8 +2,12 @@
 #define MOVEMENT_HANDLER_HPP
 
 #include <vector>
+#include <queue>
+#include <set>
 #include <memory>
+#include "Territory.hpp"
 #include "Unit.hpp"
+
 
 /**
  * @file MovementHandler.hpp
@@ -15,8 +19,10 @@
  */
 class MovementHandler {
 public:
-    MovementHandler();
+    MovementHandler(const std::shared_ptr<Territory>& territory);
 
+    /* Getter functions */
+    std::vector<std::shared_ptr<Unit>> getUnits() const;
     /**
      * @brief Adds a unit to the movement handler.
      * 
@@ -30,18 +36,6 @@ public:
      * @param unit 
      */
     void removeUnit(const std::shared_ptr<Unit>& unit);
-
-    /**
-     * @brief Moves the unit into the given position.
-     * If the position is not valid, the unit will not move.
-     * If the position is occupied by an enemy unit, it cannot move further, even though it has movement left.
-     * Mostly so low movement, that some of conditions rarely matter, and unreachable tiles shouldn't be called with this function anyway.
-     * 
-     * @param unit 
-     * @param tile
-     * 
-     */
-    void moveUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile);
 
     /**
      * @brief Checks what tiles are available for the unit to move to.
@@ -59,6 +53,18 @@ public:
     std::vector<std::shared_ptr<Tile>> getAvailableTiles(const std::vector<std::shared_ptr<Unit>>& units);
 
     /**
+     * @brief Moves the unit into the given position.
+     * If the position is not valid, the unit will not move.
+     * If the position is occupied by an enemy unit, it cannot move further, even though it has movement left.
+     * Mostly so low movement, that some of conditions rarely matter, and unreachable tiles shouldn't be called with this function anyway.
+     * 
+     * @param unit 
+     * @param tile
+     * 
+     */
+    void moveUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile);
+
+    /**
      * @brief Moves multiple units into the given tile.
      * 
      * @param units the units to be moved.
@@ -68,8 +74,8 @@ public:
     void moveUnits(const std::vector<std::shared_ptr<Unit>>& units, const std::shared_ptr<Tile>& tile);
 
 private:
-    std::vector<std::weak_ptr<Unit>> units_;
-    std::vector<std::weak_ptr<Tile>> map_;
+    std::vector<std::shared_ptr<Unit>> units_;
+    std::shared_ptr<Territory> territory_;
 };
 
 #endif // MOVEMENT_HANDLER_HPP

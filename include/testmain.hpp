@@ -9,11 +9,13 @@
 
 #include <SfmlTester.hpp>
 #include <MapTester.hpp>
+#include <MovementTester.hpp>
 
 int testmain() {
      
     int runMapTest = 0;
     int runSfmlTest = 0;
+    int runMovementTest = 0;
     int tests_total = 0;
     int tests_completed = 0;
     std::cout << "Which tests do you wish to run? 1 to choose a test, other write something else." << std::endl;
@@ -21,6 +23,8 @@ int testmain() {
     std::cin >> runMapTest;
     std::cout << "2. SFML resource generation" << std::endl;
     std::cin >> runSfmlTest;
+    std::cout << "3. Movement" << std::endl;
+    std::cin >> runMovementTest;
     
     if (runMapTest == 1) {
         MapTester map_tester = MapTester();
@@ -33,6 +37,12 @@ int testmain() {
         std::pair<int, int> sfml_test_result = sfml_tester.runTest();
         tests_total += sfml_test_result.first;
         tests_completed += sfml_test_result.second;
+    }
+    if (runMovementTest) {
+        MovementTester movement_tester = MovementTester();
+        std::pair<int, int> movement_test_result = movement_tester.runTest();
+        tests_total += movement_test_result.first;
+        tests_completed += movement_test_result.second;
     }
     
     std::cout << "### Final Result ###" << std::endl;

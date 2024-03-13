@@ -1,29 +1,26 @@
-#ifndef PLAYER_HPP
-#define PLAYER_HPP
+#ifndef TERRITORY_HPP
+#define TERRITORY_HPP
 
 #include <memory>
 #include <algorithm>
 #include <vector>
+#include "Tile.hpp"
 
-#include "MovementHandler.hpp"
-
-class Unit;
 /**
- * @brief The Player class represents a player in the game.
+ * @brief The Territory class represents a player's tiles in the game.
  * 
- * A player has resources, tiles, units, and cities.
+ * A player has tiles.
  */
-class Player {
+class Territory {
 public:
     /**
-     * @brief Construct a new Player object.
+     * @brief Construct a new Territory object.
      * 
      */
-    Player();
+    Territory();
 
     /* Getter functions */
     const std::vector<std::shared_ptr<Tile>> getTiles() const;
-    std::vector<Unit> getUnits() const;
     
     /**
      * @brief Adds a tile to the player's tiles.
@@ -37,11 +34,10 @@ public:
      * 
      * @param tile The tile to be removed.
      */
-    void removeTile(const int& id);
+    void removeTile(const std::shared_ptr<Tile>& tile);
 
 private:
-    MovementHandler movement_handler_;
     std::vector<std::weak_ptr<Tile>> tiles_;
 };
 
-#endif // PLAYER_HPP
+#endif // TERRITORY_HPP

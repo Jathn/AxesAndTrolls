@@ -32,10 +32,9 @@ public:
     UnitCombiner();
     ~UnitCombiner();
     void combineUnits(const std::shared_ptr<Unit>& unit1, const std::shared_ptr<Unit>& unit2);
-    std::shared_ptr<Unit> getCombinedUnit(const std::shared_ptr<Unit>& unit);
-    void removeCombinedUnit(const std::shared_ptr<Unit>& unit);
+    bool hasCombinedUnit(int id) const;
 private:
-    std::map<int, std::vector<int>> combined_units_;
+    std::map<std::weak_ptr<Unit>, std::weak_ptr<Unit>> combined_units_;
 };
 
 #endif // UNITCOMBINER_HPP

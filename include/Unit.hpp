@@ -6,7 +6,6 @@
 
 #include "Randoms.hpp"
 #include "Tile.hpp"
-#include "Player.hpp"
 #include "Movement.hpp"
 
 
@@ -57,6 +56,7 @@ public:
     const int& getMovement() const;
     const int& getMovementLeft() const;
     const int& getId() const;
+    UnitType getType() const;
     std::shared_ptr<Player> getOwner() const;
     std::shared_ptr<Tile> getTile() const;
     void setCost(std::pair<int, int> cost);

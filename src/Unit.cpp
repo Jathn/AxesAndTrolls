@@ -9,7 +9,7 @@ std::map<UnitType, std::vector<int>> unitTypeMap = {
     {UnitType::INFANTRY, {1, 3, 0, 1}},
     {UnitType::ARTILLERY, {2, 2, 3, 1}},
     {UnitType::RIDER, {2, 3, 3, 2}},
-    {UnitType::DRAGON, {4, 8, 4, 2}}
+    {UnitType::DRAGON, {4, 8, 4, 4}}
 };
 
 Unit::Unit(const int& id, UnitType type) 
@@ -51,6 +51,10 @@ std::shared_ptr<Tile> Unit::getTile() const {
     return tile_.lock();
 }
 
+UnitType Unit::getType() const {
+    return type_;
+}
+
 void Unit::setCost(std::pair<int, int> cost) {
     cost_ = cost;
 }
@@ -74,7 +78,9 @@ bool Unit::isLeavableTile(const std::shared_ptr<Tile>& tile) {
 
     bool own_units_only = true;
     for (auto unit : tile->getUnits()) {
-        if (unit.lock()->getOwner() != owner_.lock()) {
+        std::shared_ptr<Unit> locked_unit = unit.lock();
+        std::shared_ptr<Player> locked_owner = owner_.lock();
+        if (locked_unit->getOwner() != locked_owner) {
             own_units_only = false;
             break;
         }
@@ -88,8 +94,10 @@ bool Unit::isReachableTile(const std::shared_ptr<Tile>& tile) {
 
     std::vector<std::shared_ptr<Tile>> route;
 
+    std::shared_ptr<Tile> previous_tile = tile_.lock();
     for (auto it = distance.second.begin(); it != distance.second.end(); it++) {
-        route.push_back(tile_.lock()->getNeighbor(*it));
+        route.push_back(previous_tile->getNeighbor(*it));
+        previous_tile = route.back();
     }
 
     bool all_are_leavable = true;
