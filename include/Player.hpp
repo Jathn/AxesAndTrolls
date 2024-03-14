@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "MovementHandler.hpp"
+#include "Territory.hpp"
 
 class Unit;
 /**
@@ -23,25 +24,11 @@ public:
 
     /* Getter functions */
     const std::vector<std::shared_ptr<Tile>> getTiles() const;
-    std::vector<Unit> getUnits() const;
-    
-    /**
-     * @brief Adds a tile to the player's tiles.
-     * 
-     * @param tile The tile to be added.
-     */
-    void addTile(const std::shared_ptr<Tile>& tile);
-
-    /**
-     * @brief Removes a tile from the player's tiles.
-     * 
-     * @param tile The tile to be removed.
-     */
-    void removeTile(const int& id);
+    std::vector<std::shared_ptr<Unit>> getUnits() const;
 
 private:
     MovementHandler movement_handler_;
-    std::vector<std::weak_ptr<Tile>> tiles_;
+    std::weak_ptr<Territory> territory_;
 };
 
 #endif // PLAYER_HPP

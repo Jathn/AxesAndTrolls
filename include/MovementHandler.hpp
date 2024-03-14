@@ -19,10 +19,13 @@
  */
 class MovementHandler {
 public:
+
+    MovementHandler() = default;
     MovementHandler(const std::shared_ptr<Territory>& territory);
 
     /* Getter functions */
     std::vector<std::shared_ptr<Unit>> getUnits() const;
+
     /**
      * @brief Adds a unit to the movement handler.
      * 
