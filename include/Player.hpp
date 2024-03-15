@@ -4,11 +4,37 @@
 #include <memory>
 #include <algorithm>
 #include <vector>
+#include <exception>
 
 #include "MovementHandler.hpp"
 #include "Territory.hpp"
 
 class Unit;
+
+enum class ResourceType {
+    FOOD,
+    WOOD,
+    GOLD
+};
+
+/**
+ * @brief 
+ * 
+ */
+class NotEnoughResourcesException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Not enough resources to perform this operation";
+    }
+};
+
+class InvalidPlacementException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Invalid placement of unit";
+    }
+};
+
 /**
  * @brief The Player class represents a player in the game.
  * 
@@ -25,10 +51,49 @@ public:
     /* Getter functions */
     const std::vector<std::shared_ptr<Tile>> getTiles() const;
     std::vector<std::shared_ptr<Unit>> getUnits() const;
+    const int getResource(ResourceType resource) const;
+    const int getResourceGeneration(ResourceType resource) const;
+
+    /* Unit functions */
+
+    /**
+     * @brief Buy a unit. If the player has insufficient resources, a NotEnoughResourcesException is thrown. See: NotEnoughResourcesException
+     * 
+     * @param unit The unit to buy.
+     */
+    void buyUnit(std::shared_ptr<Unit> unit);
+
+    /**
+     * @brief Place a unit on a tile.
+     * 
+     * @param unit The unit to place.
+     * @param tile The tile to place the unit on.
+     */
+    void placeUnit(std::shared_ptr<Unit> unit, std::shared_ptr<Tile> tile);
+
+    /* Resource functions */
+
+    /**
+     * @brief Adds amount of resource to players resources.
+     * 
+     * @param resource The resource to get the amount of.
+     * @return int The amount of the resource.
+     */
+    void addResource(ResourceType resource, int amount);
+
+    /**
+     * @brief Removes amount of resource from players resources.
+     * 
+     * @param resource The resource to remove the amount of.
+     * @return int The amount of the resource.
+     */
+    void removeResource(ResourceType resource, int amount);
 
 private:
     MovementHandler movement_handler_;
     std::weak_ptr<Territory> territory_;
+    std::map<ResourceType, int> resources_;
+    std::map<ResourceType, int> resource_generation_;
 };
 
 #endif // PLAYER_HPP
