@@ -10,12 +10,16 @@
 #include <SfmlTester.hpp>
 #include <MapTester.hpp>
 #include <MovementTester.hpp>
+#include <RunAroundTester.hpp>
 
 int testmain() {
      
+    /* Tests to run */
     int runMapTest = 0;
     int runSfmlTest = 0;
     int runMovementTest = 0;
+    int runRunAroundTest = 0;
+
     int tests_total = 0;
     int tests_completed = 0;
     std::cout << "Which tests do you wish to run? 1 to choose a test, other write something else." << std::endl;
@@ -25,6 +29,8 @@ int testmain() {
     std::cin >> runSfmlTest;
     std::cout << "3. Movement" << std::endl;
     std::cin >> runMovementTest;
+    std::cout << "4. RunAround" << std::endl;
+    std::cin >> runRunAroundTest;
     
     if (runMapTest == 1) {
         MapTester map_tester = MapTester();
@@ -43,6 +49,13 @@ int testmain() {
         std::pair<int, int> movement_test_result = movement_tester.runTest();
         tests_total += movement_test_result.first;
         tests_completed += movement_test_result.second;
+    }
+    
+    if (runRunAroundTest) {
+        RunAroundTester run_around_tester = RunAroundTester();
+        std::pair<int, int> run_around_test_result = run_around_tester.runTest();
+        tests_total += run_around_test_result.first;
+        tests_completed += run_around_test_result.second;
     }
     
     std::cout << "### Final Result ###" << std::endl;

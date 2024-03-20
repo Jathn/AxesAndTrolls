@@ -1,5 +1,15 @@
 #include "MovementHandler.hpp"
 
+
+std::map<UnitType, std::vector<TileType>> availability_map = {
+    {UnitType::INFANTRY, {TileType::GRASS, TileType::FOREST}},
+    {UnitType::ARTILLERY, {TileType::GRASS, TileType::FOREST}},
+    {UnitType::RIDER, {TileType::GRASS, TileType::FOREST}},
+    {UnitType::DRAGON, {TileType::GRASS, TileType::FOREST, TileType::MOUNTAIN, TileType::WATER}},
+    {UnitType::SURFACE_WARSHIP, {TileType::WATER}},
+    {UnitType::SEA_TRANSPORT, {TileType::WATER}}
+};
+
 MovementHandler::MovementHandler(const std::shared_ptr<Territory>& territory) : territory_(territory) { }
 
 std::vector<std::shared_ptr<Unit>> MovementHandler::getUnits() const {
@@ -87,12 +97,12 @@ std::vector<std::shared_ptr<Unit>> MovementHandler::getUnplacedUnits() const {
 }
 
 void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile) {
-    std::pair<int, std::vector<int>> route = calculateDistanceGBFS(unit->getTile(), tile);
+    std::pair<int, std::vector<int>> route = calculateDistanceGBFS(unit->getTile(), tile, getReachableTileFunction(unit));
     std::vector<int> path = route.second;
     path.erase(path.begin());
     /* Handle situation where the position isn't reachable */
     if (route.first == -1) {
-        return;
+        throw MovementUnaccessibleException();
     }
 
     std::vector<std::shared_ptr<Tile>> available_tiles = getAvailableTiles(unit);
@@ -141,4 +151,10 @@ void MovementHandler::moveUnits(const std::vector<std::shared_ptr<Unit>>& units,
     for (auto unit : units) {
         moveUnit(unit, tile);
     }
+}
+
+std::function<bool(const std::shared_ptr<Tile>&)> MovementHandler::getReachableTileFunction(const std::shared_ptr<Unit>& unit) {
+    return [unit](const std::shared_ptr<Tile>& tile) {
+        return std::find(availability_map[unit->getType()].begin(), availability_map[unit->getType()].end(), tile->getType()) != availability_map[unit->getType()].end();
+    };
 }

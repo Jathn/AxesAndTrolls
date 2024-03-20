@@ -1,13 +1,21 @@
 #ifndef MOVEMENT_HANDLER_HPP
 #define MOVEMENT_HANDLER_HPP
 
+#include <exception>
 #include <vector>
 #include <queue>
 #include <set>
+#include <map>
 #include <memory>
 #include "Territory.hpp"
 #include "Unit.hpp"
 
+class MovementUnaccessibleException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Movement not possible, tile is unaccessible";
+    }
+};
 
 /**
  * @file MovementHandler.hpp
@@ -85,6 +93,12 @@ public:
 private:
     std::vector<std::shared_ptr<Unit>> units_;
     std::shared_ptr<Territory> territory_;
+
+    /**
+     * @brief Returns a function, that checks if a tile is reachable for a unit.
+     * 
+     */
+    std::function<bool(const std::shared_ptr<Tile>&)> getReachableTileFunction(const std::shared_ptr<Unit>& unit);
 };
 
 #endif // MOVEMENT_HANDLER_HPP
