@@ -76,6 +76,16 @@ std::vector<std::shared_ptr<Tile>> MovementHandler::getAvailableTiles(const std:
     return available_tiles;
 }
 
+std::vector<std::shared_ptr<Unit>> MovementHandler::getUnplacedUnits() const {
+    std::vector<std::shared_ptr<Unit>> unplaced_units;
+    for (auto unit : units_) {
+        if (unit->getTile() == nullptr) {
+            unplaced_units.push_back(unit);
+        }
+    }
+    return unplaced_units;
+}
+
 void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile) {
     std::pair<int, std::vector<int>> route = calculateDistanceGBFS(unit->getTile(), tile);
     std::vector<int> path = route.second;

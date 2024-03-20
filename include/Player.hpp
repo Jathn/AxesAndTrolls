@@ -61,7 +61,7 @@ public:
      * 
      * @param unit The unit to buy.
      */
-    void buyUnit(std::shared_ptr<Unit> unit);
+    void buyUnit(const UnitType& unit);
 
     /**
      * @brief Place a unit on a tile.
@@ -69,7 +69,7 @@ public:
      * @param unit The unit to place.
      * @param tile The tile to place the unit on.
      */
-    void placeUnit(std::shared_ptr<Unit> unit, std::shared_ptr<Tile> tile);
+    void placeUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile);
 
     /* Resource functions */
 

@@ -20,6 +20,8 @@ Unit::Unit(const int& id, UnitType type)
     movement_left_ = movement_;
 }
 
+Unit::Unit(UnitType type) : Unit(getRandomNumber(0, 256000), type) {}
+
 Unit::~Unit() {}
 
 // Say hello to the getters and setter, they are our friends. (Maybe not the setters, they are a bit too friendly.)

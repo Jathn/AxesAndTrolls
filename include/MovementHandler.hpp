@@ -56,6 +56,12 @@ public:
     std::vector<std::shared_ptr<Tile>> getAvailableTiles(const std::vector<std::shared_ptr<Unit>>& units);
 
     /**
+     * @brief Gets unplaced units.
+     * 
+     */
+    std::vector<std::shared_ptr<Unit>> getUnplacedUnits() const;
+
+    /**
      * @brief Moves the unit into the given position.
      * If the position is not valid, the unit will not move.
      * If the position is occupied by an enemy unit, it cannot move further, even though it has movement left.

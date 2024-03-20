@@ -43,8 +43,20 @@ enum class UnitType {
  */
 class Unit {
 public:
-
+    /**
+     * @brief Construct a new Unit object.
+     * 
+     * @param id 
+     * @param type 
+     */
     Unit(const int& id, UnitType type);
+
+    /**
+     * @brief Construct a new Unit object, without specifying an id.
+     * 
+     */
+    Unit(UnitType type);
+
     /**
      * @brief Destructor for the Unit class.
      */
