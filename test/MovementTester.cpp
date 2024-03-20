@@ -7,16 +7,16 @@ std::pair<int, int> MovementTester::runTest() {
 
     std::cout << "### Movement test ###" << std::endl;
 
-    std::pair<int, int> map_size = std::make_pair(10, 10);
+    std::pair<int, int> map_size = std::make_pair(10, 6);
     game_state_manager_ = GameStateManager(map_size);
     std::shared_ptr<Territory> territory = std::make_shared<Territory>();
     MovementHandler movementHandler(territory);
     int current_id = 0;
 
     std::cout << "Creating a unit..." << std::endl;
-    std::shared_ptr<Unit> unit = std::make_shared<Unit>(current_id, UnitType::DRAGON);
+    std::shared_ptr<Unit> unit = std::make_shared<Unit>(current_id, UnitType::RIDER);
 
-    if (unit->getType() == UnitType::DRAGON) {
+    if (unit->getType() == UnitType::RIDER) {
         addSuccessful("Unit creation");
     } else {
         addUnsuccessful("Unit creation");
@@ -60,9 +60,9 @@ std::pair<int, int> MovementTester::runTest() {
 
     std::cout << "Printing the map with unit marked U, available tiles marked A and others marked .\n";
 
-    for (int i = 0; i < map_size.first; i++) {
-        for (int j = 0; j < map_size.second; j++) {
-            auto tile = game_state_manager_.getMap().at(i * map_size.second + j);
+    for (int i = 0; i < map_size.second; i++) {
+        for (int j = 0; j < map_size.first; j++) {
+            auto tile = game_state_manager_.getMap().at(i * map_size.first + j);
             if (tile == unit->getTile()) {
                 std::cout << "U ";
             } else if (std::find(availableTiles.begin(), availableTiles.end(), tile) != availableTiles.end()) {
@@ -74,12 +74,20 @@ std::pair<int, int> MovementTester::runTest() {
         std::cout << "\n";
     }
 
-    std::cout << "Moving the unit to tile with id 12" << std::endl;
+    std::cout << "Moving the unit to tile with id 2" << std::endl;
 
-    std::shared_ptr<Tile> tile = game_state_manager_.getMap().at(12);
-    movementHandler.moveUnit(unit, tile);
+    std::shared_ptr<Tile> tile = game_state_manager_.getMap().at(2);
+    for (int i = 0; i < map_size.second; i++) {
+            for (int j = 0; j < map_size.first; j++) {
+                auto tile = game_state_manager_.getMap().at(i * map_size.first + j);
+                std::cout << tile->getTypeChar() << " ";
+            }
+            std::cout << std::endl;
+    }
 
-    availableTiles = movementHandler.getAvailableTiles(unit);
+    try {
+        movementHandler.moveUnit(unit, tile);
+         availableTiles = movementHandler.getAvailableTiles(unit);
     
     for (int i = 0; i < map_size.first; i++) {
         for (int j = 0; j < map_size.second; j++) {
@@ -93,12 +101,16 @@ std::pair<int, int> MovementTester::runTest() {
             }
         }
         std::cout << "\n";
-    }
+        }
 
-    if (unit->getTile() == tile) {
+        if (unit->getTile() == tile) {
+            addSuccessful("Unit movement");
+        } else {
+            addUnsuccessful("Unit movement");
+        }
+    } catch (MovementUnaccessibleException& e) {
+        std::cout << e.what() << std::endl;
         addSuccessful("Unit movement");
-    } else {
-        addUnsuccessful("Unit movement");
     }
 
     return test_results_;
