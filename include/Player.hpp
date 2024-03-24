@@ -8,14 +8,9 @@
 
 #include "MovementHandler.hpp"
 #include "Territory.hpp"
+#include "Building.hpp"
 
 class Unit;
-
-enum class ResourceType {
-    FOOD,
-    WOOD,
-    GOLD
-};
 
 /**
  * @brief 
