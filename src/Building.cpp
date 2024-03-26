@@ -29,12 +29,26 @@ Building::Building(BuildingType type, const std::shared_ptr<Tile>& tile) : type_
     suitable_tile_types_ = suitable_tile_types[type];
 }
 
+Building::Building(BuildingType type) : type_(type) {
+    cost_ = building_costs[type];
+    income_ = building_incomes[type];
+    suitable_tile_types_ = suitable_tile_types[type];
+}
+
 const BuildingType& Building::getType() const {
     return type_;
 }
 
 const std::shared_ptr<Tile>& Building::getTile() const {
     return tile_;
+}
+
+const int& Building::getCost() const {
+    return cost_;
+}
+
+const std::pair<ResourceType, int>& Building::getIncome() const {
+    return income_;
 }
 
 void Building::setType(const BuildingType& type) {

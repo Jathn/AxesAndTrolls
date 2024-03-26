@@ -11,6 +11,7 @@
 
 class Unit;
 class Player;
+class Building;
 
 /**
  * @brief The TileType enum represents the type of a tile.
@@ -102,6 +103,12 @@ public:
     const std::vector<std::weak_ptr<Unit>>& getUnits() const;
 
     /**
+     * @brief Getter for building
+     * 
+     */
+    const std::shared_ptr<Building>& getBuilding() const;
+
+    /**
      * @brief Getter for the owner of the tile.
      * @return The owner of the tile.
      */
@@ -119,6 +126,12 @@ public:
      */
     void setOwner(const std::shared_ptr<Player>& owner);
 
+    /**
+     * @brief 
+     * 
+     */
+    void setBuilding(const std::shared_ptr<Building>& building);
+    
     /**
      * @brief Adds a neighbor to the tile.
      * 
@@ -160,6 +173,7 @@ private:
     TileType type_;
     std::vector<std::weak_ptr<Tile>> neighbors_;
     std::vector<std::weak_ptr<Unit>> units_;
+    std::shared_ptr<Building> building_;
     std::weak_ptr<Player> owner_;
 
     /**

@@ -32,12 +32,12 @@ enum class ResourceType {
 class Building {
     public:
         Building(BuildingType type, const std::shared_ptr<Tile>& tile);
-        
+        Building(BuildingType type);
         /* Getter functions */
         const BuildingType& getType() const;
         const std::shared_ptr<Tile>& getTile() const;
-        const int getCost() const;
-        const std::pair<ResourceType, int> getIncome() const;
+        const int& getCost() const;
+        const std::pair<ResourceType, int>& getIncome() const;
 
         /* Setter functions */
         void setType(const BuildingType& type);

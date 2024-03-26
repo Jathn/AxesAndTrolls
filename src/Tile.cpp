@@ -90,6 +90,10 @@ const std::vector<std::weak_ptr<Unit>>& Tile::getUnits() const {
     return units_;
 }
 
+const std::shared_ptr<Building>& Tile::getBuilding() const {
+    return building_;
+}
+
 const std::weak_ptr<Player>& Tile::getOwner() const {
     return owner_;
 }
@@ -100,6 +104,10 @@ void Tile::setOwner(const std::shared_ptr<Player>& owner) {
 
 void Tile::setNeighbors(const std::vector<std::weak_ptr<Tile>>& neighbors) {
     neighbors_ = neighbors;
+}
+
+void Tile::setBuilding(const std::shared_ptr<Building>& building) {
+    building_ = building;
 }
 
 void Tile::addNeighbor(const std::shared_ptr<Tile>& neighbor) {

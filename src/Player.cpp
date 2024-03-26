@@ -37,8 +37,60 @@ void Player::buyUnit(const UnitType& type) {
 }
 
 void Player::placeUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile) {
+    territory_.lock()->getTiles();
+
+    /* Check whether the tile is own tile */
+    if (std::find(territory_.lock()->getTiles().begin(), territory_.lock()->getTiles().end(), tile) == territory_.lock()->getTiles().end()) {
+        /* Tile is not owned by player */
+        throw InvalidPlacementException();
+    }
+
+    /* Check that there is city on this tile */
+    if (tile->getBuilding() == nullptr || tile->getBuilding()->getType() != BuildingType::CITY) {
+        /* Tile does not have city */
+        throw InvalidPlacementException();
+    }
+
     tile->addUnit(unit);
     unit->setTile(tile);
+}
+
+/* Checks only gold cost */
+void Player::buyBuilding(const BuildingType& type) {
+    std::shared_ptr<Building> building = std::make_shared<Building>(type);
+
+    if (resources_[ResourceType::GOLD] < building->getCost()) {
+        /* Not enough resources to buy building */
+        throw NotEnoughResourcesException();
+    }
+
+    removeResource(ResourceType::GOLD, building->getCost());
+
+}
+
+void Player::placeBuilding(const std::shared_ptr<Building>& building, const std::shared_ptr<Tile>& tile) {
+    territory_.lock()->getTiles();
+
+    /* Check whether the tile is own tile */
+    if (std::find(territory_.lock()->getTiles().begin(), territory_.lock()->getTiles().end(), tile) == territory_.lock()->getTiles().end()) {
+        /* Tile is not owned by player */
+        throw InvalidPlacementException();
+    }
+
+    /* Check that the building can be placed on this tile */
+    if (!building->isSuitablePlacement(tile->getType())) {
+        /* Building cannot be placed on this tile */
+        throw InvalidPlacementException();
+    }
+
+    /* Check that the tile is empty */
+    if (tile->getBuilding() != nullptr) {
+        /* Tile already has a building */
+        throw InvalidPlacementException();
+    }
+    
+    tile->setBuilding(building);
+    building->setTile(tile);
 }
 
 void Player::addResource(ResourceType resource, int amount) {

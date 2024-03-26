@@ -66,6 +66,23 @@ public:
      */
     void placeUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile);
 
+    /* Building functions */
+
+    /**
+     * @brief Buy a building. If the player has insufficient resources, a NotEnoughResourcesException is thrown. See: NotEnoughResourcesException
+     * 
+     * @param building The building to buy.
+     */
+    void buyBuilding(const BuildingType& building);
+
+    /**
+     * @brief Place a building on a tile.
+     * 
+     * @param building The building to place.
+     * @param tile The tile to place the building on.
+     */
+    void placeBuilding(const std::shared_ptr<Building>& building, const std::shared_ptr<Tile>& tile);
+    
     /* Resource functions */
 
     /**
