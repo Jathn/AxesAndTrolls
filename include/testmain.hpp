@@ -11,6 +11,7 @@
 #include <MapTester.hpp>
 #include <MovementTester.hpp>
 #include <RunAroundTester.hpp>
+#include <TurnTester.hpp>
 
 int testmain() {
      
@@ -19,6 +20,7 @@ int testmain() {
     int runSfmlTest = 0;
     int runMovementTest = 0;
     int runRunAroundTest = 0;
+    int runTurnTest = 0;
 
     int tests_total = 0;
     int tests_completed = 0;
@@ -31,7 +33,9 @@ int testmain() {
     std::cin >> runMovementTest;
     std::cout << "4. RunAround" << std::endl;
     std::cin >> runRunAroundTest;
-    
+    std::cout << "5. TurnTester" << std::endl;
+    std::cin >> runTurnTest;
+
     if (runMapTest == 1) {
         MapTester map_tester = MapTester();
         std::pair<int, int> map_test_result = map_tester.runTest();
@@ -56,6 +60,13 @@ int testmain() {
         std::pair<int, int> run_around_test_result = run_around_tester.runTest();
         tests_total += run_around_test_result.first;
         tests_completed += run_around_test_result.second;
+    }
+
+    if (runTurnTest) {
+        TurnTester turn_tester = TurnTester();
+        std::pair<int, int> turn_test_result = turn_tester.runTest();
+        tests_total += turn_test_result.first;
+        tests_completed += turn_test_result.second;
     }
     
     std::cout << "### Final Result ###" << std::endl;

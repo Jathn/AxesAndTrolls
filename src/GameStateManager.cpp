@@ -48,7 +48,7 @@ std::pair<int, int> GameStateManager::getMapSize() {
 }
 
 void GameStateManager::setCurrentTile(const int& id) {
-    std::shared_ptr<Tile> newCurrentTile = map_.at(id);
+    std::shared_ptr<Tile> newCurrentTile = map_[id];
     current_tile_ = newCurrentTile;
 }
 

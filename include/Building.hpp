@@ -35,6 +35,7 @@ class Building {
         Building(BuildingType type);
         /* Getter functions */
         const BuildingType& getType() const;
+        const char& getTypeChar() const;
         const std::shared_ptr<Tile>& getTile() const;
         const int& getCost() const;
         const std::pair<ResourceType, int>& getIncome() const;

@@ -69,6 +69,7 @@ public:
     const int& getMovementLeft() const;
     const int& getId() const;
     UnitType getType() const;
+    const char& getTypeChar() const;
     std::shared_ptr<Player> getOwner() const;
     std::shared_ptr<Tile> getTile() const;
     void setCost(std::pair<int, int> cost);

@@ -23,6 +23,13 @@ std::map<BuildingType, std::vector<TileType>> suitable_tile_types = {
     {BuildingType::MINE, {TileType::MOUNTAIN}}
 };
 
+std::map<BuildingType, char> type_chars {
+    {BuildingType::CITY, 'C'},
+    {BuildingType::FARM, 'F'},
+    {BuildingType::LODGE, 'L'},
+    {BuildingType::MINE, 'M'}
+};
+
 Building::Building(BuildingType type, const std::shared_ptr<Tile>& tile) : type_(type), tile_(tile) {
     cost_ = building_costs[type];
     income_ = building_incomes[type];
@@ -39,6 +46,9 @@ const BuildingType& Building::getType() const {
     return type_;
 }
 
+const char& Building::getTypeChar() const {
+    return type_chars[type_];
+}
 const std::shared_ptr<Tile>& Building::getTile() const {
     return tile_;
 }

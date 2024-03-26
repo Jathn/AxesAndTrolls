@@ -46,6 +46,8 @@ public:
     /* Getter functions */
     const std::vector<std::shared_ptr<Tile>> getTiles() const;
     std::vector<std::shared_ptr<Unit>> getUnits() const;
+    std::vector<std::shared_ptr<Building>> getBuildings() const;
+    std::vector<std::shared_ptr<Building>> getUnplacedBuildings() const;
     const int getResource(ResourceType resource) const;
     const int getResourceGeneration(ResourceType resource) const;
 
@@ -101,9 +103,11 @@ public:
      */
     void removeResource(ResourceType resource, int amount);
 
+    
 private:
     MovementHandler movement_handler_;
     std::weak_ptr<Territory> territory_;
+    std::vector<std::shared_ptr<Building>> unplaced_buildings_;
     std::map<ResourceType, int> resources_;
     std::map<ResourceType, int> resource_generation_;
 };

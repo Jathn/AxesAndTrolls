@@ -13,6 +13,22 @@ std::vector<std::shared_ptr<Unit>> Player::getUnits() const {
     return movement_handler_.getUnits();
 }
 
+std::vector<std::shared_ptr<Building>> Player::getBuildings() const {
+    std::vector<std::shared_ptr<Building>> buildings;
+    for (auto tile : getTiles()) {
+        std::shared_ptr<Building> building = tile->getBuilding();
+        if (building != nullptr) {
+            buildings.push_back(building);
+        }
+    }
+
+    return buildings;
+}
+
+std::vector<std::shared_ptr<Building>> Player::getUnplacedBuildings() const {
+    return unplaced_buildings_;
+}
+
 const int Player::getResource(ResourceType resource) const {
     return resources_.at(resource);
 }
@@ -65,7 +81,8 @@ void Player::buyBuilding(const BuildingType& type) {
     }
 
     removeResource(ResourceType::GOLD, building->getCost());
-
+    unplaced_buildings_.push_back(building);
+    resource_generation_[building->getIncome().first] += building->getIncome().second;
 }
 
 void Player::placeBuilding(const std::shared_ptr<Building>& building, const std::shared_ptr<Tile>& tile) {
@@ -89,6 +106,12 @@ void Player::placeBuilding(const std::shared_ptr<Building>& building, const std:
         throw InvalidPlacementException();
     }
     
+    for (auto it = unplaced_buildings_.begin(); it != unplaced_buildings_.end(); it++) {
+        if (*it == building) {
+            unplaced_buildings_.erase(it);
+            break;
+        }
+    }
     tile->setBuilding(building);
     building->setTile(tile);
 }

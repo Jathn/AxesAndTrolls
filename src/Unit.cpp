@@ -12,6 +12,15 @@ std::map<UnitType, std::vector<int>> unitTypeMap = {
     {UnitType::DRAGON, {4, 8, 4, 4}}
 };
 
+std::map<UnitType, char> unit_type_chars = {
+    {UnitType::SURFACE_WARSHIP, 'W'},
+    {UnitType::SEA_TRANSPORT, 'T'},
+    {UnitType::INFANTRY, 'I'},
+    {UnitType::ARTILLERY, 'A'},
+    {UnitType::RIDER, 'R'},
+    {UnitType::DRAGON, 'D'}
+};
+
 Unit::Unit(const int& id, UnitType type) 
 : id_(id), type_(type) {
     hit_level_ = unitTypeMap[type][0];
@@ -55,6 +64,10 @@ std::shared_ptr<Tile> Unit::getTile() const {
 
 UnitType Unit::getType() const {
     return type_;
+}
+
+const char& Unit::getTypeChar() const {
+    return unit_type_chars[type_];
 }
 
 void Unit::setCost(std::pair<int, int> cost) {
