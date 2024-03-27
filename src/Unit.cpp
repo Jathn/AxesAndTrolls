@@ -70,8 +70,15 @@ const char& Unit::getTypeChar() const {
     return unit_type_chars[type_];
 }
 
+void Unit::setHitLevel(int hit_level) {
+    hit_level_ = hit_level;
+}
 void Unit::setCost(std::pair<int, int> cost) {
     cost_ = cost;
+}
+
+void Unit::setMovement(int movement) {
+    movement_ = movement;
 }
 
 void Unit::setMovementLeft(int movement_left) {

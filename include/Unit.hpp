@@ -75,6 +75,7 @@ public:
     void setCost(std::pair<int, int> cost);
 
     /* Setter functions */
+    void setHitLevel(int hit_level);
     void setMovementLeft(int movement_left);
     void setMovement(int movement);
     void setOwner(const std::shared_ptr<Player>& owner);

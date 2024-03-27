@@ -136,6 +136,7 @@ void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::sha
         unit->setTile(nextTile);
         nextTile->addUnit(unit);
         unit->setMovementLeft(current_movement - 1);
+        territory_->addTile(nextTile);
     }   
 }
 

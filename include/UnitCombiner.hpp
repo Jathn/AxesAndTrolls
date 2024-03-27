@@ -7,20 +7,6 @@
 #include "Unit.hpp"
 
 /**
- * @brief A map of combinations of units and their benefits.
- * 
- * S stands for sea movement, M stands for movement, and H stands for hit level.
- */
-std::map<std::pair<UnitType, UnitType>, std::pair<char, int>> combinations =
-{
-    {{UnitType::INFANTRY, UnitType::RIDER}, {'M', 1}},
-    {{UnitType::INFANTRY, UnitType::DRAGON}, {'H', 1}},
-    {{UnitType::INFANTRY, UnitType::SEA_TRANSPORT}, {'S', 2}},
-    {{UnitType::RIDER, UnitType::DRAGON}, {'H', 2}},
-    {{UnitType::RIDER, UnitType::SEA_TRANSPORT}, {'S', 2}},
-};
-
-/**
  * @file UnitCombiner.hpp
  * @brief UnitCombiner is a class that handles the combining of units and keeps track of benefits.
  * 
@@ -31,6 +17,7 @@ class UnitCombiner {
 public:
     UnitCombiner();
     ~UnitCombiner();
+    void addAttribute(const std::pair<char, int>& attribute, const std::shared_ptr<Unit>& unit);
     void combineUnits(const std::shared_ptr<Unit>& unit1, const std::shared_ptr<Unit>& unit2);
     bool hasCombinedUnit(int id) const;
 private:
