@@ -2,10 +2,10 @@
 
 /* type character : picture url */
 std::map<char, std::string> tile_pics = {
-    {'G', "../../resources/pics/grass_tile.png"},
-    {'F', "../../resources/pics/forest_tile.png"},
-    {'M', "../../resources/pics/mountain_tile.png"},
-    {'W', "../../resources/pics/water_tile.png"},
+    {'G', "../resources/pics/grass_tile.png"},
+    {'F', "../resources/pics/forest_tile.png"},
+    {'M', "../resources/pics/mountain_tile.png"},
+    {'W', "../resources/pics/water_tile.png"},
 };
 
 TileView::TileView(const std::shared_ptr<Tile>& tile) {
