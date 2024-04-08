@@ -19,9 +19,9 @@ public:
     ~UnitCombiner();
     void addAttribute(const std::pair<char, int>& attribute, const std::shared_ptr<Unit>& unit);
     void combineUnits(const std::shared_ptr<Unit>& unit1, const std::shared_ptr<Unit>& unit2);
-    bool hasCombinedUnit(int id) const;
+    bool hasCombinedUnit(std::shared_ptr<Unit> unit) const;
 private:
-    std::map<std::weak_ptr<Unit>, std::weak_ptr<Unit>> combined_units_;
+    std::map<int, int> combined_units_;
 };
 
 #endif // UNITCOMBINER_HPP
