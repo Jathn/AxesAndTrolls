@@ -121,9 +121,9 @@ void Tile::addUnit(const std::shared_ptr<Unit>& unit) {
 }
 
 void Tile::removeUnit(const std::shared_ptr<Unit>& unit) {
-    std::remove_if(units_.begin(), units_.end(), [unit](std::weak_ptr<Unit> weak_unit) {
+    units_.erase(std::remove_if(units_.begin(), units_.end(), [unit](std::weak_ptr<Unit> weak_unit) {
         return weak_unit.lock() == unit;
-    });
+    }), units_.end());
 }
 
 

@@ -107,8 +107,6 @@ void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::sha
 
     std::vector<std::shared_ptr<Tile>> available_tiles = getAvailableTiles(unit);
 
-    for (auto tile : available_tiles) {
-    }
     /* Handle situation where the tile is not in the available tiles */
     if (std::find(available_tiles.begin(), available_tiles.end(), tile) == available_tiles.end()) {
         return;
@@ -123,7 +121,7 @@ void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::sha
         if (unit->getMovementLeft() == 0) {
             break;
         }
-
+        
         /* Checkout the following Tile object pointer */
         std::shared_ptr<Tile> nextTile = unit->getTile()->getNeighbor(*it);
         if (nextTile == nullptr) {
