@@ -3,6 +3,9 @@
 Player::Player() {
     territory_ = std::make_shared<Territory>();
     movement_handler_ = MovementHandler(territory_.lock());
+    resources_[ResourceType::GOLD] = 0;
+    resources_[ResourceType::WOOD] = 0;
+    resources_[ResourceType::FOOD] = 0;
 }
 
 const std::vector<std::shared_ptr<Tile>> Player::getTiles() const {

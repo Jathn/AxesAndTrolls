@@ -12,6 +12,7 @@
 #include <MovementTester.hpp>
 #include <RunAroundTester.hpp>
 #include <TurnTester.hpp>
+#include <VisualComponentTester.hpp>
 
 int testmain() {
      
@@ -21,6 +22,7 @@ int testmain() {
     int runMovementTest = 0;
     int runRunAroundTest = 0;
     int runTurnTest = 0;
+    int runVisualComponentTest = 0;
 
     int tests_total = 0;
     int tests_completed = 0;
@@ -35,6 +37,8 @@ int testmain() {
     std::cin >> runRunAroundTest;
     std::cout << "5. TurnTester" << std::endl;
     std::cin >> runTurnTest;
+    std::cout << "6. VisualComponentTester" << std::endl;
+    std::cin >> runVisualComponentTest;
 
     if (runMapTest == 1) {
         MapTester map_tester = MapTester();
@@ -67,6 +71,13 @@ int testmain() {
         std::pair<int, int> turn_test_result = turn_tester.runTest();
         tests_total += turn_test_result.first;
         tests_completed += turn_test_result.second;
+    }
+
+    if (runVisualComponentTest) {
+        VisualComponentTester visual_component_tester = VisualComponentTester();
+        std::pair<int, int> visual_component_test_result = visual_component_tester.runTest();
+        tests_total += visual_component_test_result.first;
+        tests_completed += visual_component_test_result.second;
     }
     
     std::cout << "### Final Result ###" << std::endl;
