@@ -106,7 +106,7 @@ public:
     
 private:
     MovementHandler movement_handler_;
-    std::weak_ptr<Territory> territory_;
+    std::shared_ptr<Territory> territory_;
     std::vector<std::shared_ptr<Building>> unplaced_buildings_;
     std::map<ResourceType, int> resources_;
     std::map<ResourceType, int> resource_generation_;

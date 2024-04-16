@@ -2,14 +2,14 @@
 
 Player::Player() {
     territory_ = std::make_shared<Territory>();
-    movement_handler_ = MovementHandler(territory_.lock());
+    movement_handler_ = MovementHandler(territory_);
     resources_[ResourceType::GOLD] = 0;
     resources_[ResourceType::WOOD] = 0;
     resources_[ResourceType::FOOD] = 0;
 }
 
 const std::vector<std::shared_ptr<Tile>> Player::getTiles() const {
-    return territory_.lock()->getTiles();
+    return territory_->getTiles();
 }
 
 std::vector<std::shared_ptr<Unit>> Player::getUnits() const {
@@ -56,10 +56,10 @@ void Player::buyUnit(const UnitType& type) {
 }
 
 void Player::placeUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile) {
-    territory_.lock()->getTiles();
+    territory_->getTiles();
 
     /* Check whether the tile is own tile */
-    if (std::find(territory_.lock()->getTiles().begin(), territory_.lock()->getTiles().end(), tile) == territory_.lock()->getTiles().end()) {
+    if (std::find(territory_->getTiles().begin(), territory_->getTiles().end(), tile) == territory_->getTiles().end()) {
         /* Tile is not owned by player */
         throw InvalidPlacementException();
     }
@@ -89,10 +89,10 @@ void Player::buyBuilding(const BuildingType& type) {
 }
 
 void Player::placeBuilding(const std::shared_ptr<Building>& building, const std::shared_ptr<Tile>& tile) {
-    territory_.lock()->getTiles();
+    territory_->getTiles();
 
     /* Check whether the tile is own tile */
-    if (std::find(territory_.lock()->getTiles().begin(), territory_.lock()->getTiles().end(), tile) == territory_.lock()->getTiles().end()) {
+    if (std::find(territory_->getTiles().begin(), territory_->getTiles().end(), tile) == territory_->getTiles().end()) {
         /* Tile is not owned by player */
         throw InvalidPlacementException();
     }

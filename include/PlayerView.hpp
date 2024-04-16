@@ -15,7 +15,6 @@ public:
     void initializeIcons(const int& y_offset);
     void drawCounts(sf::RenderWindow& window);
     void drawTerritoryCount(sf::RenderWindow& window);
-    void drawUnitCount(sf::RenderWindow& window);
 private:
     const std::weak_ptr<Player> player_;
     std::pair<int, int> position_;

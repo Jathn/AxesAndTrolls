@@ -60,7 +60,7 @@ void PlayerView::drawCounts(sf::RenderWindow& window) {
     window.draw(wood_);
     window.draw(gold_);
     window.draw(food_);
-
+    drawTerritoryCount(window);
 }
 
 void PlayerView::initializeIcons(const int& y_offset) {
@@ -90,4 +90,17 @@ void PlayerView::initializeIcons(const int& y_offset) {
 
     food_ = food;
 
+}
+
+void PlayerView::drawTerritoryCount(sf::RenderWindow& window) {
+    /* Draws the count of tiles under the player's control */
+    text_.setCharacterSize(size_.first / 15);
+    int tile_count = (int) player_.lock()->getTiles().size();
+    int unit_count = (int) player_.lock()->getUnits().size();
+    text_.setString("Territory: " + std::to_string(tile_count));
+    text_.setPosition(position_.first + size_.first / 2 - text_.getGlobalBounds().getSize().x / 2, position_.second + size_.second / 3);
+    window.draw(text_);
+    text_.setString("Units: " + std::to_string(unit_count));
+    text_.setPosition(position_.first + size_.first / 2 - text_.getGlobalBounds().getSize().x / 2, position_.second + size_.second / 3 + text_.getCharacterSize() * 1.1);
+    window.draw(text_);
 }

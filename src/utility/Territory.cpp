@@ -1,6 +1,6 @@
 #include "Territory.hpp"
 
-Territory::Territory() { }
+Territory::Territory() { tiles_ = std::vector<std::weak_ptr<Tile>>(); }
 
 const std::vector<std::shared_ptr<Tile>> Territory::getTiles() const {
     std::vector<std::shared_ptr<Tile>> tiles;
