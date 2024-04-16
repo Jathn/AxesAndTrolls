@@ -1,7 +1,8 @@
 #include "GameStateManager.hpp"
 
-GameStateManager::GameStateManager(const std::pair<int, int>& map_size) : map_size_(map_size) {
+GameStateManager::GameStateManager(const std::pair<int, int>& map_size, const int& num_players) : map_size_(map_size) {
     generateMap();
+    createPlayers(num_players);
 }
 
 GameStateManager::~GameStateManager() {
@@ -39,12 +40,23 @@ void GameStateManager::generateMap() {
     map_ = tiles;
 }
 
+void GameStateManager::createPlayers(const int& num_players) {
+    for (int i = 0; i < num_players; i++) {
+        std::shared_ptr<Player> player = std::make_shared<Player>();
+        players_.push_back(player);
+    }
+}
+
 std::vector<std::shared_ptr<Tile>> GameStateManager::getMap() {
     return map_;
 }
 
 std::pair<int, int> GameStateManager::getMapSize() {
     return map_size_;
+}
+
+std::vector<std::shared_ptr<Player>> GameStateManager::getPlayers() {
+    return players_;
 }
 
 void GameStateManager::setCurrentTile(const int& id) {

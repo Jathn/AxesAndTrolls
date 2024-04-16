@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "Unit.hpp"
+#include "Player.hpp"
 
 /**
  * @file GameStateManager.hpp
@@ -21,7 +22,7 @@ public:
      * @brief Constructor for GameStateManager class.
      * 
      */
-    GameStateManager(const std::pair<int, int>& mapSize = std::make_pair(10, 10));
+    GameStateManager(const std::pair<int, int>& mapSize = std::make_pair(10, 10), const int& num_players = 2);
 
     /**
      * @brief Destructor for GameStateManager class.
@@ -36,33 +37,26 @@ public:
     void generateMap();
 
     /**
+     * @brief Creates the player vector, based on number of players.
+     * 
+     */
+    void createPlayers(const int& num_players);
+
+    /**
      * @brief 
      * 
      */
     void setCurrentTile(const int& id);
 
-    /**
-     * @brief Function for getting the map
-     * 
-     * @return std::vector<Tile> The game map
-     */
+    /* Getter functions */
     std::vector<std::shared_ptr<Tile>> getMap();
-
-    /**
-     * @brief Function for getting the map size
-     * 
-     * @return std::pair<int, int> width, height in that order.
-     */
     std::pair<int, int> getMapSize();
-
-    /**
-     * @brief Returns a shared_ptr to the current tile.
-     * 
-     */
+    std::vector<std::shared_ptr<Player>> getPlayers();
     std::shared_ptr<Tile> getCurrentTile();
 
 private:
     std::vector<std::shared_ptr<Tile>> map_;
+    std::vector<std::shared_ptr<Player>> players_;
     std::pair<int, int> map_size_;
     std::shared_ptr<Tile> current_tile_;
 };
