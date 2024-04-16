@@ -8,9 +8,9 @@ std::map<char, std::string> tile_pics = {
     {'W', "../resources/pics/water_tile.png"},
 };
 
-TileView::TileView(const std::shared_ptr<Tile>& tile) {
-    size_ = std::make_pair(100, 100);
-    position_ = std::make_pair(tile->getX() * size_.first, tile->getY() * size_.second);
+TileView::TileView(const std::shared_ptr<Tile>& tile, const std::pair<int, int>& size = std::make_pair(100, 100)) {
+    size_ = size;
+    position_ = std::make_pair(tile->getX() * size_.first * 1.10 , tile->getY() * size_.second * 1.10);
     texture_.loadFromFile(tile_pics[tile->getTypeChar()]);
     tile_ = tile;
 };

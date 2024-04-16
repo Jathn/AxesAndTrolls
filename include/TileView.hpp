@@ -8,7 +8,7 @@
 
 class TileView {
 public:
-    TileView(const std::shared_ptr<Tile>& tile);
+    TileView(const std::shared_ptr<Tile>& tile, const std::pair<int, int>& size);
 
     void draw(sf::RenderWindow& window);
 
