@@ -2,6 +2,7 @@
 
 GameStateManager::GameStateManager(const std::pair<int, int>& map_size, const int& num_players) : map_size_(map_size) {
     generateMap();
+    if (num_players > 4) throw std::invalid_argument("Too many players");
     createPlayers(num_players);
 }
 
@@ -40,9 +41,10 @@ void GameStateManager::generateMap() {
     map_ = tiles;
 }
 
+std::vector<sf::Color> player_colors = {sf::Color::Red, sf::Color::Blue, sf::Color::Green, sf::Color::Yellow};
 void GameStateManager::createPlayers(const int& num_players) {
     for (int i = 0; i < num_players; i++) {
-        std::shared_ptr<Player> player = std::make_shared<Player>();
+        std::shared_ptr<Player> player = std::make_shared<Player>(player_colors[i]);
         players_.push_back(player);
     }
 }

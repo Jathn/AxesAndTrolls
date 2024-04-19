@@ -6,6 +6,7 @@
 #include <vector>
 #include <exception>
 
+#include <SFML/Graphics.hpp>
 #include "MovementHandler.hpp"
 #include "Territory.hpp"
 #include "Building.hpp"
@@ -41,15 +42,21 @@ public:
      * @brief Construct a new Player object.
      * 
      */
-    Player();
+    Player(const sf::Color& color = sf::Color::Black, const std::string& name = "Unkown Player");
 
     /* Getter functions */
+    const int& getPlayerNr() const;
+    const std::string& getName() const;
     const std::vector<std::shared_ptr<Tile>> getTiles() const;
     std::vector<std::shared_ptr<Unit>> getUnits() const;
     std::vector<std::shared_ptr<Building>> getBuildings() const;
     std::vector<std::shared_ptr<Building>> getUnplacedBuildings() const;
     const int getResource(ResourceType resource) const;
     const int getResourceGeneration(ResourceType resource) const;
+
+    /* Setter functions */
+    void setPlayerNr(int player_nr);
+    void setName(const std::string& name);
 
     /* Unit functions */
 
@@ -103,13 +110,28 @@ public:
      */
     void removeResource(ResourceType resource, int amount);
 
-    
+    /**
+     * @brief Generates the income: adds resource income value  to players resources.
+     * 
+     */
+    void generateIncome();
+
+    /**
+     * @brief Sets the resource generation value for all resources.
+     *
+     */
+    void updateGeneration();
+
 private:
+    int player_nr_;
+    std::string name_;
+    sf::Color color_;
     MovementHandler movement_handler_;
     std::shared_ptr<Territory> territory_;
     std::vector<std::shared_ptr<Building>> unplaced_buildings_;
     std::map<ResourceType, int> resources_;
     std::map<ResourceType, int> resource_generation_;
+
 };
 
 #endif // PLAYER_HPP

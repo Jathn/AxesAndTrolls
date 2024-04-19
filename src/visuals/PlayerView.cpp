@@ -11,7 +11,7 @@ void PlayerView::draw(sf::RenderWindow& window) {
     drawBackground(window);
     /* Player nr drawing as "title" */
     text_.setCharacterSize(size_.first / 10);
-    text_.setString("Player X");
+    text_.setString(player_.lock()->getName());
     text_.setPosition(position_.first + size_.first / 2 - text_.getGlobalBounds().getSize().x / 2, position_.second + size_.second / 10);
     window.draw(text_);
     drawCounts(window);

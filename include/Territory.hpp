@@ -21,6 +21,7 @@ public:
 
     /* Getter functions */
     const std::vector<std::shared_ptr<Tile>> getTiles() const;
+    const std::vector<std::weak_ptr<Building>> getBuildings() const;
     
     /**
      * @brief Adds a tile to the player's tiles.

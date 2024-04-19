@@ -1,11 +1,21 @@
 #include "Player.hpp"
 
-Player::Player() {
+Player::Player(const sf::Color& color, const std::string& name) {
+    name_ = "Unkknown player";
     territory_ = std::make_shared<Territory>();
     movement_handler_ = MovementHandler(territory_);
+    color_ = color;
     resources_[ResourceType::GOLD] = 0;
     resources_[ResourceType::WOOD] = 0;
     resources_[ResourceType::FOOD] = 0;
+}
+
+const int& Player::getPlayerNr() const {
+    return player_nr_;
+}
+
+const std::string& Player::getName() const {
+    return name_;
 }
 
 const std::vector<std::shared_ptr<Tile>> Player::getTiles() const {
@@ -38,6 +48,14 @@ const int Player::getResource(ResourceType resource) const {
 
 const int Player::getResourceGeneration(ResourceType resource) const {
     return resource_generation_.at(resource);
+}
+
+void Player::setPlayerNr(int player_nr) {
+    player_nr_ = player_nr;
+}
+
+void Player::setName(const std::string& name) {
+    name_ = name;
 }
 
 void Player::buyUnit(const UnitType& type) {
@@ -125,4 +143,23 @@ void Player::addResource(ResourceType resource, int amount) {
 
 void Player::removeResource(ResourceType resource, int amount) {
     resources_[resource] -= amount;
+}
+
+void Player::generateIncome() {
+    for (auto resource_income : resource_generation_) {
+        resources_[resource_income.first] += resource_income.second;
+    }
+}
+
+void Player::updateGeneration() {
+    /* Remove old values */
+    resource_generation_.clear();
+    /* Add the currently owned buildings incomes */
+    for (auto building : territory_->getBuildings()) {
+        auto b = building.lock();
+
+        if (b != nullptr) {
+            resource_generation_[b->getIncome().first] += b->getIncome().second;
+        }
+    }
 }
