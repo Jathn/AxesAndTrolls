@@ -15,6 +15,10 @@ TileView::TileView(const std::shared_ptr<Tile>& tile, const std::pair<int, int>&
     tile_ = tile;
 };
 
+const int& TileView::getTileId() const {
+    return tile_.lock()->getId();
+}
+
 void TileView::draw(sf::RenderWindow& window) {
     sf::RectangleShape rectangle(sf::Vector2f(size_.first, size_.second));
     rectangle.setPosition(position_.first, position_.second);
@@ -56,4 +60,13 @@ void TileView::drawUnits(sf::RenderWindow& window) {
             current_position_y += object_size * 2; // Update current position y after drawing rectangle
         } 
     }
+}
+
+void TileView::drawTerritoryFilter(sf::RenderWindow& window, const std::shared_ptr<Player> player) {
+    sf::RectangleShape rectangle(sf::Vector2f(size_.first, size_.second));
+    rectangle.setPosition(position_.first, position_.second);
+    sf::Color player_color = player->getColor();
+    player_color.a = 100;
+    rectangle.setFillColor(player_color);
+    window.draw(rectangle);
 }

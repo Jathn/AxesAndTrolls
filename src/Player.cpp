@@ -18,6 +18,14 @@ const std::string& Player::getName() const {
     return name_;
 }
 
+const sf::Color& Player::getColor() const {
+    return color_;
+}
+
+const std::shared_ptr<Territory>& Player::getTerritory() const {
+    return territory_;
+}
+
 const std::vector<std::shared_ptr<Tile>> Player::getTiles() const {
     return territory_->getTiles();
 }

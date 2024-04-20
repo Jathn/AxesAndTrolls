@@ -47,6 +47,8 @@ public:
     /* Getter functions */
     const int& getPlayerNr() const;
     const std::string& getName() const;
+    const sf::Color& getColor() const;
+    const std::shared_ptr<Territory>& getTerritory() const;
     const std::vector<std::shared_ptr<Tile>> getTiles() const;
     std::vector<std::shared_ptr<Unit>> getUnits() const;
     std::vector<std::shared_ptr<Building>> getBuildings() const;

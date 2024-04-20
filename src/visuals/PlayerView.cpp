@@ -13,6 +13,7 @@ void PlayerView::draw(sf::RenderWindow& window) {
     text_.setCharacterSize(size_.first / 10);
     text_.setString(player_.lock()->getName());
     text_.setPosition(position_.first + size_.first / 2 - text_.getGlobalBounds().getSize().x / 2, position_.second + size_.second / 10);
+    text_.setColor(player_.lock()->getColor());
     window.draw(text_);
     drawCounts(window);
 }
@@ -24,7 +25,7 @@ void PlayerView::drawBackground(sf::RenderWindow& window) {
     /* Darker grey outline, lighter grey overall */
     sf::RectangleShape background(sf::Vector2f(size_.first, size_.second));
     background.setFillColor(sf::Color(200, 200, 200));
-    background.setOutlineColor(sf::Color(150, 150, 150));
+    background.setOutlineColor(player_.lock()->getColor());
     background.setOutlineThickness(2);
     background.setPosition(position_.first, position_.second);
     window.draw(background);

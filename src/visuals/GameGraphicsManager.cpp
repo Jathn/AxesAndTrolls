@@ -1,9 +1,9 @@
 #include "GameGraphicsManager.hpp"
 
-GameGraphicsManager::GameGraphicsManager(GameStateManager& game_state_manager) : map_view_(game_state_manager.getMap(), std::make_pair(400, 0), std::make_pair(800, 800)) {
+GameGraphicsManager::GameGraphicsManager(GameStateManager& game_state_manager) : map_view_(game_state_manager.getMap(), std::make_pair(400, 0), std::make_pair(800, 800), game_state_manager.getPlayers()) {
     int i = 0;
     for (auto player : game_state_manager.getPlayers()) {
-        player_views_.push_back(PlayerView(player, std::make_pair(1500, i*200 + 20), std::make_pair(400, 200)));
+        player_views_.push_back(PlayerView(player, std::make_pair(1400, i*(200 + 20) + 40 ), std::make_pair(400, 200)));
         i++;
     }
     

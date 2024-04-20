@@ -3,7 +3,7 @@
 VisualComponentTester::VisualComponentTester() : Tester() {}
 
 std::pair<int, int> VisualComponentTester::runTest() {
-    GameStateManager gameStateManager(std::make_pair<int, int>(13, 9));
+    GameStateManager gameStateManager(std::make_pair<int, int>(11, 7));
     GameGraphicsManager gameGraphicsManager(gameStateManager);
     gameStateManager.getPlayers()[0]->setName("Jonneboii");
     gameStateManager.getPlayers()[1]->setName("Pelle faderlos");
@@ -19,6 +19,7 @@ std::pair<int, int> VisualComponentTester::runTest() {
     std::shared_ptr<Tile> tile2 = gameStateManager.getMap()[1];
     tile->addNeighbor(tile2);
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Axes and Trolls");
+    gameStateManager.getPlayers()[0]->getTerritory()->addTile(gameStateManager.getMap()[4]);
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
