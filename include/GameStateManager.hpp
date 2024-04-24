@@ -43,20 +43,26 @@ public:
     void createPlayers(const int& num_players);
 
     /**
-     * @brief 
+     * @brief Sets the next player to current player.
      * 
      */
-    void setCurrentTile(const int& id);
-
+    void nextPlayer();
+    
     /* Getter functions */
     std::vector<std::shared_ptr<Tile>> getMap();
     std::pair<int, int> getMapSize();
     std::vector<std::shared_ptr<Player>> getPlayers();
     std::shared_ptr<Tile> getCurrentTile();
 
+    /* Setter functions */
+    void setCurrentTile(const int& id);
+    void setCurrentPlayer(const std::shared_ptr<Player>& player);
+
 private:
     std::vector<std::shared_ptr<Tile>> map_;
     std::vector<std::shared_ptr<Player>> players_;
+    std::weak_ptr<Player> current_player_;
+    std::vector<std::weak_ptr<Unit>> selected_units_;
     std::pair<int, int> map_size_;
     std::shared_ptr<Tile> current_tile_;
 };
