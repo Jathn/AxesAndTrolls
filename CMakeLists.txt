@@ -12,7 +12,6 @@ find_package(SFML 2.6.1 COMPONENTS graphics window system REQUIRED)
 file(GLOB_RECURSE HEADERS "include/*.hpp")
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
-file(GLOB_RECURSE TEST_SOURCES "test/*.cpp")
 
 add_executable(A_T ${TEST_SOURCES} ${SOURCES} ${HEADERS})
 target_link_libraries(A_T PRIVATE sfml-graphics sfml-window sfml-system)

@@ -8,12 +8,14 @@
 
 class GameGraphicsManager {
 public:
-    GameGraphicsManager(GameStateManager& game_state_manager);
+    GameGraphicsManager(const std::shared_ptr<GameStateManager>& game_state_manager);
     void draw(sf::RenderWindow& window);
+    void update(const std::shared_ptr<GameStateManager>& game_state_manager);
 private:
     void drawPlayerViews(sf::RenderWindow& window);
+    void updatePlayerViews(const std::shared_ptr<GameStateManager>& game_state_manager);
     void drawMapView(sf::RenderWindow& window);
-    std::vector<PlayerView> player_views_;
+    std::vector<std::shared_ptr<PlayerView>> player_views_;
     MapView map_view_;
 };
 

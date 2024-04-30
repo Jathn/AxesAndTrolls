@@ -22,7 +22,7 @@ public:
      * @brief Constructor for GameStateManager class.
      * 
      */
-    GameStateManager(const std::pair<int, int>& mapSize = std::make_pair(10, 10), const int& num_players = 2);
+    GameStateManager(std::pair<int, int> mapSize = std::make_pair(10, 10), int num_players = 2);
 
     /**
      * @brief Destructor for GameStateManager class.
@@ -49,14 +49,15 @@ public:
     void nextPlayer();
     
     /* Getter functions */
-    std::vector<std::shared_ptr<Tile>> getMap();
+    const std::vector<std::shared_ptr<Tile>>& getMap();
     std::pair<int, int> getMapSize();
-    std::vector<std::shared_ptr<Player>> getPlayers();
+    const std::vector<std::shared_ptr<Player>>& getPlayers();
     std::shared_ptr<Tile> getCurrentTile();
 
     /* Setter functions */
     void setCurrentTile(const int& id);
     void setCurrentPlayer(const std::shared_ptr<Player>& player);
+    void setPlayers(const std::vector<std::shared_ptr<Player>>& players);
 
 private:
     std::vector<std::shared_ptr<Tile>> map_;

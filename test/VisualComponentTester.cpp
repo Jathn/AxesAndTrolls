@@ -3,7 +3,7 @@
 VisualComponentTester::VisualComponentTester() : Tester() {}
 
 std::pair<int, int> VisualComponentTester::runTest() {
-    GameStateManager gameStateManager(std::make_pair<int, int>(11, 7));
+    std::GameStateManager gameStateManager(std::make_pair<int, int>(11, 7));
     GameGraphicsManager gameGraphicsManager(gameStateManager);
     gameStateManager.getPlayers()[0]->setName("Jonneboii");
     gameStateManager.getPlayers()[1]->setName("Pelle faderlos");
