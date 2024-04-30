@@ -11,22 +11,38 @@ std::map<Phase, Phase> following_phase = {
     {Phase::NEXT_PLAYER, Phase::PLACEMENT}
 };
 
-Game::Game(std::vector<std::string> player_names) : state_manager_(std::make_pair(11, 7), player_names.size()), graphics_manager_(state_manager_) {
-    for (int i = 0; i < player_names.size(); i++) {
-        state_manager_.getPlayers()[i]->setName(player_names[i]);
-    }
+Game::Game(const std::shared_ptr<GameStateManager>& state_manager) : state_manager_(state_manager), graphics_manager_(std::make_shared<GameGraphicsManager>(state_manager)) {
     round_ = 1;
-    phase_ = Phase::PLACEMENT;
+}
+
+const int& Game::getRound() {
+    return round_;
+}
+
+const Phase& Game::getPhase() {
+    return phase_;
+}
+
+const std::shared_ptr<GameStateManager>& Game::getStateManager() {
+    return state_manager_;
+}
+
+const std::shared_ptr<GameGraphicsManager>& Game::getGraphicsManager() {
+    return graphics_manager_;
 }
 
 void Game::draw(sf::RenderWindow& window) {
-    graphics_manager_.draw(window);
+    graphics_manager_->draw(window);
 }
 
 void Game::handleEvent(sf::Event& event) {
     if (event.type == sf::Event::TextEntered) {
         if (event.text.unicode == 13) {
-            phase_ = following_phase[phase_];
+            std::cout << "Enter pressed" << std::endl;
         }
     }
+}
+
+void Game::updateGraphicsManager() {
+    graphics_manager_->update(state_manager_);
 }

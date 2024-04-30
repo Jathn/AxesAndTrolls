@@ -4,37 +4,38 @@
 #include <iostream>
 #include <sstream>
 
-#include "testmain.hpp"
 #include "TileView.hpp"
 #include "Game.hpp"
 #include "GameInitializer.hpp"
 
 int main() {
-    bool testmode = false;
-    if (testmode) {
-        return testmain();
-    }
 
     GameInitializer game_initializer;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Axes and Trolls");
+    std::shared_ptr<GameStateManager> game_state_manager = std::make_shared<GameStateManager>(std::make_pair<int, int>(11, 7), 2);
+    Game game = Game(game_state_manager);
     
     while (window.isOpen()) {
+
         sf::Event event;
+
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
             if (!game_initializer.isDone()) {
-                game_initializer.handleEvent(event);
+                game_initializer.handleEvent(event, game.getStateManager(), game.getGraphicsManager());
+            } else {
+                game.handleEvent(event);
             }
         }
+
         window.clear();
         if (!game_initializer.isDone()) {
             game_initializer.draw(window);
         } else {
-            window.close();
+            game.draw(window);
         }
-        game_initializer.draw(window);
         window.display();
     }
     

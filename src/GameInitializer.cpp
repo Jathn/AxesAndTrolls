@@ -9,8 +9,16 @@ std::vector<std::string> GameInitializer::getPlayerNames() {
     return player_names_;
 }
 
+void GameInitializer::setDone(bool is_done) {
+    is_done_ = is_done;
+}
+
 bool GameInitializer::isDone() {
-    return num_players_ > 0 && player_names_.size() == num_players_;
+    return is_done_;
+}
+
+void GameInitializer::toggleDone() {
+    setDone(true);
 }
 
 void GameInitializer::draw(sf::RenderWindow& window) {
@@ -40,7 +48,7 @@ void GameInitializer::draw(sf::RenderWindow& window) {
     }
 }
 
-void GameInitializer::handleEvent(sf::Event& event) {
+void GameInitializer::handleEvent(sf::Event& event, const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager) {
     if (num_players_ == 0) {
         if (event.type == sf::Event::TextEntered) {
             if (event.text.unicode <= 52 && event.text.unicode >= 49) {
@@ -55,6 +63,16 @@ void GameInitializer::handleEvent(sf::Event& event) {
             if (event.text.unicode == 13) {
                 player_names_.push_back(current_name_);
                 current_name_ = "";
+                if (player_names_.size() == num_players_) {
+                    state_manager->createPlayers(num_players_);
+                    int i = 0;
+                    for (auto player : state_manager->getPlayers()) {
+                        player->setName(player_names_[i]);
+                        i++;
+                    }
+                    graphics_manager->update(state_manager);
+                    toggleDone();
+                }
             }
             if (event.text.unicode == 8) {
                 if (current_name_.size() > 0) {
