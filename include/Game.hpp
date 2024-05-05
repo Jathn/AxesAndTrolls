@@ -4,16 +4,7 @@
 #include "GameStateManager.hpp"
 #include "GameGraphicsManager.hpp"
 
-enum class Phase {
-    START,
-    PURCHASE,
-    COMBAT_MOVE,
-    COMBAT,
-    MOVEMENT,
-    PLACEMENT,
-    INCOME,
-    NEXT_PLAYER
-};
+#include "Phase.hpp"
 
 class Game {
     public:
@@ -27,13 +18,12 @@ class Game {
 
         void draw(sf::RenderWindow& window);
 
-        void handleEvent(sf::Event& event);
+        void handleEvent(sf::Event& event, const std::shared_ptr<Phase>& phase);
 
         void updateGraphicsManager();
 
     private:
         int round_;
-        Phase phase_;
         std::shared_ptr<GameStateManager> state_manager_;
         std::shared_ptr<GameGraphicsManager> graphics_manager_;
 };
