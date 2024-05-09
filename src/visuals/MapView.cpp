@@ -8,18 +8,26 @@ MapView::MapView(std::vector<std::shared_ptr<Tile>> tiles, std::pair<int, int> p
     text_.setFillColor(sf::Color::White);
     text_.setOutlineColor(sf::Color::Black);
     text_.setOutlineThickness(1);
-    background_.setSize(sf::Vector2f(size_.first, size_.second));
-    background_.setPosition(sf::Vector2f(position_.first, position_.second));
-    background_.setFillColor(sf::Color(0, 0, 0, 200));
-
+    
     for (auto player : players) {
         players_.push_back(player);
     }
 
+    const int& margin = size_.first / 100;
+    const int& tile_size = size_.first / tiles.back()->getX() - margin * 2;
+    
     for (auto tile : tiles) {
-        TileView tile_view(tile, {size_.first / 10, size_.first / 10});
+        int centering_factor_x = tile->getX() == 0 ? margin : 0;
+        int centering_factor_y = tile->getY() == 0 ? margin * 2 : 0;
+        TileView tile_view( tile, 
+                            {tile_size, tile_size}, 
+                            {position_.first + tile->getX() * (tile_size + margin) + centering_factor_x, position_.second + tile->getY() * (tile_size + margin) + centering_factor_y});
         tile_views_.push_back(tile_view);
     }
+    background_.setSize(sf::Vector2f(size_.first, size_.second));
+    background_.setPosition(sf::Vector2f(position_.first, position_.second));
+    background_.setFillColor(sf::Color(255, 255, 255, 200));
+
 }
 
 void MapView::draw(sf::RenderWindow& window) {
@@ -43,6 +51,13 @@ void MapView::drawTiles(sf::RenderWindow& window) {
             }
         }
     }
-    
+}
 
+int MapView::getTileId(int x, int y) {
+    for (auto tile_view : tile_views_) {
+        if (tile_view.isInside(x, y)) {
+            return tile_view.getTileId();
+        }
+    }
+    return -1;
 }

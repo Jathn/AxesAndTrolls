@@ -9,7 +9,7 @@
 
 class TileView {
 public:
-    TileView(const std::shared_ptr<Tile>& tile, const std::pair<int, int>& size = std::make_pair(100, 100));
+    TileView(const std::shared_ptr<Tile>& tile, const std::pair<int, int>& size = std::make_pair(100, 100), const std::pair<int, int>& position = std::make_pair(0, 0));
 
     const int& getTileId() const;
     void draw(sf::RenderWindow& window);
@@ -20,6 +20,7 @@ public:
 
     void drawTerritoryFilter(sf::RenderWindow& window, const std::shared_ptr<Player> player);
 
+    bool isInside(int x, int y);
 private:
     std::pair<int, int> size_;
     std::pair<int, int> position_;

@@ -8,9 +8,9 @@ std::map<char, std::string> tile_pics = {
     {'W', "../resources/pics/water_tile.png"},
 };
 
-TileView::TileView(const std::shared_ptr<Tile>& tile, const std::pair<int, int>& size) {
+TileView::TileView(const std::shared_ptr<Tile>& tile, const std::pair<int, int>& size, const std::pair<int, int>& position) {
     size_ = size;
-    position_ = std::make_pair(tile->getX() * size_.first * 1.10 , tile->getY() * size_.second * 1.10);
+    position_ = position;
     texture_.loadFromFile(tile_pics[tile->getTypeChar()]);
     tile_ = tile;
 };
@@ -69,4 +69,8 @@ void TileView::drawTerritoryFilter(sf::RenderWindow& window, const std::shared_p
     player_color.a = 100;
     rectangle.setFillColor(player_color);
     window.draw(rectangle);
+}
+
+bool TileView::isInside(int x, int y) {
+    return x >= position_.first && x <= position_.first + size_.first && y >= position_.second && y <= position_.second + size_.second;
 }

@@ -11,6 +11,7 @@ public:
     GameGraphicsManager(const std::shared_ptr<GameStateManager>& game_state_manager);
     void draw(sf::RenderWindow& window);
     void update(const std::shared_ptr<GameStateManager>& game_state_manager);
+    int getTileId(int x, int y);
 private:
     void drawPlayerViews(sf::RenderWindow& window);
     void updatePlayerViews(const std::shared_ptr<GameStateManager>& game_state_manager);

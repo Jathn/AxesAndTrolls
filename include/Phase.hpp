@@ -5,13 +5,18 @@
 #include <SFML/Graphics.hpp>
 
 #include "GameStateManager.hpp"
+#include "GameGraphicsManager.hpp"
 
 class Phase {
 public:
-    Phase(std::shared_ptr<GameStateManager> state_manager);
+    Phase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager);
     virtual void handleEvent(sf::Event& event) = 0;
-private:
+
+    bool checkLeftClick(sf::Event& event);
+protected:
     std::weak_ptr<GameStateManager> state_manager_;
+    std::weak_ptr<GameGraphicsManager> graphics_manager_;
+    std::weak_ptr<Phase> next_phase_;
 };
 
 #endif // PHASE_HPP
