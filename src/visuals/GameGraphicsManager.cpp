@@ -1,6 +1,6 @@
 #include "GameGraphicsManager.hpp"
 
-GameGraphicsManager::GameGraphicsManager(const std::shared_ptr<GameStateManager>& game_state_manager) : map_view_(game_state_manager->getMap(), std::make_pair(0, 0), std::make_pair(1200, 800), game_state_manager->getPlayers()) {
+GameGraphicsManager::GameGraphicsManager(const std::shared_ptr<GameStateManager>& game_state_manager) : map_view_(game_state_manager->getMap(), std::make_pair(0, 0), std::make_pair(1000, 650), game_state_manager->getPlayers()) {
     for (int i = 0; i < 4; i++) {
         player_views_.push_back(nullptr);
     }

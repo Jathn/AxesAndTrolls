@@ -14,7 +14,6 @@ class MapView {
 public:
     MapView(std::vector<std::shared_ptr<Tile>> tiles, std::pair<int, int> position, std::pair<int, int> size, const std::vector<std::shared_ptr<Player>>& players);
     void draw(sf::RenderWindow& window);
-    void drawBackground(sf::RenderWindow& window);
     void drawTiles(sf::RenderWindow& window);
     int getTileId(int x, int y);
 private:
@@ -24,7 +23,6 @@ private:
     std::pair<int, int> size_;
     sf::Font font_;
     sf::Text text_;
-    sf::RectangleShape background_;
 };
 
 #endif // MAP_VIEW_HPP

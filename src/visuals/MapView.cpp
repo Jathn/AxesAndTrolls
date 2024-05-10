@@ -13,30 +13,32 @@ MapView::MapView(std::vector<std::shared_ptr<Tile>> tiles, std::pair<int, int> p
         players_.push_back(player);
     }
 
-    const int& margin = size_.first / 100;
-    const int& tile_size = size_.first / tiles.back()->getX() - margin * 2;
-    
+    int largestX = std::numeric_limits<int>::min();
+    int largestY = std::numeric_limits<int>::min();
+
     for (auto tile : tiles) {
-        int centering_factor_x = tile->getX() == 0 ? margin : 0;
-        int centering_factor_y = tile->getY() == 0 ? margin * 2 : 0;
-        TileView tile_view( tile, 
-                            {tile_size, tile_size}, 
-                            {position_.first + tile->getX() * (tile_size + margin) + centering_factor_x, position_.second + tile->getY() * (tile_size + margin) + centering_factor_y});
-        tile_views_.push_back(tile_view);
+        int tileX = tile->getX();
+        largestX = std::max(largestX, tileX);
+
+        int tileY = tile->getY();
+        largestY = std::max(largestY, tileY);
     }
-    background_.setSize(sf::Vector2f(size_.first, size_.second));
-    background_.setPosition(sf::Vector2f(position_.first, position_.second));
-    background_.setFillColor(sf::Color(255, 255, 255, 200));
+
+    int tile_size = size.first / (largestX + 2);
+    int spacing = 0.1 * tile_size;
+
+    for (auto tile : tiles) {
+        int tileX = tile->getX();
+        int tileY = tile->getY();
+        int x = position.first + tileX * (tile_size + spacing);
+        int y = position.second + tileY * (tile_size + spacing);
+        tile_views_.push_back(TileView(tile, std::make_pair(tile_size, tile_size), std::make_pair(x, y)));
+    }
 
 }
 
 void MapView::draw(sf::RenderWindow& window) {
-    drawBackground(window);
     drawTiles(window);
-}
-
-void MapView::drawBackground(sf::RenderWindow& window) {
-    window.draw(background_);
 }
 
 void MapView::drawTiles(sf::RenderWindow& window) {
