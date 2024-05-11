@@ -11,6 +11,7 @@ class Phase {
 public:
     Phase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager);
     virtual void handleEvent(sf::Event& event) = 0;
+    virtual void draw(sf::RenderWindow& window) = 0;
 
     bool checkLeftClick(sf::Event& event);
 protected:

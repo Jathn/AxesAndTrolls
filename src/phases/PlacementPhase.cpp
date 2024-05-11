@@ -1,6 +1,23 @@
 #include "PlacementPhase.hpp"
 
-PlacementPhase::PlacementPhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager_) : Phase(state_manager, graphics_manager_) { }
+PlacementPhase::PlacementPhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager_) 
+    : Phase(state_manager, graphics_manager_) { 
+        font_.loadFromFile("C:/Users/jonne/Documents/OOPC/AxesAndTrolls/resources/fonts/TTF/Crimson-Bold.ttf");
+        text_.setFont(font_);
+        text_.setCharacterSize(35);
+        text_.setFillColor(sf::Color::Black);
+        text_.setOutlineColor(sf::Color(100, 100, 100, 255));
+        text_.setPosition(200, 50);
+    }
+
+void PlacementPhase::handleLeftClick(sf::Event& event) {
+    int tile_id = graphics_manager_.lock()->getTileId(event.mouseButton.x, event.mouseButton.y);
+    if (tile_id == -1) {
+        std::cout << "Something else clicked" << std::endl;
+    } else {
+        onTileClick(tile_id);
+    }
+}
 
 void PlacementPhase::onTileClick(int tile_id) {
     std::cout << "Tile clicked: " << tile_id << std::endl;
@@ -14,12 +31,11 @@ void PlacementPhase::handleEvent(sf::Event& event) {
     }
 
     if (checkLeftClick(event)) {
-        
-        int tile_id = graphics_manager_.lock()->getTileId(event.mouseButton.x, event.mouseButton.y);
-        if (tile_id == -1) {
-            std::cout << "Something else clicked" << std::endl;
-        } else {
-            onTileClick(tile_id);
-        }
+        handleLeftClick(event);
     }
+}
+
+void PlacementPhase::draw(sf::RenderWindow& window) {
+    text_.setString(state_manager_.lock()->getCurrentPlayer()->getName() + ", place your initial city.");
+    window.draw(text_);
 }

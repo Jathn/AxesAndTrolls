@@ -2,6 +2,7 @@
 
 GameStateManager::GameStateManager(std::pair<int, int> map_size, int num_players) : map_size_(map_size) {
     generateMap();
+    current_player_ = 0;
 }
 
 GameStateManager::~GameStateManager() {
@@ -49,6 +50,10 @@ void GameStateManager::createPlayers(const int& num_players) {
     }
 }
 
+void GameStateManager::nextPlayer() {
+    current_player_ = (current_player_ + 1) % players_.size();
+}
+
 const std::vector<std::shared_ptr<Tile>>& GameStateManager::getMap() {
     return map_;
 }
@@ -59,6 +64,10 @@ std::pair<int, int> GameStateManager::getMapSize() {
 
 const std::vector<std::shared_ptr<Player>>& GameStateManager::getPlayers() {
     return players_;
+}
+
+const std::shared_ptr<Player> GameStateManager::getCurrentPlayer() {
+    return players_[current_player_];
 }
 
 void GameStateManager::setCurrentTile(const int& id) {

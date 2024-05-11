@@ -52,6 +52,7 @@ public:
     const std::vector<std::shared_ptr<Tile>>& getMap();
     std::pair<int, int> getMapSize();
     const std::vector<std::shared_ptr<Player>>& getPlayers();
+    const std::shared_ptr<Player> getCurrentPlayer();
     std::shared_ptr<Tile> getCurrentTile();
 
     /* Setter functions */
@@ -62,7 +63,7 @@ public:
 private:
     std::vector<std::shared_ptr<Tile>> map_;
     std::vector<std::shared_ptr<Player>> players_;
-    std::weak_ptr<Player> current_player_;
+    int current_player_;
     std::vector<std::weak_ptr<Unit>> selected_units_;
     std::pair<int, int> map_size_;
     std::shared_ptr<Tile> current_tile_;

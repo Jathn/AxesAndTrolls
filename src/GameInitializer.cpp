@@ -33,17 +33,17 @@ void GameInitializer::draw(sf::RenderWindow& window) {
     } else {
         text.setString("Enter player name, press enter to confirm: " + current_name_);
     }
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::White);
-    text.setPosition(window_size_x / 2.4, window_size_y / 2 - 30);
+    text.setCharacterSize(40);
+    text.setFillColor(sf::Color::Black);
+    text.setPosition(window_size_x / 4, window_size_y / 2 - 30);
     window.draw(text);
     for (int i = 0; i < player_names_.size(); i++) {
         sf::Text player_text;
         player_text.setFont(font);
         player_text.setString(std::to_string(i + 1) + ": " + player_names_[i]);
-        player_text.setCharacterSize(24);
-        player_text.setFillColor(sf::Color::White);
-        player_text.setPosition(window_size_x / 2.4, window_size_y / 2 + i * 30);
+        player_text.setCharacterSize(35);
+        player_text.setFillColor(sf::Color::Black);
+        player_text.setPosition(window_size_x / 4, window_size_y / 2 + i * 30);
         window.draw(player_text);
     }
 }

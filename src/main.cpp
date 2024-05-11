@@ -13,22 +13,25 @@ int main() {
 
     GameInitializer game_initializer;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Axes and Trolls");
-    sf::Font font;
-    if (!font.loadFromFile("C:/Users/jonne/Documents/OOPC/AxesAndTrolls/resources/fonts/TTF/Crimson-Bold.ttf")) {
-        std::cerr << "Failed to load font" << std::endl;
-        return 1;
+    sf::Texture loadingTexture;
+    sf::Texture backgroundTexture;
+    if (!loadingTexture.loadFromFile("C:/Users/jonne/documents/OOPC/AxesAndTrolls/resources/pics/loading_screen.png")) {
+        // handle error loading texture
     }
 
-    sf::Text text;
-    text.setFont(font);
-    text.setString("Axes and Trolls");
-    text.setCharacterSize(50);
-    text.setFillColor(sf::Color::White);
-    text.setStyle(sf::Text::Bold);
-    text.setPosition(800, 500);
-    window.draw(text);
+    if (!backgroundTexture.loadFromFile("C:/Users/jonne/documents/OOPC/AxesAndTrolls/resources/pics/background.png")) {
+        // handle error loading texture
+    }
+
+    sf::Sprite loadingSprite(loadingTexture);
+    sf::Sprite backgroundSprite(backgroundTexture);
+
+    loadingSprite.setPosition(0, 0);
+    backgroundSprite.setPosition(0, 0);
+
+    window.draw(loadingSprite);
     window.display();
-    std::shared_ptr<GameStateManager> game_state_manager = std::make_shared<GameStateManager>(std::make_pair<int, int>(22, 14), 2);
+    std::shared_ptr<GameStateManager> game_state_manager = std::make_shared<GameStateManager>(std::make_pair<int, int>(11, 7), 2);
     Game game = Game(game_state_manager);
     std::shared_ptr<Phase> placement_phase = std::make_shared<PlacementPhase>(game.getStateManager(), game.getGraphicsManager());
     
@@ -48,10 +51,12 @@ int main() {
         }
 
         window.clear();
+        window.draw(backgroundSprite);
         if (!game_initializer.isDone()) {
             game_initializer.draw(window);
         } else {
             game.draw(window);
+            placement_phase->draw(window);
         }
         window.display();
     }
