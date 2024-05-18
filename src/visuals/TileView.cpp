@@ -8,7 +8,7 @@ std::map<char, std::string> tile_pics = {
     {'W', "../resources/pics/water_tile.png"},
 };
 
-TileView::TileView(const std::shared_ptr<Tile>& tile, const std::pair<int, int>& size, const std::pair<int, int>& position) {
+TileView::TileView(const std::shared_ptr<Tile>& tile, const std::pair<double, double>& size, const std::pair<double, double>& position) {
     size_ = size;
     position_ = position;
     texture_.loadFromFile(tile_pics[tile->getTypeChar()]);
@@ -25,6 +25,9 @@ void TileView::draw(sf::RenderWindow& window) {
     rectangle.setTexture(&texture_);
     window.draw(rectangle);
     drawUnits(window);
+    if (tile_.lock()->isCurrent()) {
+        drawCurrentFrame(window);
+    }
 }
 
 void TileView::drawUnits(sf::RenderWindow& window) {
@@ -68,6 +71,15 @@ void TileView::drawTerritoryFilter(sf::RenderWindow& window, const std::shared_p
     sf::Color player_color = player->getColor();
     player_color.a = 100;
     rectangle.setFillColor(player_color);
+    window.draw(rectangle);
+}
+
+void TileView::drawCurrentFrame(sf::RenderWindow& window) {
+    sf::RectangleShape rectangle(sf::Vector2f(size_.first, size_.second));
+    rectangle.setPosition(position_.first, position_.second);
+    rectangle.setFillColor(sf::Color::Transparent);
+    rectangle.setOutlineColor(sf::Color::Black);
+    rectangle.setOutlineThickness(size_.first / 40);
     window.draw(rectangle);
 }
 

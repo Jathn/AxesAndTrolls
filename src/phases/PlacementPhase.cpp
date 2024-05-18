@@ -8,6 +8,8 @@ PlacementPhase::PlacementPhase(const std::shared_ptr<GameStateManager>& state_ma
         text_.setFillColor(sf::Color::Black);
         text_.setOutlineColor(sf::Color(100, 100, 100, 255));
         text_.setPosition(200, 50);
+        std::string confirm_button_text = "Confirm";
+        button_ = std::make_shared<Button>(confirm_button_text, std::make_pair(200, 50), std::make_pair(1150, 800));
     }
 
 void PlacementPhase::handleLeftClick(sf::Event& event) {
@@ -20,7 +22,7 @@ void PlacementPhase::handleLeftClick(sf::Event& event) {
 }
 
 void PlacementPhase::onTileClick(int tile_id) {
-    std::cout << "Tile clicked: " << tile_id << std::endl;
+    state_manager_.lock()->setCurrentTile(tile_id);
 }
 
 void PlacementPhase::handleEvent(sf::Event& event) {
@@ -38,4 +40,5 @@ void PlacementPhase::handleEvent(sf::Event& event) {
 void PlacementPhase::draw(sf::RenderWindow& window) {
     text_.setString(state_manager_.lock()->getCurrentPlayer()->getName() + ", place your initial city.");
     window.draw(text_);
+    button_->draw(window);
 }

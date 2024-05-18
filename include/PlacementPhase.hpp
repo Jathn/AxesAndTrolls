@@ -2,6 +2,7 @@
 #define PLACEMENT_PHASE_HPP
 
 #include "Phase.hpp"
+#include "Button.hpp"
 
 class PlacementPhase : public Phase {
 public:
@@ -15,6 +16,7 @@ private:
     sf::Text text_;
     sf::Font font_;
     std::string text_string_;
+    std::shared_ptr<Button> button_;
 };
 
 #endif // PLACEMENT_PHASE_HPP

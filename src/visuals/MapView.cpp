@@ -24,14 +24,14 @@ MapView::MapView(std::vector<std::shared_ptr<Tile>> tiles, std::pair<int, int> p
         largestY = std::max(largestY, tileY);
     }
 
-    int tile_size = size.first / (largestX + 2);
-    int spacing = 0.1 * tile_size;
+    double tile_size = size.first / (largestX + 2);
+    double spacing = 0.1 * tile_size;
 
     for (auto tile : tiles) {
         int tileX = tile->getX();
         int tileY = tile->getY();
-        int x = position.first + tileX * (tile_size + spacing);
-        int y = position.second + tileY * (tile_size + spacing);
+        double x = position.first + tileX * (tile_size + spacing);
+        double y = position.second + tileY * (tile_size + spacing);
         tile_views_.push_back(TileView(tile, std::make_pair(tile_size, tile_size), std::make_pair(x, y)));
     }
 

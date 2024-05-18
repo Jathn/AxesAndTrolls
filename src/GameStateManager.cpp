@@ -71,8 +71,16 @@ const std::shared_ptr<Player> GameStateManager::getCurrentPlayer() {
 }
 
 void GameStateManager::setCurrentTile(const int& id) {
+
+    /* Remove previous tile "current" status */
+    if (current_tile_ != nullptr) {
+        current_tile_->toggleCurrent();
+    }
     std::shared_ptr<Tile> newCurrentTile = map_[id];
     current_tile_ = newCurrentTile;
+
+    /* Update tile "current" status to true */
+    current_tile_->toggleCurrent();
 }
 
 std::shared_ptr<Tile> GameStateManager::getCurrentTile() {

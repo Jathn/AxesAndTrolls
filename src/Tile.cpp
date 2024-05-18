@@ -1,6 +1,7 @@
 #include "Tile.hpp"
 
-Tile::Tile(const int& id, const int& x, const int& y, const std::vector<std::shared_ptr<Tile>>& neighbors, bool random, TileType type) : id_(id), x_(x), y_(y), type_(type) {
+Tile::Tile(const int& id, const int& x, const int& y, const std::vector<std::shared_ptr<Tile>>& neighbors, bool random, TileType type) 
+: id_(id), x_(x), y_(y), type_(type), is_current_(false) {
     for (auto neighbor : neighbors) {
         std::weak_ptr<Tile> neighbor_weak = neighbor;
         neighbors_.push_back(neighbor_weak);
@@ -108,6 +109,14 @@ void Tile::setNeighbors(const std::vector<std::weak_ptr<Tile>>& neighbors) {
 
 void Tile::setBuilding(const std::shared_ptr<Building>& building) {
     building_ = building;
+}
+
+bool Tile::isCurrent() {
+    return is_current_;
+}
+
+void Tile::toggleCurrent() {
+    is_current_ = !is_current_;
 }
 
 void Tile::addNeighbor(const std::shared_ptr<Tile>& neighbor) {

@@ -46,91 +46,36 @@ public:
      */
     ~Tile();
 
-    /**
-     * @brief Getter for neighbors of this tile.
-     * 
-     * @return std::vector<Tile> 
-     */
+    /* Getter functions */
     std::vector<std::weak_ptr<Tile>> getNeighbors();
-
-    /**
-     * @brief Return a tile with specific ID.
-     * 
-     * @return std::shared_ptr<Tile> 
-     */
     std::shared_ptr<Tile> getNeighbor(int id);
-
-    /**
-     * @brief Gets the neighbor majority
-     * 
-     */
     TileType getNeighborMajorityType();
-
-    /**
-     * @brief Getter for type 
-     * 
-     */
     TileType getType();
-
-    /**
-     * @brief 
-     * 
-     */
     char getTypeChar();
-
-    /**
-     * @brief Getter for id of tile.
-     * @return The id of the tile.
-     */
     const int& getId() const;
-
-    /**
-     * @brief Getter for x coordinate of tile.
-     * @return The x coordinate of the tile.
-     */
     const int& getX() const;
-
-    /**
-     * @brief Getter for y coordinate of tile.
-     * @return The y coordinate of the tile.
-     */
     const int& getY() const;
-
-    /**
-     * @brief Getter for the owner of the tile.
-     * @return The owner of the tile.
-     */
     const std::vector<std::weak_ptr<Unit>>& getUnits() const;
-
-    /**
-     * @brief Getter for building
-     * 
-     */
     const std::shared_ptr<Building>& getBuilding() const;
-
-    /**
-     * @brief Getter for the owner of the tile.
-     * @return The owner of the tile.
-     */
     const std::weak_ptr<Player>& getOwner() const;
 
-    /**
-     * @brief Function for setting the neighbors of a tile.
-     * @param neighbors The neighbors of the tile.
-     */
+    /* Setter functions */
     void setNeighbors(const std::vector<std::weak_ptr<Tile>>& neighbors);
-
-    /**
-     * @brief Function for setting the owner of a tile.
-     * @param owner The owner of the tile.
-     */
     void setOwner(const std::shared_ptr<Player>& owner);
+    void setBuilding(const std::shared_ptr<Building>& building);
+
 
     /**
-     * @brief 
+     * @brief Returns true if this tile is the "current tile."
      * 
      */
-    void setBuilding(const std::shared_ptr<Building>& building);
+    bool isCurrent();
+    
+    /**
+     * @brief Makes this tile current if not, and vice versa.
+     * 
+     */
+    void toggleCurrent();
     
     /**
      * @brief Adds a neighbor to the tile.
@@ -170,6 +115,7 @@ private:
     int x_;
     int y_;
     int id_;
+    bool is_current_;
     TileType type_;
     std::vector<std::weak_ptr<Tile>> neighbors_;
     std::vector<std::weak_ptr<Unit>> units_;
