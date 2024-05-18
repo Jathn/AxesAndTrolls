@@ -16,6 +16,16 @@ void PlacementPhase::handleLeftClick(sf::Event& event) {
     int tile_id = graphics_manager_.lock()->getTileId(event.mouseButton.x, event.mouseButton.y);
     if (tile_id == -1) {
         std::cout << "Something else clicked" << std::endl;
+    } else if (button_->isInside(event.mouseButton.x, event.mouseButton.y))
+    {
+        std::shared_ptr<Player> current_player = state_manager_.lock()->getCurrentPlayer();
+        std::shared_ptr<Tile> current_tile = state_manager_.lock()->getCurrentTile();
+
+        current_player->addResource(ResourceType::GOLD, 150);
+        current_player->buyBuilding(BuildingType::CITY);
+        current_tile->setOwner(current_player);
+        current_player->placeBuilding(current_player->getUnplacedBuildings().back(), current_tile);
+        state_manager_.lock()->nextPlayer();
     } else {
         onTileClick(tile_id);
     }
