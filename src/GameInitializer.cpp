@@ -72,6 +72,7 @@ void GameInitializer::handleEvent(sf::Event& event, const std::shared_ptr<GameSt
                     }
                     graphics_manager->update(state_manager);
                     toggleDone();
+                    state_manager->setCurrentPlayer(state_manager->getPlayers()[0]);
                 }
             }
             if (event.text.unicode == 8) {

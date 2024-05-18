@@ -87,6 +87,15 @@ std::shared_ptr<Tile> GameStateManager::getCurrentTile() {
     return current_tile_;
 }
 
+void GameStateManager::setCurrentPlayer(const std::shared_ptr<Player>& player) {
+    for (int i = 0; i < players_.size(); i++) {
+        if (players_[i] == player) {
+            current_player_ = i;
+            return;
+        }
+    }
+}
+
 void GameStateManager::setPlayers(const std::vector<std::shared_ptr<Player>>& players) {
     players_ = players;
 }

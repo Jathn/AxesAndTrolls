@@ -25,6 +25,7 @@ void GameGraphicsManager::drawMapView(sf::RenderWindow& window) {
 
 void GameGraphicsManager::update(const std::shared_ptr<GameStateManager>& game_state_manager) {
     updatePlayerViews(game_state_manager);
+    updateMapView(game_state_manager);
 }
 
 int GameGraphicsManager::getTileId(int x, int y) {
@@ -36,4 +37,8 @@ void GameGraphicsManager::updatePlayerViews(const std::shared_ptr<GameStateManag
     for (int i = 0; i < players.size(); i++) {
         player_views_[i] = std::make_shared<PlayerView>(players[i], std::make_pair(1400, i*(200 + 20) + 40 ), std::make_pair(400, 200));
     }
+}
+
+void GameGraphicsManager::updateMapView(const std::shared_ptr<GameStateManager>& game_state_manager) {
+    map_view_.setPlayers(game_state_manager->getPlayers());
 }

@@ -63,3 +63,10 @@ int MapView::getTileId(int x, int y) {
     }
     return -1;
 }
+
+void MapView::setPlayers(const std::vector<std::shared_ptr<Player>>& players) {
+    players_.clear();
+    for (auto player : players) {
+        players_.push_back(player);
+    }
+}

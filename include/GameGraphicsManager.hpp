@@ -15,6 +15,7 @@ public:
 private:
     void drawPlayerViews(sf::RenderWindow& window);
     void updatePlayerViews(const std::shared_ptr<GameStateManager>& game_state_manager);
+    void updateMapView(const std::shared_ptr<GameStateManager>& game_state_manager);
     void drawMapView(sf::RenderWindow& window);
     std::vector<std::shared_ptr<PlayerView>> player_views_;
     MapView map_view_;

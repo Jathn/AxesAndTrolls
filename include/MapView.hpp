@@ -16,6 +16,7 @@ public:
     void draw(sf::RenderWindow& window);
     void drawTiles(sf::RenderWindow& window);
     int getTileId(int x, int y);
+    void setPlayers(const std::vector<std::shared_ptr<Player>>& players);
 private:
     std::vector<std::weak_ptr<Player>> players_;
     std::vector<TileView> tile_views_;
