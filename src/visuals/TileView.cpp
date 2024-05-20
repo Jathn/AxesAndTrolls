@@ -8,6 +8,14 @@ std::map<char, std::string> tile_pics = {
     {'W', "../resources/pics/water_tile.png"},
 };
 
+/* buildingtype : picture url */
+std::map<char, std::string> building_pics = {
+    {'C', "../resources/pics/city.png"},
+    {'F', "../resources/pics/farm.png"},
+    {'M', "../resources/pics/mine.png"},
+    {'L', "../resources/pics/mine.png"},
+};
+
 TileView::TileView(const std::shared_ptr<Tile>& tile, const std::pair<double, double>& size, const std::pair<double, double>& position) {
     size_ = size;
     position_ = position;
@@ -25,6 +33,7 @@ void TileView::draw(sf::RenderWindow& window) {
     rectangle.setTexture(&texture_);
     window.draw(rectangle);
     drawUnits(window);
+    drawBuilding(window);
     if (tile_.lock()->isCurrent()) {
         drawCurrentFrame(window);
     }
@@ -62,6 +71,17 @@ void TileView::drawUnits(sf::RenderWindow& window) {
             unit_count -= 1;
             current_position_y += object_size * 2; // Update current position y after drawing rectangle
         } 
+    }
+}
+
+void TileView::drawBuilding(sf::RenderWindow& window) {
+    if (tile_.lock()->getBuilding() != nullptr) {
+        sf::RectangleShape rectangle(sf::Vector2f(size_.first / 2, size_.second /2));
+        rectangle.setPosition(position_.first, position_.second);
+        sf::Texture building_texture;
+        building_texture.loadFromFile(building_pics[tile_.lock()->getBuilding()->getTypeChar()]);
+        rectangle.setTexture(&building_texture);
+        window.draw(rectangle);
     }
 }
 

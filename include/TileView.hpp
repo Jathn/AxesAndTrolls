@@ -16,6 +16,8 @@ public:
 
     void drawUnits(sf::RenderWindow& window);
 
+    void drawBuilding(sf::RenderWindow& window);
+
     void setSize(const std::pair<int, int>& size);
 
     /**
