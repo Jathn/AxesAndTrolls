@@ -2,7 +2,7 @@
 
 PlacementPhase::PlacementPhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager_) 
     : Phase(state_manager, graphics_manager_) { 
-        font_.loadFromFile("C:/Users/jonne/Documents/OOPC/AxesAndTrolls/resources/fonts/TTF/Crimson-Bold.ttf");
+        font_.loadFromFile("../resources/fonts/TTF/Crimson-Bold.ttf");
         text_.setFont(font_);
         text_.setCharacterSize(35);
         text_.setFillColor(sf::Color::Black);

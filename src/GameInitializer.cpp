@@ -25,7 +25,7 @@ void GameInitializer::draw(sf::RenderWindow& window) {
     int window_size_x = window.getSize().x;
     int window_size_y = window.getSize().y;
     sf::Font font;
-    font.loadFromFile("C:/Users/jonne/Documents/OOPC/AxesAndTrolls/resources/fonts/TTF/Crimson-Bold.ttf");
+    font.loadFromFile("../resources/fonts/TTF/Crimson-Bold.ttf");
     sf::Text text;
     text.setFont(font);
     if (num_players_ == 0) {

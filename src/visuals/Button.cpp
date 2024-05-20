@@ -1,7 +1,7 @@
 #include "Button.hpp"
 
 Button::Button(const std::string& text, const std::pair<int, int>& size, const std::pair<int, int>& position) {
-    font_.loadFromFile("C:/Users/jonne/Documents/oopc/AxesAndTrolls/resources/fonts/TTF/Crimson-Bold.ttf");
+    font_.loadFromFile("../resources/fonts/TTF/Crimson-Bold.ttf");
     text_.setFont(font_);
     text_.setString(text);
     text_.setCharacterSize(24);

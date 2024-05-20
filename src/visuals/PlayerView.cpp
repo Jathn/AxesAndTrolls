@@ -1,7 +1,7 @@
 #include "PlayerView.hpp"
 
 PlayerView::PlayerView(std::shared_ptr<Player> player, std::pair<int, int> position, std::pair<int, int> size) : player_(player), position_(position), size_(size) {
-    font_.loadFromFile("C:/Users/jonne/Documents/OOPC/AxesAndTrolls/resources/fonts/TTF/Crimson-Bold.ttf");
+    font_.loadFromFile("../resources/fonts/TTF/Crimson-Bold.ttf");
     text_.setFont(font_);
     initializeIcons(3 * size_.second / 4);
 }

@@ -15,11 +15,11 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Axes and Trolls");
     sf::Texture loadingTexture;
     sf::Texture backgroundTexture;
-    if (!loadingTexture.loadFromFile("C:/Users/jonne/documents/OOPC/AxesAndTrolls/resources/pics/loading_screen.png")) {
+    if (!loadingTexture.loadFromFile("../resources/pics/loading_screen.png")) {
         // handle error loading texture
     }
 
-    if (!backgroundTexture.loadFromFile("C:/Users/jonne/documents/OOPC/AxesAndTrolls/resources/pics/background.png")) {
+    if (!backgroundTexture.loadFromFile("../resources/pics/background.png")) {
         // handle error loading texture
     }
 
