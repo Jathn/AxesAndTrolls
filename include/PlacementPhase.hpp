@@ -8,9 +8,9 @@ class PlacementPhase : public Phase {
 public:
     PlacementPhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager);
 
-    void handleLeftClick(sf::Event& event);
+    void handleLeftClick(sf::Event& event, sf::Vector2f localPosition);
     void onTileClick(int tile_id);
-    void handleEvent(sf::Event& event) override;
+    void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
     void draw(sf::RenderWindow& window) override;
 private:
     sf::Text text_;

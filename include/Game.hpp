@@ -18,7 +18,7 @@ class Game {
 
         void draw(sf::RenderWindow& window);
 
-        void handleEvent(sf::Event& event, const std::shared_ptr<Phase>& phase);
+        void handleEvent(sf::Event& event, const std::shared_ptr<Phase>& phase, sf::RenderWindow& window);
 
         void updateGraphicsManager();
 

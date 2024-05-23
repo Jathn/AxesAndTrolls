@@ -20,8 +20,8 @@ void Game::draw(sf::RenderWindow& window) {
     graphics_manager_->draw(window);
 }
 
-void Game::handleEvent(sf::Event& event, const std::shared_ptr<Phase>& phase) {
-    phase->handleEvent(event);
+void Game::handleEvent(sf::Event& event, const std::shared_ptr<Phase>& phase, sf::RenderWindow& window) {
+    phase->handleEvent(event, window);
 }
 
 void Game::updateGraphicsManager() {

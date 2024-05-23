@@ -51,6 +51,7 @@ public:
     const std::shared_ptr<Territory>& getTerritory() const;
     const std::vector<std::shared_ptr<Tile>> getTiles() const;
     std::vector<std::shared_ptr<Unit>> getUnits() const;
+    std::vector<std::shared_ptr<Unit>> getUnplacedUnits() const;
     std::vector<std::shared_ptr<Building>> getBuildings() const;
     std::vector<std::shared_ptr<Building>> getUnplacedBuildings() const;
     const int getResource(ResourceType resource) const;

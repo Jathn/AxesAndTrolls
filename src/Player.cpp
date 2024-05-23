@@ -34,6 +34,10 @@ std::vector<std::shared_ptr<Unit>> Player::getUnits() const {
     return movement_handler_.getUnits();
 }
 
+std::vector<std::shared_ptr<Unit>> Player::getUnplacedUnits() const {
+    return movement_handler_.getUnplacedUnits();
+}
+
 std::vector<std::shared_ptr<Building>> Player::getBuildings() const {
     std::vector<std::shared_ptr<Building>> buildings;
     for (auto tile : getTiles()) {

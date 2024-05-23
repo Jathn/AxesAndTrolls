@@ -12,7 +12,7 @@
 int main() {
 
     GameInitializer game_initializer;
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Axes and Trolls");
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Axes and Trolls", sf::Style::Fullscreen);
     sf::Texture loadingTexture;
     sf::Texture backgroundTexture;
     if (!loadingTexture.loadFromFile("../resources/pics/loading_screen.png")) {
@@ -46,7 +46,7 @@ int main() {
             if (!game_initializer.isDone()) {
                 game_initializer.handleEvent(event, game.getStateManager(), game.getGraphicsManager());
             } else {
-                game.handleEvent(event, placement_phase);
+                game.handleEvent(event, placement_phase, window);
             }
         }
 
