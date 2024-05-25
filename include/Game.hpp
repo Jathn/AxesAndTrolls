@@ -5,6 +5,7 @@
 #include "GameGraphicsManager.hpp"
 
 #include "Phase.hpp"
+#include "PlacementPhase.hpp"
 
 class Game {
     public:
@@ -18,7 +19,7 @@ class Game {
 
         void draw(sf::RenderWindow& window);
 
-        void handleEvent(sf::Event& event, const std::shared_ptr<Phase>& phase, sf::RenderWindow& window);
+        void handleEvent(sf::Event& event, sf::RenderWindow& window);
 
         void updateGraphicsManager();
 
@@ -26,6 +27,7 @@ class Game {
         int round_;
         std::shared_ptr<GameStateManager> state_manager_;
         std::shared_ptr<GameGraphicsManager> graphics_manager_;
+        std::shared_ptr<Phase> phase_;
 };
 
 #endif // GAME_HPP

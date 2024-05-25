@@ -33,7 +33,6 @@ int main() {
     window.display();
     std::shared_ptr<GameStateManager> game_state_manager = std::make_shared<GameStateManager>(std::make_pair<int, int>(22, 14), 2);
     Game game = Game(game_state_manager);
-    std::shared_ptr<Phase> placement_phase = std::make_shared<PlacementPhase>(game.getStateManager(), game.getGraphicsManager());
     
     while (window.isOpen()) {
 
@@ -46,7 +45,7 @@ int main() {
             if (!game_initializer.isDone()) {
                 game_initializer.handleEvent(event, game.getStateManager(), game.getGraphicsManager());
             } else {
-                game.handleEvent(event, placement_phase, window);
+                game.handleEvent(event, window);
             }
         }
 
@@ -56,7 +55,6 @@ int main() {
             game_initializer.draw(window);
         } else {
             game.draw(window);
-            placement_phase->draw(window);
         }
         window.display();
     }
