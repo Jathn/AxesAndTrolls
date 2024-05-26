@@ -7,6 +7,16 @@
 #include <SFML/Graphics.hpp>
 #include "GameGraphicsManager.hpp"
 
+/**
+ * @file GameInitializer.hpp
+ * @brief Class for initializing the game.
+ * 
+ * This class is responsible for initializing the game.
+ * It allows the user to input the number of players and their names.
+ * 
+ * @version 1.0
+ * @date 2024-04-25
+ */
 class GameInitializer {
     public:
         GameInitializer();

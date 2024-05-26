@@ -5,6 +5,16 @@
 #include "BuyPhase.hpp"
 #include "Button.hpp"
 
+/**
+ * @file PlacementPhase.hpp
+ * @brief Class for handling the placement phase of the game.
+ * 
+ * This class is responsible for handling the placement phase of the game.
+ * The placement phase is when the players place their initial cities on the map.
+ * 
+ * @version 1.0
+ * @date 2024-05-26
+ */
 class PlacementPhase : public Phase {
 public:
     PlacementPhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager);

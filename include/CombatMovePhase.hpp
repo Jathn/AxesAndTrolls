@@ -3,6 +3,15 @@
 
 #include "Phase.hpp"
 
+/**
+ * @file CombatMovePhase.hpp
+ * @brief Class for handling the combat move phase of the game.
+ * 
+ * This class is responsible for handling the combat move phase of the game. It allows the "current player" to move units to attack a square.
+ * 
+ * @version 1.0
+ * @date 2024-05-26
+ */
 class CombatMovePhase : public Phase {
 public:
     CombatMovePhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager);

@@ -7,9 +7,14 @@
 #include "Tile.hpp"
 
 /**
- * @brief The Territory class represents a player's tiles in the game.
+ * @file Territory.hpp
+ * @brief Class for handling the player's territory.
  * 
- * A player has tiles.
+ * This class is responsible for handling the player's territory.
+ * The territory is the area of the map that the player controls.
+ * 
+ * @version 1.0
+ * @date 2024-03-xx
  */
 class Territory {
 public:

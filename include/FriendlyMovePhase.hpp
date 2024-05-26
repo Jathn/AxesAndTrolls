@@ -3,6 +3,15 @@
 
 #include "Phase.hpp"
 
+/**
+ * @file FriendlyMovePhase.hpp
+ * @brief Class for handling the friendly move phase of the game.
+ * 
+ * This class is responsible for handling the friendly move phase of the game. It allows the "current player" to move units.
+ * This happens after battles.
+ * @version 1.0
+ * @date 2024-05-26
+ */
 class FriendlyMovePhase : public Phase {
 public:
     FriendlyMovePhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager);
