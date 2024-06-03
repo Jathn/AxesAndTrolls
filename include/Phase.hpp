@@ -23,6 +23,7 @@ public:
           const std::shared_ptr<GameGraphicsManager>& graphics_manager, 
           const std::string& name);
     
+    const std::string& getName() const;
     /**
      * @brief Reacts to different situations in the game, uniquely based on which phase.
      * 

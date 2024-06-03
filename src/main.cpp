@@ -32,7 +32,7 @@ int main() {
     window.draw(loadingSprite);
     window.display();
     std::shared_ptr<GameStateManager> game_state_manager = std::make_shared<GameStateManager>(std::make_pair<int, int>(22, 14), 2);
-    Game game = Game(game_state_manager);
+    std::shared_ptr<Game> game = std::make_shared<Game>(game_state_manager);
     
     while (window.isOpen()) {
 
@@ -43,9 +43,9 @@ int main() {
                 window.close();
             }
             if (!game_initializer.isDone()) {
-                game_initializer.handleEvent(event, game.getStateManager(), game.getGraphicsManager());
+                game_initializer.handleEvent(event, game->getStateManager(), game->getGraphicsManager());
             } else {
-                game.handleEvent(event, window);
+                game->handleEvent(event, window);
             }
         }
 
@@ -54,7 +54,7 @@ int main() {
         if (!game_initializer.isDone()) {
             game_initializer.draw(window);
         } else {
-            game.draw(window);
+            game->draw(window);
         }
         window.display();
     }

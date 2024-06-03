@@ -70,6 +70,10 @@ const std::shared_ptr<Player> GameStateManager::getCurrentPlayer() {
     return players_[current_player_];
 }
 
+const int& GameStateManager::getRoundNr() {
+    return round_nr_;
+}
+
 void GameStateManager::setCurrentTile(const int& id) {
 
     /* Remove previous tile "current" status */

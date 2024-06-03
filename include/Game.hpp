@@ -3,6 +3,7 @@
 
 #include "GameStateManager.hpp"
 #include "GameGraphicsManager.hpp"
+#include "GameInfo.hpp"
 
 #include "Phase.hpp"
 #include "PlacementPhase.hpp"
@@ -46,6 +47,7 @@ class Game {
         std::shared_ptr<GameStateManager> state_manager_;
         std::shared_ptr<GameGraphicsManager> graphics_manager_;
         std::shared_ptr<Phase> phase_;
+        std::shared_ptr<GameInfo> game_info_;
 };
 
 #endif // GAME_HPP
