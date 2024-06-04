@@ -30,7 +30,7 @@ public:
      * @return false 
      */
     bool isInside(int x, int y);
-private:
+protected:
     sf::Font font_;
     sf::Text text_;
     sf::RectangleShape rectangle_;

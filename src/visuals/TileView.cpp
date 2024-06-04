@@ -32,11 +32,11 @@ void TileView::draw(sf::RenderWindow& window) {
     rectangle.setPosition(position_.first, position_.second);
     rectangle.setTexture(&texture_);
     window.draw(rectangle);
-    drawUnits(window);
     drawBuilding(window);
     if (tile_.lock()->isCurrent()) {
         drawCurrentFrame(window);
     }
+    drawUnits(window);
 }
 
 void TileView::drawUnits(sf::RenderWindow& window) {
