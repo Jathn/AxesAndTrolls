@@ -15,7 +15,7 @@ private:
     sf::RectangleShape background_;
     sf::Text text_;
     sf::Font font_;
-    std::vector<BuyButton> buttons_;
+    std::vector<std::shared_ptr<BuyButton>> buttons_;
 };
 
 #endif // BUY_WINDOW_HPP

@@ -1,6 +1,7 @@
 #ifndef BUY_PHASE_HPP
 #define BUY_PHASE_HPP
 
+#include "BuyWindow.hpp"
 #include "Phase.hpp"
 
 /**
@@ -18,6 +19,9 @@ public:
     void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
     void draw(sf::RenderWindow& window) override;
     std::shared_ptr<Phase> getNextPhase() override;
+private:
+    BuyWindow buy_window_;
+    std::shared_ptr<Button> confirm_button_;
 };
 
 #endif // BUY_PHASE_HPP
