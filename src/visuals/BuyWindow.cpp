@@ -8,9 +8,9 @@ int text_x = 230;
 int text_y = 230;
 int font_size = 40;
 int button_size = 200;
-int button_x = 250;
-int button_y = 250;
-int button_spacing = 280;
+int button_x = 325;
+int button_y = 325;
+int button_spacing = 300;
 
 std::vector<UnitType> unit_types = {UnitType::INFANTRY, UnitType::ARTILLERY, UnitType::RIDER, UnitType::DRAGON};
 

@@ -22,6 +22,17 @@ void Button::draw(sf::RenderWindow& window) {
     window.draw(text_);
 }
 
+void Button::setColors(sf::Color fill_color, sf::Color outline_color, const int& outline_thickness) {
+    rectangle_.setFillColor(fill_color);
+    rectangle_.setOutlineColor(outline_color);
+    rectangle_.setOutlineThickness(outline_thickness);
+} 
+
+
+void Button::setTexture(const sf::Texture texture) {
+    /* Note: Texture must be stored in Child class, as button object itself will not keep it in scope */
+    rectangle_.setTexture(&texture);
+}
 bool Button::isInside(int x, int y) {
     return rectangle_.getGlobalBounds().contains(x, y);
 }

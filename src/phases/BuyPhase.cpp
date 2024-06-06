@@ -4,7 +4,7 @@
 BuyPhase::BuyPhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager) :
     Phase(state_manager, graphics_manager, "Buy Phase") {
         BuyWindow buy_window_ = BuyWindow();
-        confirm_button_ = std::make_shared<Button>("Confirm Purchases", std::pair<int, int>(100, 50), std::pair<int,int>(800, 850));
+        confirm_button_ = std::make_shared<Button>("Confirm Purchases", std::pair<int, int>(250, 50), std::pair<int,int>(650, 850));
     }
 
 void BuyPhase::handleEvent(sf::Event& event, sf::RenderWindow& window) {

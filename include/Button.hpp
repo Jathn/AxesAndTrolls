@@ -31,6 +31,8 @@ public:
      */
     bool isInside(int x, int y);
 protected:
+    void setColors(sf::Color fill_color, sf::Color outline_color, const int& outline_thickness);
+    void setTexture(const sf::Texture texture);
     sf::Font font_;
     sf::Text text_;
     sf::RectangleShape rectangle_;
