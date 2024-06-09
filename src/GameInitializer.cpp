@@ -1,6 +1,7 @@
 #include "GameInitializer.hpp"
 
 GameInitializer::GameInitializer() { 
+    is_done_ = false;
     num_players_ = 0;
     current_name_ = "";
 };

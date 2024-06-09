@@ -15,11 +15,11 @@ int button_spacing = 300;
 std::vector<UnitType> unit_types = {UnitType::INFANTRY, UnitType::ARTILLERY, UnitType::RIDER, UnitType::DRAGON};
 
 BuyWindow::BuyWindow() {
-    font_.loadFromFile("../resources/fonts/TTF/crimson-bold.ttf");
+    font_.loadFromFile("../resources/fonts/TTF/Crimson-Bold.ttf");
     text_.setFont(font_);
-    text_.setString("Buy Units");
     text_.setCharacterSize(font_size);
     text_.setFillColor(sf::Color::Black);
+    text_.setOutlineColor(sf::Color(100, 100, 100, 255));
     text_.setPosition(text_x, text_y);
 
     background_.setSize(sf::Vector2f(window_width, window_height));
@@ -30,6 +30,7 @@ BuyWindow::BuyWindow() {
 
     int column = 0;
     int row = 0;
+    buttons_ = std::vector<std::shared_ptr<BuyButton>>();
     for (auto unit_type : unit_types) {
         if (column % 2 == 0 && column != 0) {
             row++;
@@ -46,7 +47,6 @@ BuyWindow::BuyWindow() {
 
 void BuyWindow::draw(sf::RenderWindow& window) {
     window.draw(background_);
-    window.draw(text_);
     for (auto button : buttons_) {
         button->draw(window);
     }
