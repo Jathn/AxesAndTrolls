@@ -2,6 +2,7 @@
 #define COMBATMOVE_PHASE_HPP
 
 #include "Phase.hpp"
+#include "CurrentTileView.hpp"
 
 /**
  * @file CombatMovePhase.hpp
@@ -18,6 +19,8 @@ public:
     void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
     void draw(sf::RenderWindow& window) override;
     std::shared_ptr<Phase> getNextPhase() override;
+private:
+    const std::unique_ptr<CurrentTileView> current_tile_view_;
 };
 
 #endif // COMBATMOVE_PHASE_HPP

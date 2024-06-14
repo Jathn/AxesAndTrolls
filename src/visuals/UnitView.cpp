@@ -22,12 +22,12 @@ UnitView::UnitView(const UnitType& type) {
     sprite_.setTexture(texture_);
 }
 
-void UnitView::draw(sf::RenderWindow& window, const std::pair<int, int>& position, const int& size) {
+void UnitView::draw(sf::RenderWindow& window, const std::pair<int, int>& position, const int& size, const int& count) {
     sprite_.setPosition(position.first, position.second);
     sprite_.setScale(size, size);
     window.draw(sprite_);
 
-    text_.setString(std::to_string(1));
-    text_.setPosition(position.first + 5, position.second + 5);
+    text_.setString(std::to_string(count));
+    text_.setPosition(position.first * 3 / 2 + size , position.second * 3 / 2 + size);
     window.draw(text_);
 }

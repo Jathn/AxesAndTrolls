@@ -8,11 +8,12 @@
 class CurrentTileView {
 public:
     CurrentTileView();
-    void draw(sf::RenderWindow& window, const int& building, const std::map<UnitType, int>& unit_count);
+    void draw(sf::RenderWindow& window, const std::string& building, const std::vector<std::weak_ptr<Unit>>& units);
 private:
     sf::RectangleShape background_;
     sf::Text text_;
     sf::Font font_;
+    std::vector<UnitView> unit_views_;
 };
 
 #endif // CURRENT_TILE_VIEW_HPP

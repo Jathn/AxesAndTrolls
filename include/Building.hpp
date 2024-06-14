@@ -39,6 +39,7 @@ class Building {
         const std::shared_ptr<Tile>& getTile() const;
         const int& getCost() const;
         const std::pair<ResourceType, int>& getIncome() const;
+        const std::string& getName() const;
 
         /* Setter functions */
         void setType(const BuildingType& type);

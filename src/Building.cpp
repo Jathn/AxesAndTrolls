@@ -30,6 +30,13 @@ std::map<BuildingType, char> type_chars {
     {BuildingType::MINE, 'M'}
 };
 
+std::map<BuildingType, std::string> type_names {
+    {BuildingType::CITY, "City"},
+    {BuildingType::FARM, "Farm"},
+    {BuildingType::LODGE, "Lodge"},
+    {BuildingType::MINE, "Mine"}
+};
+
 Building::Building(BuildingType type, const std::shared_ptr<Tile>& tile) : type_(type), tile_(tile) {
     cost_ = building_costs[type];
     income_ = building_incomes[type];
@@ -59,6 +66,10 @@ const int& Building::getCost() const {
 
 const std::pair<ResourceType, int>& Building::getIncome() const {
     return income_;
+}
+
+const std::string& Building::getName() const {
+    return type_names[type_];
 }
 
 void Building::setType(const BuildingType& type) {

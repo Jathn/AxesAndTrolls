@@ -17,7 +17,7 @@ file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 add_executable(A_T ${TEST_SOURCES} ${SOURCES} ${HEADERS})
 if(CMAKE_BUILD_TYPE MATCHES Debug)
-    target_link_libraries(A_T PRIVATE sfml-graphics-d sfml-window-d sfml-system-d)
+    target_link_libraries(A_T PRIVATE sfml-graphics sfml-window sfml-system)
 else()
     target_link_libraries(A_T PRIVATE sfml-graphics sfml-window sfml-system)
 endif()

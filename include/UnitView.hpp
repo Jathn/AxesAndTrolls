@@ -7,7 +7,7 @@
 class UnitView {
 public:
     UnitView(const UnitType& type);
-    void draw(sf::RenderWindow& window, const std::pair<int, int>& position, const int& size);
+    void draw(sf::RenderWindow& window, const std::pair<int, int>& position, const int& size, const int& count);
 private:
     sf::Texture texture_;
     sf::Sprite sprite_;
