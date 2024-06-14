@@ -11,23 +11,21 @@ UnitView::UnitView(const UnitType& type) {
     if (!font_.loadFromFile("../resources/fonts/TTF/crimson-bold.ttf")) {
         throw std::runtime_error("Font not found");
     }
-    text_.setFont(font_);
-    text_.setCharacterSize(20);
-    text_.setFillColor(sf::Color::Black);
 
     if (!texture_.loadFromFile(urls[type])) {
         throw std::runtime_error("Texture not found");
     }
-
-    sprite_.setTexture(texture_);
 }
 
 void UnitView::draw(sf::RenderWindow& window, const std::pair<int, int>& position, const int& size, const int& count) {
+    sprite_.setTexture(texture_);
+    sprite_.setScale((double) size / texture_.getSize().x, (double) size / texture_.getSize().y);
     sprite_.setPosition(position.first, position.second);
-    sprite_.setScale(size, size);
     window.draw(sprite_);
-
+    text_.setFont(font_);
+    text_.setCharacterSize(20);
+    text_.setFillColor(sf::Color::Black);
     text_.setString(std::to_string(count));
-    text_.setPosition(position.first * 3 / 2 + size , position.second * 3 / 2 + size);
+    text_.setPosition((double) (position.first + 1.5 * size), (double) (position.second + 0.5 * size));
     window.draw(text_);
 }

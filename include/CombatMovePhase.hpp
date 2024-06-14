@@ -20,7 +20,7 @@ public:
     void draw(sf::RenderWindow& window) override;
     std::shared_ptr<Phase> getNextPhase() override;
 private:
-    const std::unique_ptr<CurrentTileView> current_tile_view_;
+    CurrentTileView current_tile_view_;
 };
 
 #endif // COMBATMOVE_PHASE_HPP
