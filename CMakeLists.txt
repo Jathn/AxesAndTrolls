@@ -15,7 +15,9 @@ file(GLOB_RECURSE HEADERS "include/*.hpp")
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
-add_executable(A_T ${TEST_SOURCES} ${SOURCES} ${HEADERS})
+set(RESOURCE_FILES "../resources/app.rc")
+add_executable(A_T ${TEST_SOURCES} ${SOURCES} ${HEADERS} ${RESOURCE_FILES})
+
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     target_link_libraries(A_T PRIVATE sfml-graphics sfml-window sfml-system)
 else()
