@@ -3,7 +3,7 @@
 Game::Game(const std::shared_ptr<GameStateManager>& state_manager) : state_manager_(state_manager), graphics_manager_(std::make_shared<GameGraphicsManager>(state_manager)) {
     round_ = 1;
     phase_ = std::make_shared<PlacementPhase>(state_manager_, graphics_manager_);
-    game_info_ = std::make_shared<GameInfo>(std::make_pair(100, 100), 24);
+    game_info_ = std::make_shared<GameInfo>(std::make_pair(100, 100), 30);
 }
 
 const int& Game::getRound() {

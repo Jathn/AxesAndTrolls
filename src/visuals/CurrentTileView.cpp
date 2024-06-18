@@ -14,7 +14,6 @@ CurrentTileView::CurrentTileView() {
     for (auto type : {UnitType::INFANTRY, UnitType::ARTILLERY, UnitType::RIDER, UnitType::DRAGON}) {
         unit_views_.push_back(UnitView(type));
     }
-    std::cout << "CurrentTileView created" << std::endl;
 }
 
 void CurrentTileView::draw(sf::RenderWindow& window, const std::string& building, const std::vector<std::weak_ptr<Unit>>& units) {
@@ -24,7 +23,6 @@ void CurrentTileView::draw(sf::RenderWindow& window, const std::string& building
         {UnitType::RIDER, 0},
         {UnitType::DRAGON, 0}
     };
-    std::cout << "Drawing" << std::endl;
     for (const auto& unit : units) {
         if (unit.expired()) {
             continue;
@@ -34,7 +32,6 @@ void CurrentTileView::draw(sf::RenderWindow& window, const std::string& building
 
     int i = 0;
     for (auto [type, count] : unit_count) {
-        std::cout << i << std::endl;
         unit_views_[i].draw(window, {position.first + i * size.first / 4, position.second}, unit_view_size, count);
         i++;
     }

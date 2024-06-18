@@ -46,6 +46,7 @@ void GameStateManager::createPlayers(const int& num_players) {
     if (num_players > 4) throw std::invalid_argument("Too many players");
     for (int i = 0; i < num_players; i++) {
         std::shared_ptr<Player> player = std::make_shared<Player>(player_colors[i]);
+        player->setPlayerNr(i + 1);
         players_.push_back(player);
     }
 }
