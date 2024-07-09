@@ -11,14 +11,18 @@ void CombatMovePhase::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     if (checkLeftClick(event)) {
         sf::Vector2i localPosition = (sf::Vector2i) window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 
-        int tile_id = graphics_manager_.lock()->getTileId(localPosition.x, localPosition.y);
-
-        if (tile_id == -1) {
-            std::cout << "Something else clicked" << std::endl;
-        } else {
-            state_manager_.lock()->setCurrentTile(tile_id);
-        }
+        handleLeftClick(window, localPosition);
     }
+}
+
+void CombatMovePhase::handleLeftClick(sf::RenderWindow& window, const sf::Vector2i& position) {
+    int tile_id = graphics_manager_.lock()->getTileId(position.x, position.y);
+    if (tile_id == -1) {
+        std::cout << "Something else clicked" << std::endl;
+    } else {
+        state_manager_.lock()->setCurrentTile(tile_id);
+    }
+    current_tile_view_.handleLeftClick(window, position);
 }
 
 void CombatMovePhase::draw(sf::RenderWindow& window) {

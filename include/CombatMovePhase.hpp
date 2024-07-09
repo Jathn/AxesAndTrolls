@@ -3,6 +3,7 @@
 
 #include "Phase.hpp"
 #include "CurrentTileView.hpp"
+#include "Button.hpp"
 
 /**
  * @file CombatMovePhase.hpp
@@ -17,9 +18,13 @@ class CombatMovePhase : public Phase {
 public:
     CombatMovePhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager);
     void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
+    void handleLeftClick(sf::RenderWindow& window, const sf::Vector2i& position);
     void draw(sf::RenderWindow& window) override;
+
     std::shared_ptr<Phase> getNextPhase() override;
 private:
+    sf::Text text_;
+    sf::Font font_;
     CurrentTileView current_tile_view_;
 };
 
