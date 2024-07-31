@@ -21,8 +21,9 @@ void CombatMovePhase::handleLeftClick(sf::RenderWindow& window, const sf::Vector
         std::cout << "Something else clicked" << std::endl;
     } else {
         state_manager_.lock()->setCurrentTile(tile_id);
+        current_tile_view_.wipeSelectedUnits();
     }
-    current_tile_view_.handleLeftClick(window, position);
+    current_tile_view_.handleLeftClick(window, position, state_manager_.lock());
 }
 
 void CombatMovePhase::draw(sf::RenderWindow& window) {
