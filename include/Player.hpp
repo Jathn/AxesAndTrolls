@@ -32,9 +32,19 @@ public:
 };
 
 /**
- * @brief The Player class represents a player in the game.
+ * @file Player.hpp
+ * @brief Class for handling the player in the game.
  * 
- * A player has resources, tiles, units, and cities.
+ * This class is responsible for handling the player in the game. It allows the player to buy units, place units, buy buildings, place buildings, generate income and more.
+ * 
+ * The class works with Territory, MovementHandler, Unit and Building to handle player interactions with the game.
+ * Player keeps track of the players resources, units, buildings and territory.
+ * 
+ * @see Territory, MovementHandler, Unit, Building
+ * 
+ * @author Jathn
+ * @version 1.1
+ * @date 2024-08-02
  */
 class Player {
 public:
@@ -49,6 +59,7 @@ public:
     const std::string& getName() const;
     const sf::Color& getColor() const;
     const std::shared_ptr<Territory>& getTerritory() const;
+    const std::shared_ptr<MovementHandler>& getMovementHandler() const;
     const std::vector<std::shared_ptr<Tile>> getTiles() const;
     std::vector<std::shared_ptr<Unit>> getUnits() const;
     std::vector<std::shared_ptr<Unit>> getUnplacedUnits() const;
@@ -129,7 +140,7 @@ private:
     int player_nr_;
     std::string name_;
     sf::Color color_;
-    MovementHandler movement_handler_;
+    std::shared_ptr<MovementHandler> movement_handler_;
     std::shared_ptr<Territory> territory_;
     std::vector<std::shared_ptr<Building>> unplaced_buildings_;
     std::map<ResourceType, int> resources_;

@@ -25,8 +25,17 @@ CurrentTileView::CurrentTileView() {
     move_active_ = false;
 }
 
-std::vector<std::weak_ptr<Unit>> CurrentTileView::getSelectedUnits() const {
-    return selected_units_;
+std::vector<std::shared_ptr<Unit>> CurrentTileView::getSelectedUnits() const {
+    std::vector<std::shared_ptr<Unit>> selected_units;
+    for (auto unit : selected_units_) {
+        selected_units.push_back(unit.lock());
+    }
+
+    return selected_units;
+}
+
+void CurrentTileView::setMoveActive(bool active) {
+    move_active_ = active;
 }
 
 void CurrentTileView::wipeSelectedUnits() {
@@ -113,6 +122,10 @@ void CurrentTileView::onCancelButtonClicked() {
         move_active_ = false;
         selected_units_.clear();
     }
+}
+
+bool CurrentTileView::isMoveActive() const {
+    return move_active_;
 }
 
 const std::vector<std::shared_ptr<Unit>> CurrentTileView::filterUnits(const std::vector<std::weak_ptr<Unit>>& units, UnitType type) {

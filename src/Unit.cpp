@@ -114,15 +114,23 @@ bool Unit::isLeavableTile(const std::shared_ptr<Tile>& tile) {
 bool Unit::isReachableTile(const std::shared_ptr<Tile>& tile) {
     std::pair<int, std::vector<int>> distance = calculateDistanceGBFS(tile_.lock(), tile);
 
-    std::vector<std::shared_ptr<Tile>> route;
+    distance.second.erase(distance.second.begin());
 
+    std::vector<std::shared_ptr<Tile>> route;
     std::shared_ptr<Tile> previous_tile = tile_.lock();
+
     for (auto it = distance.second.begin(); it != distance.second.end(); it++) {
         route.push_back(previous_tile->getNeighbor(*it));
         previous_tile = route.back();
+        if (previous_tile == nullptr) {
+            route.clear();
+            return false;
+        }
     }
 
+
     bool all_are_leavable = true;
+
     for (auto it = route.begin(); it != route.end(); it++) {
         if (!isLeavableTile(*it)) {
             all_are_leavable = false;

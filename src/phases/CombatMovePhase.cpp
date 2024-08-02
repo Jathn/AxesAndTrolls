@@ -20,9 +20,20 @@ void CombatMovePhase::handleLeftClick(sf::RenderWindow& window, const sf::Vector
     if (tile_id == -1) {
         std::cout << "Something else clicked" << std::endl;
     } else {
+        if (current_tile_view_.isMoveActive()) {
+            std::vector<std::shared_ptr<Unit>> units_to_move = current_tile_view_.getSelectedUnits();
+            try {
+                state_manager_.lock()->getCurrentPlayer()->getMovementHandler()->moveUnits(units_to_move, state_manager_.lock()->getMap().at(tile_id));
+            } catch (std::exception& e) {
+                std::cout << e.what() << std::endl;
+            }
+            
+        }
+
         state_manager_.lock()->setCurrentTile(tile_id);
         current_tile_view_.wipeSelectedUnits();
     }
+
     current_tile_view_.handleLeftClick(window, position, state_manager_.lock());
 }
 

@@ -3,7 +3,7 @@
 Player::Player(const sf::Color& color, const std::string& name) {
     name_ = "Unkknown player";
     territory_ = std::make_shared<Territory>();
-    movement_handler_ = MovementHandler(territory_);
+    movement_handler_ = std::make_shared<MovementHandler>(territory_);
     color_ = color;
     resources_[ResourceType::GOLD] = 0;
     resources_[ResourceType::WOOD] = 0;
@@ -26,16 +26,20 @@ const std::shared_ptr<Territory>& Player::getTerritory() const {
     return territory_;
 }
 
+const std::shared_ptr<MovementHandler>& Player::getMovementHandler() const {
+    return movement_handler_;
+}
+
 const std::vector<std::shared_ptr<Tile>> Player::getTiles() const {
     return territory_->getTiles();
 }
 
 std::vector<std::shared_ptr<Unit>> Player::getUnits() const {
-    return movement_handler_.getUnits();
+    return movement_handler_->getUnits();
 }
 
 std::vector<std::shared_ptr<Unit>> Player::getUnplacedUnits() const {
-    return movement_handler_.getUnplacedUnits();
+    return movement_handler_->getUnplacedUnits();
 }
 
 std::vector<std::shared_ptr<Building>> Player::getBuildings() const {
@@ -82,7 +86,7 @@ void Player::buyUnit(const UnitType& type) {
     removeResource(ResourceType::FOOD, cost.first);
     removeResource(ResourceType::WOOD, cost.second);
 
-    movement_handler_.addUnit(unit);
+    movement_handler_->addUnit(unit);
 }
 
 void Player::placeUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile) {

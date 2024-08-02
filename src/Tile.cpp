@@ -20,6 +20,8 @@ std::vector<std::weak_ptr<Tile>> Tile::getNeighbors() {
 std::shared_ptr<Tile> Tile::getNeighbor(int id) {
     for (auto neighbor : neighbors_) {
         std::shared_ptr<Tile> lockedNeighbor = neighbor.lock();
+        int neighborId = lockedNeighbor->getId();
+        std::cout << "Neighbor id: " << neighborId << std::endl;
         if (lockedNeighbor != nullptr && lockedNeighbor->getId() == id) {
             return lockedNeighbor;
         }
