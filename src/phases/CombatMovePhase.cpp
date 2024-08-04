@@ -4,7 +4,8 @@
 CombatMovePhase::CombatMovePhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager) :
     Phase(state_manager, graphics_manager, "Combat Move Phase") {
         current_tile_view_ = CurrentTileView();
-    }
+        next_button_ = std::make_shared<Button>("Combat!", std::pair<int, int>(150, 50), std::pair<int,int>(1200, 950));
+}
 
 void CombatMovePhase::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     // Handle events here
@@ -16,6 +17,10 @@ void CombatMovePhase::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 }
 
 void CombatMovePhase::handleLeftClick(sf::RenderWindow& window, const sf::Vector2i& position) {
+    if (next_button_->isInside(position.x, position.y)) {
+            // Handle the confirm button
+            setDone();
+    }
     int tile_id = graphics_manager_.lock()->getTileId(position.x, position.y);
     if (tile_id == -1) {
         std::cout << "Something else clicked" << std::endl;
@@ -81,6 +86,7 @@ void CombatMovePhase::draw(sf::RenderWindow& window) {
         building_name = state_manager_.lock()->getCurrentTile()->getBuilding()->getName();
     }
     current_tile_view_.draw(window, building_name, units);
+    next_button_->draw(window);
 }
 
 std::shared_ptr<Phase> CombatMovePhase::getNextPhase() {

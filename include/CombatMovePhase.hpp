@@ -28,6 +28,7 @@ private:
     sf::Text text_;
     sf::Font font_;
     CurrentTileView current_tile_view_;
+    std::shared_ptr<Button> next_button_;
 };
 
 #endif // COMBATMOVE_PHASE_HPP
