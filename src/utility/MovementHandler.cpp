@@ -31,6 +31,11 @@ void MovementHandler::removeUnit(const std::shared_ptr<Unit>& unit) {
             break;
         }
     }
+
+    /* Remove the unit from the territory */
+    if (unit->getTile() != nullptr) {
+        unit->getTile()->removeUnit(unit);
+    }
 }
 
 std::vector<std::shared_ptr<Tile>> MovementHandler::getAvailableTiles(const std::shared_ptr<Unit>& unit) {

@@ -86,6 +86,8 @@ void Player::buyUnit(const UnitType& type) {
     removeResource(ResourceType::FOOD, cost.first);
     removeResource(ResourceType::WOOD, cost.second);
 
+    unit->setOwner(getThisPlayer());
+
     movement_handler_->addUnit(unit);
 }
 
@@ -161,6 +163,9 @@ void Player::removeResource(ResourceType resource, int amount) {
     resources_[resource] -= amount;
 }
 
+void Player::removeUnit(const std::shared_ptr<Unit>& unit) {
+    movement_handler_->removeUnit(unit);
+}
 void Player::generateIncome() {
     for (auto resource_income : resource_generation_) {
         resources_[resource_income.first] += resource_income.second;
@@ -178,4 +183,8 @@ void Player::updateGeneration() {
             resource_generation_[b->getIncome().first] += b->getIncome().second;
         }
     }
+}
+
+std::shared_ptr<Player> Player::getThisPlayer() {
+    return shared_from_this();
 }

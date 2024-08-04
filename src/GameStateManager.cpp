@@ -92,6 +92,18 @@ std::shared_ptr<Tile> GameStateManager::getCurrentTile() {
     return current_tile_;
 }
 
+std::vector<std::shared_ptr<Tile>> GameStateManager::getContestedTiles() {
+    std::vector<std::shared_ptr<Tile>> contested_tiles;
+    for (auto tile : map_) {
+        if (isTileContested(tile)) {
+            std::cout << "Tile " << tile->getId() << " is contested" << std::endl;
+            contested_tiles.push_back(tile);
+        }
+    }
+
+    return contested_tiles;
+}
+
 void GameStateManager::setCurrentPlayer(const std::shared_ptr<Player>& player) {
     for (int i = 0; i < players_.size(); i++) {
         if (players_[i] == player) {
@@ -103,4 +115,29 @@ void GameStateManager::setCurrentPlayer(const std::shared_ptr<Player>& player) {
 
 void GameStateManager::setPlayers(const std::vector<std::shared_ptr<Player>>& players) {
     players_ = players;
+}
+
+bool GameStateManager::isTileContested(const std::shared_ptr<Tile>& tile) const { 
+    const std::vector<std::weak_ptr<Unit>> units = tile->getUnits();
+
+    std::vector<std::shared_ptr<Player>> players;
+    std::vector<std::string> player_names;
+
+    for (auto unit : units) {
+        if (unit.expired()) continue;
+        
+        std::string name = "null";
+        std::shared_ptr<Player> player = unit.lock()->getOwner();
+        if (player == nullptr) {
+            continue;
+        } else {
+            name = player->getName();
+        }
+        
+        if (std::find(player_names.begin(), player_names.end(), name) == player_names.end()) {
+            players.push_back(player);
+        }
+    }
+
+    return players.size() > 1;
 }

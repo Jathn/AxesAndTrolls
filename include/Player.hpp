@@ -46,7 +46,7 @@ public:
  * @version 1.1
  * @date 2024-08-02
  */
-class Player {
+class Player : public std::enable_shared_from_this<Player> {
 public:
     /**
      * @brief Construct a new Player object.
@@ -123,6 +123,8 @@ public:
      * @return int The amount of the resource.
      */
     void removeResource(ResourceType resource, int amount);
+    
+    void removeUnit(const std::shared_ptr<Unit>& unit);
 
     /**
      * @brief Generates the income: adds resource income value  to players resources.
@@ -137,6 +139,8 @@ public:
     void updateGeneration();
 
 private:
+    std::shared_ptr<Player> getThisPlayer();
+    
     int player_nr_;
     std::string name_;
     sf::Color color_;

@@ -131,8 +131,9 @@ bool Unit::isReachableTile(const std::shared_ptr<Tile>& tile) {
 
     bool all_are_leavable = true;
 
+
     for (auto it = route.begin(); it != route.end(); it++) {
-        if (!isLeavableTile(*it)) {
+        if (!isLeavableTile(*it) && *it != tile) {
             all_are_leavable = false;
             break;
         }

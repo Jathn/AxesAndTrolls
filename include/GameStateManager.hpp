@@ -55,6 +55,7 @@ public:
     const std::shared_ptr<Player> getCurrentPlayer();
     const int& getRoundNr();
     std::shared_ptr<Tile> getCurrentTile();
+    std::vector<std::shared_ptr<Tile>> getContestedTiles();
 
     /* Setter functions */
     void setCurrentTile(const int& id);
@@ -69,6 +70,8 @@ private:
     std::vector<std::weak_ptr<Unit>> selected_units_;
     std::pair<int, int> map_size_;
     std::shared_ptr<Tile> current_tile_;
+
+    bool isTileContested(const std::shared_ptr<Tile>& tile) const;
 };
 
 #endif // GAME_STATE_MANAGER_HPP
