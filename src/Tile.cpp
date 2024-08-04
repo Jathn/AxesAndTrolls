@@ -1,7 +1,7 @@
 #include "Tile.hpp"
 
 Tile::Tile(const int& id, const int& x, const int& y, const std::vector<std::shared_ptr<Tile>>& neighbors, bool random, TileType type) 
-: id_(id), x_(x), y_(y), type_(type), is_current_(false) {
+: id_(id), x_(x), y_(y), type_(type), is_active_(false), is_current_(false) {
     for (auto neighbor : neighbors) {
         std::weak_ptr<Tile> neighbor_weak = neighbor;
         neighbors_.push_back(neighbor_weak);
@@ -101,6 +101,10 @@ const std::weak_ptr<Player>& Tile::getOwner() const {
     return owner_;
 }
 
+void Tile::setActive(bool active) {
+    is_active_ = active;
+}
+
 void Tile::setOwner(const std::shared_ptr<Player>& owner) {
     owner_ = owner;
 }
@@ -115,6 +119,10 @@ void Tile::setBuilding(const std::shared_ptr<Building>& building) {
 
 bool Tile::isCurrent() {
     return is_current_;
+}
+
+bool Tile::isActive() {
+    return is_active_;
 }
 
 void Tile::toggleCurrent() {

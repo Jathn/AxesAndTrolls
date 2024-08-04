@@ -49,7 +49,7 @@ std::vector<std::shared_ptr<Tile>> MovementHandler::getAvailableTiles(const std:
         std::shared_ptr<Tile> current_tile = current.first;
         int current_distance = current.second;
 
-        if (current_distance <= unit->getMovementLeft()) {
+        if (current_distance <= unit->getMovementLeft() && std::find(availability_map[unit->getType()].begin(), availability_map[unit->getType()].end(), current_tile->getType()) != availability_map[unit->getType()].end()) {
             available_tiles.push_back(current_tile);
         }
 

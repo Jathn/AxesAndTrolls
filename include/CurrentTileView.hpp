@@ -98,6 +98,7 @@ public:
      */
     const std::map<UnitType, int> count_units(const std::vector<std::weak_ptr<Unit>>& units) const;
 
+    /* Equivalent to getMoveActive , lul */
     bool isMoveActive() const;
 private:
     sf::RectangleShape background_;

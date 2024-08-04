@@ -27,6 +27,10 @@ public:
      */
     void drawCurrentFrame(sf::RenderWindow& window);
 
+    void drawColorFilter(sf::RenderWindow& window, sf::Color color);
+
+    void drawActiveFilter(sf::RenderWindow& window);
+    
     void drawTerritoryFilter(sf::RenderWindow& window, const std::shared_ptr<Player> player);
 
     bool isInside(int x, int y);

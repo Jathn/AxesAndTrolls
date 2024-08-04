@@ -36,6 +36,11 @@ void TileView::draw(sf::RenderWindow& window) {
     if (tile_.lock()->isCurrent()) {
         drawCurrentFrame(window);
     }
+
+    if (tile_.lock()->isActive()) {
+        drawActiveFilter(window);
+    }
+    
     drawUnits(window);
 }
 
@@ -85,13 +90,21 @@ void TileView::drawBuilding(sf::RenderWindow& window) {
     }
 }
 
-void TileView::drawTerritoryFilter(sf::RenderWindow& window, const std::shared_ptr<Player> player) {
+void TileView::drawColorFilter(sf::RenderWindow& window, sf::Color color) {
     sf::RectangleShape rectangle(sf::Vector2f(size_.first, size_.second));
     rectangle.setPosition(position_.first, position_.second);
-    sf::Color player_color = player->getColor();
-    player_color.a = 100;
-    rectangle.setFillColor(player_color);
+    color.a = 100;
+    rectangle.setFillColor(color);
     window.draw(rectangle);
+}
+
+void TileView::drawActiveFilter(sf::RenderWindow& window) {
+    sf::Color color = sf::Color::Black;
+    drawColorFilter(window, sf::Color::Green);
+}
+
+void TileView::drawTerritoryFilter(sf::RenderWindow& window, const std::shared_ptr<Player> player) {
+    drawColorFilter(window, player->getColor());
 }
 
 void TileView::drawCurrentFrame(sf::RenderWindow& window) {

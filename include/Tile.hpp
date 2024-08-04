@@ -63,14 +63,14 @@ public:
     void setNeighbors(const std::vector<std::weak_ptr<Tile>>& neighbors);
     void setOwner(const std::shared_ptr<Player>& owner);
     void setBuilding(const std::shared_ptr<Building>& building);
-
+    void setActive(bool active);
 
     /**
      * @brief Returns true if this tile is the "current tile."
      * 
      */
     bool isCurrent();
-    
+    bool isActive();
     /**
      * @brief Makes this tile current if not, and vice versa.
      * 
@@ -116,6 +116,7 @@ private:
     int y_;
     int id_;
     bool is_current_;
+    bool is_active_;
     TileType type_;
     std::vector<std::weak_ptr<Tile>> neighbors_;
     std::vector<std::weak_ptr<Unit>> units_;

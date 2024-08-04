@@ -24,6 +24,11 @@ void CombatMovePhase::handleLeftClick(sf::RenderWindow& window, const sf::Vector
             std::vector<std::shared_ptr<Unit>> units_to_move = current_tile_view_.getSelectedUnits();
             try {
                 state_manager_.lock()->getCurrentPlayer()->getMovementHandler()->moveUnits(units_to_move, state_manager_.lock()->getMap().at(tile_id));
+                current_tile_view_.setMoveActive(false);
+
+                for (auto tile : state_manager_.lock()->getMap()) {
+                    tile->setActive(false);
+                }
             } catch (std::exception& e) {
                 std::cout << e.what() << std::endl;
             }
@@ -38,6 +43,7 @@ void CombatMovePhase::handleLeftClick(sf::RenderWindow& window, const sf::Vector
 }
 
 void CombatMovePhase::draw(sf::RenderWindow& window) {
+
     if (state_manager_.lock()->getCurrentTile() == nullptr) {
         return;
     }
@@ -51,6 +57,25 @@ void CombatMovePhase::draw(sf::RenderWindow& window) {
         }
     }
 
+    if (current_tile_view_.isMoveActive()) {
+        std::shared_ptr<MovementHandler> movement_handler = state_manager_.lock()->getCurrentPlayer()->getMovementHandler();
+        std::vector<std::shared_ptr<Tile>> available_tiles = movement_handler->getAvailableTiles(current_tile_view_.getSelectedUnits());
+        std::vector<int> available_tile_ids;
+        
+        for (const auto& tile : available_tiles) {
+            available_tile_ids.push_back(tile->getId());
+        }
+
+        for (auto i : available_tile_ids) {
+            std::shared_ptr<Tile> tile = state_manager_.lock()->getMap().at(i);
+            tile->setActive(true);
+        }
+    } else {
+        for (auto tile : state_manager_.lock()->getMap()) {
+            tile->setActive(false);
+        }
+    }
+    
     std::string building_name = "No building";
     if (state_manager_.lock()->getCurrentTile()->getBuilding() != nullptr) {
         building_name = state_manager_.lock()->getCurrentTile()->getBuilding()->getName();
