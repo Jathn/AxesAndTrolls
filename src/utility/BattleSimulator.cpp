@@ -53,3 +53,12 @@ void BattleSimulator::assignHit(const std::shared_ptr<Unit>& unit) {
 std::pair<int, int> BattleSimulator::getStatus() const {
     return std::make_pair(attackers_.size(), defenders_.size());
 }
+
+void BattleSimulator::refresh() {
+    hitMap_ = std::make_pair(0, 0);
+    dices_rolled_.clear();
+}
+
+bool BattleSimulator::isBattleOver() const {
+    return attackers_.size() == 0 || defenders_.size() == 0;
+}

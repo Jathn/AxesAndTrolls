@@ -57,6 +57,8 @@ public:
      * @return std::pair<int, int> a pair where the first value is the number of attackers and the second value is the number of defenders
      */
     std::pair<int, int> getStatus() const;
+
+    bool isBattleOver() const;
 private:
     std::map<std::shared_ptr<Player>, std::map<UnitType, int>> dices_rolled_; /**< Dice rolls for each player. */
     std::pair<int, int> hitMap_;   /**< Accumulated hits for a round. */

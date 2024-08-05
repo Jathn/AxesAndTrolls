@@ -8,7 +8,7 @@ std::map<char, std::string> tile_pics = {
     {'W', "../resources/pics/water_tile.png"},
 };
 
-/* buildingtype : picture url */
+/* buildingtype character : picture url */
 std::map<char, std::string> building_pics = {
     {'C', "../resources/pics/city.png"},
     {'F', "../resources/pics/farm.png"},
