@@ -18,29 +18,41 @@ std::shared_ptr<Player> CombatPhase::getDefendingPlayer(const std::shared_ptr<Ti
     
 std::vector<std::shared_ptr<Unit>> CombatPhase::getPlayerUnits(const std::shared_ptr<Tile>& tile, const std::shared_ptr<Player>& player) {
     // Get attacking units here
-    std::vector<std::shared_ptr<Unit>> attacking_units;
+    std::vector<std::shared_ptr<Unit>> units;
     for (auto unit : tile->getUnits()) {
         if (unit.lock()->getOwner() == player) {
-            attacking_units.push_back(unit.lock());
+            units.push_back(unit.lock());
         }
     }
 
-    return attacking_units;
+    return units;
 }
 
 void CombatPhase::startCombat(std::shared_ptr<Tile> tile) {
     // Start combat here
     std::shared_ptr<Player> attacking_player = getAttackingPlayer();
+    std::cout << "Attacking player: " << attacking_player->getName() << std::endl;
     std::shared_ptr<Player> defending_player = getDefendingPlayer(tile);
-
+    std::cout << "Defending player: " << defending_player->getName() << std::endl;
     std::vector<std::shared_ptr<Unit>> attacking_units = getPlayerUnits(tile, attacking_player);
+    std::cout << "Attacking units: " << attacking_units.size() << std::endl;
     std::vector<std::shared_ptr<Unit>> defending_units = getPlayerUnits(tile, defending_player);
+    std::cout << "Defending units: " << defending_units.size() << std::endl;
 
-    battle_simulator_ = std::make_unique<BattleSimulator>(attacking_units, defending_units);
+    battle_window_ = std::make_unique<BattleWindow>(attacking_player, defending_player, attacking_units, defending_units, std::make_pair(100, 100));
+    in_combat_ = true;
 }
 
-void CombatPhase::handleEvent(sf::Event& event, sf::RenderWindow& window) {
-    // Handle events here
+void CombatPhase::inCombatHandleEvent(sf::Event& event, sf::RenderWindow& window) {
+
+    if (battle_window_ == nullptr) {
+        throw std::runtime_error("Battle window is not initialized");
+    }
+    // Handle events during combat here
+    battle_window_->handleEvent(event, window);
+}
+
+void CombatPhase::outCombatHandleEvent(sf::Event& event, sf::RenderWindow& window) {
     if (checkLeftClick(event)) {
         sf::Vector2i localPosition = (sf::Vector2i) window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 
@@ -50,12 +62,24 @@ void CombatPhase::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             std::cout << "Something else clicked" << std::endl;
         } else {
             if (isContested(state_manager_.lock()->getMap().at(tile_id))) {
-                std::cout << "Tile is contested" << std::endl;
+                startCombat(state_manager_.lock()->getMap().at(tile_id));
             } else {
                 std::cout << "Tile is not contested" << std::endl;
             }
         }
         
+    }
+}
+
+void CombatPhase::handleEvent(sf::Event& event, sf::RenderWindow& window) {
+    if (in_combat_) {
+        try {
+            inCombatHandleEvent(event, window);
+        } catch (std::runtime_error& e) {
+            std::cout << e.what() << std::endl;
+        }
+    } else {
+        outCombatHandleEvent(event, window);
     }
 }
 
@@ -71,6 +95,10 @@ void CombatPhase::updateContestedTiles() {
 
 void CombatPhase::draw(sf::RenderWindow& window) {
     updateContestedTiles();
+
+    if (in_combat_ && battle_window_ != nullptr) {
+        battle_window_->draw(window);
+    }
 }
 
 std::shared_ptr<Phase> CombatPhase::getNextPhase() {

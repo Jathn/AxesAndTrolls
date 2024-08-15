@@ -33,6 +33,7 @@ void PlacementPhase::handleLeftClick(sf::Event& event, sf::Vector2f localPositio
                 current_player->getTerritory()->addTile(current_tile);
                 current_player->placeBuilding(current_player->getUnplacedBuildings().back(), current_tile);
                 current_player->placeUnit(current_player->getUnplacedUnits().back(), current_tile);
+                current_tile->setOwner(current_player);
                 state_manager_.lock()->nextPlayer();
                 if (state_manager_.lock()->getCurrentPlayer() == state_manager_.lock()->getPlayers().front()) {
                     std::cout << "Placement phase done" << std::endl;

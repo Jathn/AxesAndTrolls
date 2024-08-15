@@ -104,7 +104,6 @@ std::vector<std::shared_ptr<Unit>> MovementHandler::getUnplacedUnits() const {
 void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile) {
     std::pair<int, std::vector<int>> route = calculateDistanceGBFS(unit->getTile(), tile, getReachableTileFunction(unit));
     std::vector<int> path = route.second;
-    std::cout << "Path calculated, length: " << path.size() << std::endl;
     path.erase(path.begin());
     /* Handle situation where the position isn't reachable */
     if (route.first == -1) {
@@ -112,7 +111,6 @@ void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::sha
     }
 
     std::vector<std::shared_ptr<Tile>> available_tiles = getAvailableTiles(unit);
-    std::cout << "Available tiles: " << available_tiles.size() << std::endl;
     /* Handle situation where the tile is not in the available tiles */
     if (std::find(available_tiles.begin(), available_tiles.end(), tile) == available_tiles.end()) {
         return;
@@ -124,7 +122,6 @@ void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::sha
         If the route is longer than the movement left, the route is shortened to the movement left.
     */
     for (auto it = path.begin(); it != path.end(); it++) {
-        std::cout << "Moving along the path" << std::endl;
         if (unit->getMovementLeft() == 0) {
             break;
         }
@@ -136,27 +133,34 @@ void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::sha
         }
 
         /* Move to the tile */
+        bool is_unit_on_tile = nextTile->getUnits().size() > 0;
+        
+        
         int current_movement = unit->getMovementLeft();
         unit->getTile()->removeUnit(unit);
         unit->setTile(nextTile);
         nextTile->addUnit(unit);
         unit->setMovementLeft(current_movement - 1);
-        territory_->addTile(nextTile);
+        
+        std::shared_ptr<Player> player = territory_->getTiles().at(0)->getOwner().lock();
+        std::shared_ptr<Player> tile_owner = nextTile->getOwner().lock();
+        
+        if (!is_unit_on_tile) {
+            territory_->addTile(nextTile);
+            nextTile->setOwner(player);
+        }
+
     }   
 }
 
 void MovementHandler::moveUnits(const std::vector<std::shared_ptr<Unit>>& units, const std::shared_ptr<Tile>& tile) {
-    std::cout << "Moving units" << std::endl;
-    std::cout << "Units: " << units.size() << std::endl;
     /* Don't move if all units can't reach the tile */
     for (auto unit : units) {
         if (!unit->isReachableTile(tile)) {
             return;
         }
     }
-    std::cout << "All units can reach the tile" << std::endl;
 
-    std::cout << "Moving all Units" << std::endl;
     for (auto unit : units) {
         moveUnit(unit, tile);
     }

@@ -1,11 +1,15 @@
 #include "BattleSimulator.hpp"
 
+std::vector<UnitType> unitTypes = {UnitType::INFANTRY, UnitType::ARTILLERY, UnitType::RIDER, UnitType::DRAGON};
+
 BattleSimulator::BattleSimulator(std::vector<std::shared_ptr<Unit>> attackers, std::vector<std::shared_ptr<Unit>> defenders) {
+    
+
     for (auto& attacker : attackers) {
-        attackers_.push_back(attacker);
+        attackers_[attacker->getType()].push_back(attacker);
     }
     for (auto& defender : defenders) {
-        defenders_.push_back(defender);
+        defenders_[defender->getType()].push_back(defender);
     }
 
     hitMap_ = std::make_pair(0, 0);
@@ -16,10 +20,19 @@ BattleSimulator::BattleSimulator(std::vector<std::shared_ptr<Unit>> attackers, s
         throw std::invalid_argument("No defenders in battle");
     }
 
-    std::shared_ptr<Player> player = attackers[0]->getOwner();
-    if (player != nullptr) {
-        dices_rolled_[player] = std::map<UnitType, int>();
+    std::shared_ptr<Player> attacker = attackers[0]->getOwner();
+    std::shared_ptr<Player> defender = defenders[0]->getOwner();
+    if (attacker == nullptr || defender == nullptr) {
+        throw std::invalid_argument("No owner for units");
     }
+
+    if (attacker == defender) {
+        throw std::invalid_argument("Attacker and defender are the same player");
+    }
+
+    dices_rolled_[attacker] = std::map<UnitType, int>();
+    dices_rolled_[defender] = std::map<UnitType, int>();
+    
 }
 
 // Currently always ends up returning true, since Player etc. is not properly implemented
@@ -48,6 +61,10 @@ void BattleSimulator::assignHit(const std::shared_ptr<Unit>& unit) {
     if (player == nullptr) return;
 
     player->removeUnit(unit);
+}
+
+void BattleSimulator::takeHit(UnitType unitType, std::map<UnitType, std::vector<std::weak_ptr<Unit>>>& units) {
+    assignHit(units[unitType].back().lock());
 }
 
 std::pair<int, int> BattleSimulator::getStatus() const {

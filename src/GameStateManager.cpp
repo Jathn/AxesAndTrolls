@@ -96,7 +96,6 @@ std::vector<std::shared_ptr<Tile>> GameStateManager::getContestedTiles() {
     std::vector<std::shared_ptr<Tile>> contested_tiles;
     for (auto tile : map_) {
         if (isTileContested(tile)) {
-            std::cout << "Tile " << tile->getId() << " is contested" << std::endl;
             contested_tiles.push_back(tile);
         }
     }

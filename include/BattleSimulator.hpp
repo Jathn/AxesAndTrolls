@@ -45,6 +45,12 @@ public:
     void assignHit(const std::shared_ptr<Unit>& unit);
 
     /**
+     * @brief Assigns a hit to a unittype. Reducing the number of this unittype by one.
+     * 
+     */
+    void takeHit(UnitType unitType, std::map<UnitType, std::vector<std::weak_ptr<Unit>>>& units);
+    
+    /**
      * @brief Refreshes the battle simulator.
      *        - Resets the hit map.
      *        - Resets the dice roll tracker.
@@ -62,8 +68,8 @@ public:
 private:
     std::map<std::shared_ptr<Player>, std::map<UnitType, int>> dices_rolled_; /**< Dice rolls for each player. */
     std::pair<int, int> hitMap_;   /**< Accumulated hits for a round. */
-    std::vector<std::weak_ptr<Unit>> attackers_;    /**< The hit level of the unit. */
-    std::vector<std::weak_ptr<Unit>> defenders_;
+    std::map<UnitType, std::vector<std::weak_ptr<Unit>>> attackers_;    /**< The hit level of the unit. */
+    std::map<UnitType, std::vector<std::weak_ptr<Unit>>> defenders_;
 };
 
 #endif // BATTLE_SIMULATOR_HPP

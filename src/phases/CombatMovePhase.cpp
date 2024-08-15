@@ -31,6 +31,14 @@ void CombatMovePhase::handleLeftClick(sf::RenderWindow& window, const sf::Vector
                 state_manager_.lock()->getCurrentPlayer()->getMovementHandler()->moveUnits(units_to_move, state_manager_.lock()->getMap().at(tile_id));
                 current_tile_view_.setMoveActive(false);
 
+                for (auto player : state_manager_.lock()->getPlayers()) {
+                    for (auto tile : player->getTiles()) {
+                        if (tile->getOwner().lock() != player) {
+                            player->getTerritory()->removeTile(tile);
+                        }
+                    }
+                }
+                
                 for (auto tile : state_manager_.lock()->getMap()) {
                     tile->setActive(false);
                 }
