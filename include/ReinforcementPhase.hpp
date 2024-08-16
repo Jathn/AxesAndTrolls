@@ -2,6 +2,7 @@
 #define REINFORCEMENT_PHASE_HPP
 
 #include "Phase.hpp"
+#include "UnitView.hpp"
 
 /**
  * @file ReinforcementPhase.hpp
@@ -16,9 +17,21 @@
 class ReinforcementPhase : public Phase {
 public:
     ReinforcementPhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager);
+
+    void unitPlacement(sf::Event& event, sf::RenderWindow& window);
+    void buildingPlacement(sf::Event& event, sf::RenderWindow& window);
     void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
+
+    void drawUnplacedUnits(sf::RenderWindow& window);
+    void drawUnplacedBuildings(sf::RenderWindow& window);
     void draw(sf::RenderWindow& window) override;
     std::shared_ptr<Phase> getNextPhase() override;
+    bool allUnitsPlaced() const;
+    bool allBuildingsPlaced() const;
+private:
+    std::weak_ptr<Player> current_player_;
+    std::vector<std::weak_ptr<Unit>> unplaced_units_;
+    std::vector<std::weak_ptr<Building>> unplaced_buildings_;
 };
 
 #endif // REINFORCEMENT_PHASE_HPP

@@ -135,6 +135,7 @@ bool GameStateManager::isTileContested(const std::shared_ptr<Tile>& tile) const 
         
         if (std::find(player_names.begin(), player_names.end(), name) == player_names.end()) {
             players.push_back(player);
+            player_names.push_back(name);
         }
     }
 

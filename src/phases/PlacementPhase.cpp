@@ -26,8 +26,8 @@ void PlacementPhase::handleLeftClick(sf::Event& event, sf::Vector2f localPositio
                 std::shared_ptr<Player> current_player = state_manager_.lock()->getCurrentPlayer();
                 std::shared_ptr<Tile> current_tile = state_manager_.lock()->getCurrentTile();
 
-                current_player->addResource(ResourceType::GOLD, 100);
-                current_player->addResource(ResourceType::FOOD, 100);
+                current_player->addResource(ResourceType::GOLD, 50);
+                current_player->addResource(ResourceType::FOOD, 10);
                 current_player->buyUnit(UnitType::INFANTRY);
                 current_player->buyBuilding(BuildingType::CITY);
                 current_player->getTerritory()->addTile(current_tile);

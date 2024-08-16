@@ -2,7 +2,7 @@
 #include "CombatPhase.hpp"
 
 CombatMovePhase::CombatMovePhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager) :
-    Phase(state_manager, graphics_manager, "Combat Move Phase") {
+    Phase(state_manager, graphics_manager, "Move Phase") {
         current_tile_view_ = CurrentTileView();
         next_button_ = std::make_shared<Button>("Combat!", std::pair<int, int>(150, 50), std::pair<int,int>(1200, 950));
 }

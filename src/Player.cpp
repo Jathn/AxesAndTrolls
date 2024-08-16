@@ -108,6 +108,7 @@ void Player::placeUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<
 
     tile->addUnit(unit);
     unit->setTile(tile);
+    unit->setOwner(getThisPlayer());
 }
 
 /* Checks only gold cost */

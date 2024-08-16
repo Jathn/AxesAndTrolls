@@ -1,10 +1,13 @@
 #include "CombatPhase.hpp"
-#include "FriendlyMovePhase.hpp"
+#include "ReinforcementPhase.hpp"
 
 CombatPhase::CombatPhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager) :
     Phase(state_manager, graphics_manager, "Combat Phase") {
         updateContestedTiles();
         finish_button_ = std::make_unique<Button>("Finish", std::pair<int, int>(150, 50), std::pair<int,int>(1000, 950));
+        if (state_manager->getContestedTiles().size() == 0) {
+            setDone();
+        }
     }
 
 std::shared_ptr<Player> CombatPhase::getAttackingPlayer() {
@@ -90,7 +93,11 @@ void CombatPhase::outCombatHandleEvent(sf::Event& event, sf::RenderWindow& windo
             if (isContested(state_manager_.lock()->getMap().at(tile_id))) {
                 std::shared_ptr<Tile> tile = state_manager_.lock()->getMap().at(tile_id);
                 battle_tile_ = tile;
-                startCombat(tile);
+                try {
+                    startCombat(tile);
+                } catch (std::exception& e) {
+                    std::cout << e.what() << std::endl;
+                }
             } else {
                 std::cout << "Tile is not contested" << std::endl;
             }
@@ -133,7 +140,7 @@ void CombatPhase::draw(sf::RenderWindow& window) {
 }
 
 std::shared_ptr<Phase> CombatPhase::getNextPhase() {
-    return std::make_shared<FriendlyMovePhase>(state_manager_.lock(), graphics_manager_.lock());
+    return std::make_shared<ReinforcementPhase>(state_manager_.lock(), graphics_manager_.lock());
 }
 
 bool CombatPhase::isContested(const std::shared_ptr<Tile>& tile) {
