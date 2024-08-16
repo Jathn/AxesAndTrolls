@@ -46,10 +46,22 @@ public:
 
     /**
      * @brief Assigns a hit to a unittype. Reducing the number of this unittype by one.
+     *          Affects the attacker.
+     */
+    void takeHitAttacker(UnitType unitType);
+
+    /**
+     * @brief Assigns a hit to a unittype. Reducing the number of this unittype by one.
+     *          Affects the defender.
+     */
+    void takeHitDefender(UnitType unitType);
+
+    /**
+     * @brief Assigns a hit to a unittype. Reducing the number of this unittype by one.
      * 
      */
     void takeHit(UnitType unitType, std::map<UnitType, std::vector<std::weak_ptr<Unit>>>& units);
-    
+
     /**
      * @brief Refreshes the battle simulator.
      *        - Resets the hit map.
@@ -64,7 +76,44 @@ public:
      */
     std::pair<int, int> getStatus() const;
 
+    /**
+     * @brief Get the number of attackers of a specific type.
+     * 
+     * @param type the type of unit to get the number of attackers for
+     * @return const int& the number of attackers of the specified type
+     */
+    const int getAttackersCount(UnitType type);
+
+    /**
+     * @brief Get the number of defenders of a specific type.
+     * 
+     * @param type the type of unit to get the number of defenders for
+     * @return const int& the number of defenders of the specified type
+     */
+    const int getDefendersCount(UnitType type);
+
+    void rollAllDie();
+
+    /**
+     * @brief Check if the battle is over.
+     * 
+     * @return bool true if the battle is over, false otherwise
+     */
     bool isBattleOver() const;
+
+    /**
+     * @brief Get the dices rolled for a player.
+     * 
+     * @param player the player to get the dices rolled for
+     * @return const std::map<UnitType, int>& the dices rolled for the player
+     */
+    const std::map<UnitType, int>& getDicesRolled(const std::shared_ptr<Player>& player);
+
+    /**
+     * @brief Get the hitmap for the battle.
+     */
+    const std::pair<int, int>& getHitMap();
+
 private:
     std::map<std::shared_ptr<Player>, std::map<UnitType, int>> dices_rolled_; /**< Dice rolls for each player. */
     std::pair<int, int> hitMap_;   /**< Accumulated hits for a round. */

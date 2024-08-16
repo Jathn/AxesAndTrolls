@@ -8,7 +8,11 @@ class UnitView {
 public:
     UnitView(const UnitType& type);
     void draw(sf::RenderWindow& window, const std::pair<int, int>& position, const int& size, const int& count);
+
+    UnitType getType();
+    bool isInside(int x, int y);
 private:
+    UnitType type_;
     sf::Texture texture_;
     sf::Sprite sprite_;
     sf::Text text_;

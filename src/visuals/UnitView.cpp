@@ -8,6 +8,9 @@ std::map<UnitType, std::string> urls = {
 };
 
 UnitView::UnitView(const UnitType& type) {
+
+    type_ = type;
+
     if (!font_.loadFromFile("../resources/fonts/TTF/crimson-bold.ttf")) {
         throw std::runtime_error("Font not found");
     }
@@ -28,4 +31,8 @@ void UnitView::draw(sf::RenderWindow& window, const std::pair<int, int>& positio
     text_.setString(std::to_string(count));
     text_.setPosition((double) (position.first + 1.5 * size), (double) (position.second + 0.5 * size));
     window.draw(text_);
+}
+
+UnitType UnitView::getType() {
+    return type_;
 }

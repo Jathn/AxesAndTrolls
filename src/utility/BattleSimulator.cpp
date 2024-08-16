@@ -1,6 +1,5 @@
 #include "BattleSimulator.hpp"
-
-std::vector<UnitType> unitTypes = {UnitType::INFANTRY, UnitType::ARTILLERY, UnitType::RIDER, UnitType::DRAGON};
+#include "BattleWindow.hpp"
 
 BattleSimulator::BattleSimulator(std::vector<std::shared_ptr<Unit>> attackers, std::vector<std::shared_ptr<Unit>> defenders) {
     
@@ -32,7 +31,8 @@ BattleSimulator::BattleSimulator(std::vector<std::shared_ptr<Unit>> attackers, s
 
     dices_rolled_[attacker] = std::map<UnitType, int>();
     dices_rolled_[defender] = std::map<UnitType, int>();
-    
+
+    hitMap_ = std::make_pair(0, 0);
 }
 
 // Currently always ends up returning true, since Player etc. is not properly implemented
@@ -58,9 +58,26 @@ std::pair<bool, int> BattleSimulator::rollToHit(const std::shared_ptr<Unit>& uni
 
 void BattleSimulator::assignHit(const std::shared_ptr<Unit>& unit) {
     std::shared_ptr<Player> player = unit->getOwner();
+
     if (player == nullptr) return;
 
     player->removeUnit(unit);
+
+    if (player == attackers_[unit->getType()].back().lock()->getOwner()) {
+        attackers_[unit->getType()].pop_back();
+        hitMap_.second--;
+    } else {
+        defenders_[unit->getType()].pop_back();
+        hitMap_.first--;
+    }
+}
+
+void BattleSimulator::takeHitDefender(UnitType unitType) {
+    assignHit(attackers_[unitType].back().lock());
+}
+
+void BattleSimulator::takeHitAttacker(UnitType unitType) {
+    assignHit(defenders_[unitType].back().lock());
 }
 
 void BattleSimulator::takeHit(UnitType unitType, std::map<UnitType, std::vector<std::weak_ptr<Unit>>>& units) {
@@ -71,11 +88,75 @@ std::pair<int, int> BattleSimulator::getStatus() const {
     return std::make_pair(attackers_.size(), defenders_.size());
 }
 
+const int BattleSimulator::getAttackersCount(UnitType type) {
+    if (attackers_.find(type) == attackers_.end()) {
+        return 0;
+    }
+    return attackers_.at(type).size();
+}
+
+const int BattleSimulator::getDefendersCount(UnitType type) {
+    if (defenders_.find(type) == defenders_.end()) {
+        return 0;
+    }
+    return defenders_.at(type).size();
+}
+
 void BattleSimulator::refresh() {
     hitMap_ = std::make_pair(0, 0);
     dices_rolled_.clear();
 }
 
+void BattleSimulator::rollAllDie() {
+    std::shared_ptr<Player> attacker = attackers_.begin()->second[0].lock()->getOwner();
+    std::shared_ptr<Player> defender = defenders_.begin()->second[0].lock()->getOwner();
+    std::vector<UnitType> unittypes = {UnitType::INFANTRY, UnitType::ARTILLERY, UnitType::RIDER, UnitType::DRAGON}; 
+    for (auto type : unittypes) {
+        if (getAttackersCount(type) > 0)  {
+            std::pair<bool, int> result = rollToHit(attackers_[type].back().lock());
+            if (result.first) {
+                hitMap_.first++;
+            }
+            dices_rolled_[attacker][type] = result.second;
+        } else {
+            dices_rolled_[attacker][type] = 0;
+        }
+
+        if (getDefendersCount(type) > 0) {
+            std::pair<bool, int> result = rollToHit(defenders_[type].back().lock());
+            if (result.first) {
+                hitMap_.second++;
+            }
+            dices_rolled_[defender][type] = result.second;
+        } else {
+            dices_rolled_[defender][type] = 0;
+        }
+    }
+}
+
 bool BattleSimulator::isBattleOver() const {
-    return attackers_.size() == 0 || defenders_.size() == 0;
+    bool isOver = true;
+    for (auto& attacker : attackers_) {
+        if (attacker.second.size() > 0) {
+            isOver = false;
+            break;
+        }
+    }
+
+    for (auto& defender : defenders_) {
+        if (defender.second.size() > 0) {
+            isOver = false;
+            break;
+        }
+    }
+
+    return isOver;
+}
+
+const std::map<UnitType, int>& BattleSimulator::getDicesRolled(const std::shared_ptr<Player>& player) {
+    return dices_rolled_.at(player);
+}
+
+const std::pair<int, int>& BattleSimulator::getHitMap() {
+    return hitMap_;
 }

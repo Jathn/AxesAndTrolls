@@ -31,13 +31,9 @@ std::vector<std::shared_ptr<Unit>> CombatPhase::getPlayerUnits(const std::shared
 void CombatPhase::startCombat(std::shared_ptr<Tile> tile) {
     // Start combat here
     std::shared_ptr<Player> attacking_player = getAttackingPlayer();
-    std::cout << "Attacking player: " << attacking_player->getName() << std::endl;
     std::shared_ptr<Player> defending_player = getDefendingPlayer(tile);
-    std::cout << "Defending player: " << defending_player->getName() << std::endl;
     std::vector<std::shared_ptr<Unit>> attacking_units = getPlayerUnits(tile, attacking_player);
-    std::cout << "Attacking units: " << attacking_units.size() << std::endl;
     std::vector<std::shared_ptr<Unit>> defending_units = getPlayerUnits(tile, defending_player);
-    std::cout << "Defending units: " << defending_units.size() << std::endl;
 
     battle_window_ = std::make_unique<BattleWindow>(attacking_player, defending_player, attacking_units, defending_units, std::make_pair(100, 100));
     in_combat_ = true;
