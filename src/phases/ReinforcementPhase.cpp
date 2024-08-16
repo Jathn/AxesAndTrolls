@@ -56,6 +56,10 @@ void ReinforcementPhase::handleEvent(sf::Event& event, sf::RenderWindow& window)
     } else if (!allBuildingsPlaced()) {
         buildingPlacement(event, window);
     } else {
+        std::shared_ptr<Player> current_player = state_manager_.lock()->getCurrentPlayer();
+        for(auto unit : current_player->getUnits()) {
+            unit->setMovementLeft(unit->getMovement());
+        }
         setDone();
     }
 }

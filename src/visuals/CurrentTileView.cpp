@@ -170,7 +170,6 @@ void CurrentTileView::onSelectUnitButtonClicked(const int& index, const std::sha
     for (const auto& unit : filtered_units) {
         if (unit->getMovementLeft() > 0) {
             selected_units_.push_back(unit);
-            break;
         }
     }
 }
