@@ -45,6 +45,16 @@ BattleWindow::BattleWindow(std::shared_ptr<Player> player1, std::shared_ptr<Play
     roll_button_ = std::make_unique<Button>("Roll", std::make_pair(100, 100), std::make_pair(position.first + 900, position.second + 580));
 }
 
+std::shared_ptr<Player> BattleWindow::getWinner() {
+    int attackers_left = battle_simulator_->getStatus().first;
+    int defenders_left = battle_simulator_->getStatus().second;
+
+    if (defenders_left == 0 && attackers_left > 0) {
+        return player1_.lock();
+    }
+
+    return player2_.lock();
+}
 void BattleWindow::rollDice() {
     battle_simulator_->rollAllDie();
     std::map<UnitType, int> hits_p1 = battle_simulator_->getDicesRolled(player1_.lock());
@@ -103,10 +113,6 @@ void BattleWindow::handleEvent(sf::Event& event, sf::RenderWindow& window) {
         if (roll_button_->isInside(event.mouseButton.x, event.mouseButton.y) && !isOver()) {
             rollDice();
         }
-    }
-
-    if (isOver()) {
-        std::cout << "Battle is over" << std::endl;
     }
 }
 

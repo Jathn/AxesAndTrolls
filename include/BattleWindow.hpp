@@ -17,6 +17,8 @@ class BattleWindow {
 public:
     BattleWindow(std::shared_ptr<Player> player1, std::shared_ptr<Player> player2, std::vector<std::shared_ptr<Unit>> a_units, std::vector<std::shared_ptr<Unit>> d_units, std::pair<int, int> position);
     
+    std::shared_ptr<Player> getWinner();
+    
     void handleAttackerAssigns(sf::Event& event, sf::RenderWindow& window);
     void handleDefenderAssigns(sf::Event& event, sf::RenderWindow& window);
     void handleEvent(sf::Event& event, sf::RenderWindow& window);

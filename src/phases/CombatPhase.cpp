@@ -4,6 +4,7 @@
 CombatPhase::CombatPhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager) :
     Phase(state_manager, graphics_manager, "Combat Phase") {
         updateContestedTiles();
+        finish_button_ = std::make_unique<Button>("Finish", std::pair<int, int>(150, 50), std::pair<int,int>(1000, 950));
     }
 
 std::shared_ptr<Player> CombatPhase::getAttackingPlayer() {
@@ -39,13 +40,37 @@ void CombatPhase::startCombat(std::shared_ptr<Tile> tile) {
     in_combat_ = true;
 }
 
+void CombatPhase::resolveBattle() {
+    std::shared_ptr<Player> winner = battle_window_->getWinner();
+    std::shared_ptr<Player> previous = battle_tile_.lock()->getOwner().lock();
+    previous->getTerritory()->removeTile(battle_tile_.lock());
+    battle_tile_.lock()->setOwner(winner);
+    winner->getTerritory()->addTile(battle_tile_.lock());
+    for (auto unit : battle_tile_.lock()->getUnits()) {
+        std::shared_ptr<Player> owner = unit.lock()->getOwner();
+        if (owner != winner) {
+            battle_tile_.lock()->removeUnit(unit.lock());
+        }
+    }
+    in_combat_ = false;
+    battle_window_.reset();
+}
+
 void CombatPhase::inCombatHandleEvent(sf::Event& event, sf::RenderWindow& window) {
 
     if (battle_window_ == nullptr) {
         throw std::runtime_error("Battle window is not initialized");
     }
     // Handle events during combat here
-    battle_window_->handleEvent(event, window);
+    if (battle_window_->isOver() && battle_window_ != nullptr) {
+        if (event.type == sf::Event::MouseButtonPressed) {
+            if (finish_button_->isInside(event.mouseButton.x, event.mouseButton.y)) {
+                resolveBattle();
+            }
+        }
+    } else {
+        battle_window_->handleEvent(event, window);
+    }
 }
 
 void CombatPhase::outCombatHandleEvent(sf::Event& event, sf::RenderWindow& window) {
@@ -58,7 +83,9 @@ void CombatPhase::outCombatHandleEvent(sf::Event& event, sf::RenderWindow& windo
             std::cout << "Something else clicked" << std::endl;
         } else {
             if (isContested(state_manager_.lock()->getMap().at(tile_id))) {
-                startCombat(state_manager_.lock()->getMap().at(tile_id));
+                std::shared_ptr<Tile> tile = state_manager_.lock()->getMap().at(tile_id);
+                battle_tile_ = tile;
+                startCombat(tile);
             } else {
                 std::cout << "Tile is not contested" << std::endl;
             }
@@ -94,6 +121,9 @@ void CombatPhase::draw(sf::RenderWindow& window) {
 
     if (in_combat_ && battle_window_ != nullptr) {
         battle_window_->draw(window);
+        if (battle_window_->isOver()) {
+            finish_button_->draw(window);
+        }
     }
 }
 

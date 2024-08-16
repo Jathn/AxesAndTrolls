@@ -4,6 +4,7 @@
 #include "Phase.hpp"
 #include "BattleSimulator.hpp"
 #include "BattleWindow.hpp"
+#include "Button.hpp"
 
 /**
  * @file CombatPhase.hpp
@@ -23,6 +24,7 @@ public:
     std::shared_ptr<Player> getDefendingPlayer(const std::shared_ptr<Tile>& tile);
     std::vector<std::shared_ptr<Unit>> getPlayerUnits(const std::shared_ptr<Tile>& tile, const std::shared_ptr<Player>& player);
     
+    void resolveBattle();
     void inCombatHandleEvent(sf::Event& event, sf::RenderWindow& window);
     void outCombatHandleEvent(sf::Event& event, sf::RenderWindow& window);
     void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
@@ -37,6 +39,8 @@ private:
     bool isContested(const std::shared_ptr<Tile>& tile);
     bool in_combat_ = false;
     std::unique_ptr<BattleWindow> battle_window_;
+    std::unique_ptr<Button> finish_button_;
+    std::weak_ptr<Tile> battle_tile_;
 };
 
 #endif // COMBAT_PHASE_HPP

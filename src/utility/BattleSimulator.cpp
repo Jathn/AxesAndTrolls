@@ -61,8 +61,6 @@ void BattleSimulator::assignHit(const std::shared_ptr<Unit>& unit) {
 
     if (player == nullptr) return;
 
-    player->removeUnit(unit);
-
     if (player == attackers_[unit->getType()].back().lock()->getOwner()) {
         attackers_[unit->getType()].pop_back();
         hitMap_.second--;
@@ -70,6 +68,9 @@ void BattleSimulator::assignHit(const std::shared_ptr<Unit>& unit) {
         defenders_[unit->getType()].pop_back();
         hitMap_.first--;
     }
+
+    player->removeUnit(unit);
+
 }
 
 void BattleSimulator::takeHitDefender(UnitType unitType) {
@@ -143,6 +144,8 @@ bool BattleSimulator::isBattleOver() const {
         }
     }
 
+    if (isOver) return true;
+    
     for (auto& defender : defenders_) {
         if (defender.second.size() > 0) {
             isOver = false;
