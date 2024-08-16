@@ -86,7 +86,25 @@ void BattleSimulator::takeHit(UnitType unitType, std::map<UnitType, std::vector<
 }
 
 std::pair<int, int> BattleSimulator::getStatus() const {
-    return std::make_pair(attackers_.size(), defenders_.size());
+    int attackers = 0;
+    for (auto type : {UnitType::INFANTRY, UnitType::ARTILLERY, UnitType::RIDER, UnitType::DRAGON}) {
+        try {
+            attackers += attackers_.at(type).size();
+        } catch (std::out_of_range& e) {
+            continue;
+        }
+    }
+
+    int defenders = 0;
+    for (auto type : {UnitType::INFANTRY, UnitType::ARTILLERY, UnitType::RIDER, UnitType::DRAGON}) {
+        try {
+            defenders += defenders_.at(type).size();
+        } catch (std::out_of_range& e) {
+            continue;
+        }
+    }
+
+    return std::make_pair(attackers, defenders);
 }
 
 const int BattleSimulator::getAttackersCount(UnitType type) {
@@ -145,15 +163,15 @@ bool BattleSimulator::isBattleOver() const {
     }
 
     if (isOver) return true;
-    
+
     for (auto& defender : defenders_) {
         if (defender.second.size() > 0) {
-            isOver = false;
+            return false;
             break;
         }
     }
 
-    return isOver;
+    return true;
 }
 
 const std::map<UnitType, int>& BattleSimulator::getDicesRolled(const std::shared_ptr<Player>& player) {

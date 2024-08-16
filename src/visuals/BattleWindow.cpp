@@ -49,12 +49,13 @@ std::shared_ptr<Player> BattleWindow::getWinner() {
     int attackers_left = battle_simulator_->getStatus().first;
     int defenders_left = battle_simulator_->getStatus().second;
 
-    if (defenders_left == 0 && attackers_left > 0) {
-        return player1_.lock();
+    if (attackers_left == 0) {
+        return player2_.lock();
     }
 
-    return player2_.lock();
+    return player1_.lock();
 }
+
 void BattleWindow::rollDice() {
     battle_simulator_->rollAllDie();
     std::map<UnitType, int> hits_p1 = battle_simulator_->getDicesRolled(player1_.lock());

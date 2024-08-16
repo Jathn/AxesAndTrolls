@@ -42,7 +42,9 @@ void CombatPhase::startCombat(std::shared_ptr<Tile> tile) {
 
 void CombatPhase::resolveBattle() {
     std::shared_ptr<Player> winner = battle_window_->getWinner();
+    std::cout << winner->getName() << " wins!" << std::endl;
     std::shared_ptr<Player> previous = battle_tile_.lock()->getOwner().lock();
+    std::cout << previous->getName() << " is exchanged for ownership" << std::endl;
     previous->getTerritory()->removeTile(battle_tile_.lock());
     battle_tile_.lock()->setOwner(winner);
     winner->getTerritory()->addTile(battle_tile_.lock());
@@ -54,6 +56,9 @@ void CombatPhase::resolveBattle() {
     }
     in_combat_ = false;
     battle_window_.reset();
+    if (state_manager_.lock()->getContestedTiles().size() == 0) {
+        setDone();
+    }
 }
 
 void CombatPhase::inCombatHandleEvent(sf::Event& event, sf::RenderWindow& window) {
