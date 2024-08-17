@@ -91,6 +91,12 @@ void Player::buyUnit(const UnitType& type) {
     movement_handler_->addUnit(unit);
 }
 
+void Player::sellUnit(const std::shared_ptr<Unit>& unit) {
+    movement_handler_->removeUnit(unit);
+    addResource(ResourceType::FOOD, unit->getCost().first);
+    addResource(ResourceType::WOOD, unit->getCost().second);
+}
+
 void Player::placeUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile) {
     territory_->getTiles();
 
@@ -122,7 +128,14 @@ void Player::buyBuilding(const BuildingType& type) {
 
     removeResource(ResourceType::GOLD, building->getCost());
     unplaced_buildings_.push_back(building);
-    resource_generation_[building->getIncome().first] += building->getIncome().second;
+}
+
+void Player::sellBuilding(const std::shared_ptr<Building>& building) {
+    auto it = std::find(unplaced_buildings_.begin(), unplaced_buildings_.end(), building);
+    if (it != unplaced_buildings_.end()) {
+        unplaced_buildings_.erase(it);
+        addResource(ResourceType::GOLD, building->getCost());
+    }
 }
 
 void Player::placeBuilding(const std::shared_ptr<Building>& building, const std::shared_ptr<Tile>& tile) {

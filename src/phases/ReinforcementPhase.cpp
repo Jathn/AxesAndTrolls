@@ -14,6 +14,8 @@ ReinforcementPhase::ReinforcementPhase(const std::shared_ptr<GameStateManager>& 
         for (auto building : unplaced_buildings) {
             unplaced_buildings_.push_back(building);
         }
+
+        sell_button_ = std::make_unique<Button>("Sell", std::pair<int, int>(150, 50), std::pair<int,int>(1000, 950));
     }
 
 void ReinforcementPhase::unitPlacement(sf::Event& event, sf::RenderWindow& window) {
@@ -29,6 +31,11 @@ void ReinforcementPhase::unitPlacement(sf::Event& event, sf::RenderWindow& windo
             } catch (std::exception& e) {
                 std::cout << e.what() << std::endl;
             }
+        }
+
+        if (sell_button_->isInside(event.mouseButton.x, event.mouseButton.y)) {
+            current_player_.lock()->sellUnit(unplaced_units_[0].lock());
+            unplaced_units_.erase(unplaced_units_.begin());
         }
     }
 }
@@ -47,6 +54,11 @@ void ReinforcementPhase::buildingPlacement(sf::Event& event, sf::RenderWindow& w
                 std::cout << e.what() << std::endl;
             }
         }
+
+        if (sell_button_->isInside(event.mouseButton.x, event.mouseButton.y)) {
+            current_player_.lock()->sellBuilding(unplaced_buildings_[0].lock());
+            unplaced_buildings_.erase(unplaced_buildings_.begin());
+        }
     }
 }
 
@@ -60,6 +72,7 @@ void ReinforcementPhase::handleEvent(sf::Event& event, sf::RenderWindow& window)
         for(auto unit : current_player->getUnits()) {
             unit->setMovementLeft(unit->getMovement());
         }
+        current_player->updateGeneration();
         setDone();
     }
 }
@@ -73,6 +86,9 @@ void ReinforcementPhase::drawUnplacedUnits(sf::RenderWindow& window) {
     }
 
     text.setFont(font);
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::Black);
+    text.setPosition(700, 950);
     if (unplaced_units_.size() > 0) {
         std::string unit_name = "Infantry";
         switch (unplaced_units_[0].lock()->getTypeChar()) {
@@ -89,26 +105,50 @@ void ReinforcementPhase::drawUnplacedUnits(sf::RenderWindow& window) {
 
         text.setString("Place " + unit_name);
     }
+
+    window.draw(text);
 }
 
 void ReinforcementPhase::drawUnplacedBuildings(sf::RenderWindow& window) {
-
-}
-
-void ReinforcementPhase::draw(sf::RenderWindow& window) {
     sf::Text text;
     sf::Font font;
+
     if (!font.loadFromFile("../resources/fonts/TTF/crimson-bold.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
     }
+
     text.setFont(font);
+    text.setCharacterSize(24);
+    text.setFillColor(sf::Color::Black);
+    text.setPosition(700, 950);
+    if (unplaced_buildings_.size() > 0) {
+        std::string building_name = "City";
+        switch (unplaced_buildings_[0].lock()->getTypeChar()) {
+            case 'F':
+                building_name = "Farm";
+                break;
+            case 'M':
+                building_name = "Mine";
+                break;
+            case 'L':
+                building_name = "Lodge";
+                break;
+        }
+
+        text.setString("Place " + building_name);
+    }
+
+    window.draw(text);
+}
+
+void ReinforcementPhase::draw(sf::RenderWindow& window) {
+    
     if (!allUnitsPlaced()) {
         drawUnplacedUnits(window);
     } else if (!allBuildingsPlaced()) {
         drawUnplacedBuildings(window);
-    } else {
-        text.setString("All units and buildings placed");
-    }
+    } 
+    sell_button_->draw(window);
 }
 
 std::shared_ptr<Phase> ReinforcementPhase::getNextPhase() {

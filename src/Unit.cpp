@@ -7,7 +7,7 @@ std::map<UnitType, std::vector<int>> unitTypeMap = {
     {UnitType::SURFACE_WARSHIP, {4, 0, 10, 2}},
     {UnitType::SEA_TRANSPORT, {0, 0, 5, 2}},
     {UnitType::INFANTRY, {1, 3, 0, 1}},
-    {UnitType::ARTILLERY, {2, 2, 3, 1}},
+    {UnitType::ARTILLERY, {1, 3, 1, 1}},
     {UnitType::RIDER, {2, 3, 3, 2}},
     {UnitType::DRAGON, {4, 8, 4, 4}}
 };

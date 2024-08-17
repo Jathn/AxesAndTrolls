@@ -3,6 +3,7 @@
 
 #include "Phase.hpp"
 #include "UnitView.hpp"
+#include "Button.hpp"
 
 /**
  * @file ReinforcementPhase.hpp
@@ -32,6 +33,7 @@ private:
     std::weak_ptr<Player> current_player_;
     std::vector<std::weak_ptr<Unit>> unplaced_units_;
     std::vector<std::weak_ptr<Building>> unplaced_buildings_;
+    std::unique_ptr<Button> sell_button_;
 };
 
 #endif // REINFORCEMENT_PHASE_HPP

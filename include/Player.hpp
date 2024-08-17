@@ -81,6 +81,8 @@ public:
      */
     void buyUnit(const UnitType& unit);
 
+    void sellUnit(const std::shared_ptr<Unit>& unit);
+
     /**
      * @brief Place a unit on a tile.
      * 
@@ -98,6 +100,7 @@ public:
      */
     void buyBuilding(const BuildingType& building);
 
+    void sellBuilding(const std::shared_ptr<Building>& building);
     /**
      * @brief Place a building on a tile.
      * 

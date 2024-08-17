@@ -1,18 +1,19 @@
 #include "BuyWindow.hpp"
 
 int window_width = 750;
-int window_height = 750;
+int window_height = 400;
 int window_x = 200;
 int window_y = 200;
 int text_x = 230;
 int text_y = 230;
 int font_size = 40;
-int button_size = 200;
-int button_x = 325;
-int button_y = 325;
-int button_spacing = 300;
+int button_size = 100;
+int button_x = 250;
+int button_y = 250;
+int button_spacing = 120;
 
 std::vector<UnitType> unit_types = {UnitType::INFANTRY, UnitType::ARTILLERY, UnitType::RIDER, UnitType::DRAGON};
+std::vector<BuildingType> building_types = {BuildingType::CITY, BuildingType::FARM, BuildingType::MINE, BuildingType::LODGE};
 
 BuyWindow::BuyWindow() {
     font_.loadFromFile("../resources/fonts/TTF/Crimson-Bold.ttf");
@@ -43,11 +44,31 @@ BuyWindow::BuyWindow() {
         column++;
     }
 
+    column = 0;
+    row = 0;
+
+    building_buttons_ = std::vector<std::shared_ptr<BuildingBuyButton>>();
+    for (auto building_type : building_types) {
+        if (column % 2 == 0 && column != 0) {
+            row++;
+            column = 0;
+        }
+        std::shared_ptr<BuildingBuyButton> button_ptr = std::make_shared<BuildingBuyButton>(std::make_pair(button_size, button_size), 
+                                                                            std::make_pair(button_x + 2 * button_spacing + button_spacing * column, button_y + button_spacing * row), 
+                                                                            building_type);
+        building_buttons_.push_back(button_ptr);
+        column++;
+    }
+
 } 
 
 void BuyWindow::draw(sf::RenderWindow& window) {
     window.draw(background_);
     for (auto button : buttons_) {
+        button->draw(window);
+    }
+
+    for (auto button : building_buttons_) {
         button->draw(window);
     }
 }
@@ -58,6 +79,16 @@ void BuyWindow::handleEvent(sf::Event& event, sf::RenderWindow& window, const st
             if (button->isInside(event.mouseButton.x, event.mouseButton.y)) {
                 try {
                     player->buyUnit(button->getUnitType());
+                } catch (std::exception& e) {
+                    std::cout << e.what() << std::endl;
+                }
+            }
+        }
+
+        for (auto button : building_buttons_) {
+            if (button->isInside(event.mouseButton.x, event.mouseButton.y)) {
+                try {
+                    player->buyBuilding(button->getBuildingType());
                 } catch (std::exception& e) {
                     std::cout << e.what() << std::endl;
                 }

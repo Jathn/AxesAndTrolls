@@ -36,13 +36,9 @@ void PlacementPhase::handleLeftClick(sf::Event& event, sf::Vector2f localPositio
                 current_tile->setOwner(current_player);
                 state_manager_.lock()->nextPlayer();
                 if (state_manager_.lock()->getCurrentPlayer() == state_manager_.lock()->getPlayers().front()) {
-                    std::cout << "Placement phase done" << std::endl;
                     setDone();
                 }
-        } else {
-            std::cout << "No tile selected" << std::endl;
-        }
-        
+        }       
     }
 }
 

@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "BuyButton.hpp"
+#include "BuildingBuyButton.hpp"
 #include "Player.hpp"
 
 class BuyWindow {
@@ -16,6 +17,7 @@ private:
     sf::Text text_;
     sf::Font font_;
     std::vector<std::shared_ptr<BuyButton>> buttons_;
+    std::vector<std::shared_ptr<BuildingBuyButton>> building_buttons_;
 };
 
 #endif // BUY_WINDOW_HPP

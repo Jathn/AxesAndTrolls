@@ -146,8 +146,10 @@ void MovementHandler::moveUnit(const std::shared_ptr<Unit>& unit, const std::sha
         std::shared_ptr<Player> tile_owner = nextTile->getOwner().lock();
         
         if (!is_unit_on_tile) {
-            territory_->addTile(nextTile);
-            nextTile->setOwner(player);
+            if (tile_owner != player) {
+                nextTile->setOwner(player);
+                territory_->addTile(nextTile);
+            }
         }
 
     }   

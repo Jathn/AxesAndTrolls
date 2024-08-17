@@ -20,8 +20,8 @@ CurrentTileView::CurrentTileView() {
     select_unit_buttons_.push_back(std::make_unique<Button>("Select Rider", std::make_pair(size.first / 4, 50), std::make_pair(position.first + unitview_x_pos.at(UnitType::RIDER) * size.first / 4, position.second + unit_view_size * 2)));
     select_unit_buttons_.push_back(std::make_unique<Button>("Select Dragon", std::make_pair(size.first / 4, 50), std::make_pair(position.first + unitview_x_pos.at(UnitType::DRAGON) * size.first / 4, position.second + unit_view_size * 2)));
 
-    move_button_ = std::make_unique<Button>("Move Units", std::make_pair(size.first / 3, 75), std::make_pair(position.first + size.first, position.second + size.second + 10));
-    cancel_button_ = std::make_unique<Button>("Cancel", std::make_pair(size.first / 3, 75), std::make_pair(position.first + size.first, position.second + size.second / 2 + 10));
+    move_button_ = std::make_unique<Button>("Move Units", std::make_pair(size.first / 3, 75), std::make_pair(position.first + size.first, position.second + size.second + 30));
+    cancel_button_ = std::make_unique<Button>("Cancel", std::make_pair(size.first / 3, 75), std::make_pair(position.first + size.first, position.second + size.second / 2 + 30));
     move_active_ = false;
 }
 

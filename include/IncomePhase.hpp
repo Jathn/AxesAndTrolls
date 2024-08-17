@@ -19,6 +19,13 @@ public:
     void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
     void draw(sf::RenderWindow& window) override;
     std::shared_ptr<Phase> getNextPhase() override;
+private:
+    int goldIncome_;
+    int woodIncome_;
+    int foodIncome_;
+
+    sf::RectangleShape background_;
+    sf::Color background_color_;
 };
 
 #endif // INCOME_PHASE_HPP
