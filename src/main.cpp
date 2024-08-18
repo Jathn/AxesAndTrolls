@@ -26,18 +26,22 @@ int main() {
         // handle error loading texture
     }
 
+    /* Background image Init */
     sf::Sprite loadingSprite(loadingTexture);
     sf::Sprite backgroundSprite(backgroundTexture);
 
     loadingSprite.setPosition(0, 0);
     backgroundSprite.setPosition(0, 0);
 
+    /* Draw loading sprite once */
     window.draw(loadingSprite);
     window.display();
 
-    Button exit_button = Button("Exit", std::make_pair<int, int>(100, 40), std::make_pair<int, int>(1820, 0));
-    Button music_button = Button("Music", std::make_pair<int, int>(100, 40), std::make_pair<int, int>(1720, 0));
+    /* Button Init */
+    Button exit_button = Button("Exit", std::make_pair<int, int>(100, 30), std::make_pair<int, int>(1820, 0));
+    Button music_button = Button("Music", std::make_pair<int, int>(100, 30), std::make_pair<int, int>(1720, 0));
     
+    /* Music Init */
     sf::SoundBuffer buffer;
     if (!buffer.loadFromFile("../resources/sound/click.wav")) {
         throw std::runtime_error("Could not load sound");
@@ -51,8 +55,21 @@ int main() {
 
     music.setLoop(true);
     music.play();
+
+    /* Game Init */
     std::shared_ptr<GameStateManager> game_state_manager = std::make_shared<GameStateManager>(std::make_pair<int, int>(22, 14), 2);
     std::shared_ptr<Game> game = std::make_shared<Game>(game_state_manager);
+
+    /* Game Over text Load */
+    sf::Font font;
+    if (!font.loadFromFile("../resources/fonts/TTF/Crimson-Bold.ttf")) {
+        throw std::runtime_error("Could not load font");
+    }
+    sf::Text game_over_text;
+    game_over_text.setFont(font);
+    game_over_text.setCharacterSize(50);
+    game_over_text.setPosition(800, 800);
+    /* Loop */
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -93,6 +110,11 @@ int main() {
                 game_initializer.draw(window);
             } else {
                 game->draw(window);
+                if (game->getStateManager()->isGameOver()) {
+                    std::shared_ptr<Player> winner = game->getStateManager()->getWinner();
+                    game_over_text.setString("Game Over! " + winner->getName() + " wins!");
+                    game_over_text.setFillColor(winner->getColor());
+                }
             }
         }
         exit_button.draw(window);

@@ -1,6 +1,8 @@
 #include "GameStateManager.hpp"
 
 GameStateManager::GameStateManager(std::pair<int, int> map_size, int num_players) : map_size_(map_size) {
+    winner_index_ = -1;
+    game_over_ = false;
     generateMap();
     current_player_ = 0;
 }
@@ -53,6 +55,30 @@ void GameStateManager::createPlayers(const int& num_players) {
 
 void GameStateManager::nextPlayer() {
     current_player_ = (current_player_ + 1) % players_.size();
+}
+
+void GameStateManager::checkGameOver() {
+    int i = 0;
+    
+    for (auto player : players_) {
+        if (player->getTerritory()->getTiles().size() == 40) {
+            game_over_ = true;
+            winner_index_ = i;
+            return;
+        }
+        i++;
+    }
+}
+
+bool GameStateManager::isGameOver() {
+    return game_over_;
+}
+
+std::shared_ptr<Player> GameStateManager::getWinner() {
+    if (winner_index_ == -1) {
+        throw std::runtime_error("No winner yet");
+    }
+    return players_[winner_index_];
 }
 
 const std::vector<std::shared_ptr<Tile>>& GameStateManager::getMap() {

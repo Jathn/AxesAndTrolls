@@ -48,7 +48,10 @@ public:
      */
     void nextPlayer();
     
+    void checkGameOver();
     /* Getter functions */
+    bool isGameOver();
+    std::shared_ptr<Player> getWinner();
     const std::vector<std::shared_ptr<Tile>>& getMap();
     std::pair<int, int> getMapSize();
     const std::vector<std::shared_ptr<Player>>& getPlayers();
@@ -63,7 +66,9 @@ public:
     void setPlayers(const std::vector<std::shared_ptr<Player>>& players);
 
 private:
+    bool game_over_;
     std::vector<std::shared_ptr<Tile>> map_;
+    int winner_index_;
     std::vector<std::shared_ptr<Player>> players_;
     int current_player_;
     int round_nr_;

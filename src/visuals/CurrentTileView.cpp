@@ -166,10 +166,15 @@ void CurrentTileView::onSelectUnitButtonClicked(const int& index, const std::sha
     std::sort(filtered_units.begin(), filtered_units.end(), [](const std::shared_ptr<Unit>& a, const std::shared_ptr<Unit>& b) {
         return a->getMovementLeft() >= b->getMovementLeft();
     });
-
+    std::vector<std::shared_ptr<Unit>> selected_units;
+    for (const auto& unit : selected_units_) {
+        selected_units.push_back(unit.lock());
+    }
     for (const auto& unit : filtered_units) {
-        if (unit->getMovementLeft() > 0) {
+        
+        if (unit->getMovementLeft() > 0 && std::find(selected_units.begin(), selected_units.end(), unit) == selected_units.end()) {
             selected_units_.push_back(unit);
+            break;
         }
     }
 }

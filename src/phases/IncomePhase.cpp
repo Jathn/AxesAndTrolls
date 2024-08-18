@@ -56,6 +56,7 @@ void IncomePhase::draw(sf::RenderWindow& window) {
 }
 
 std::shared_ptr<Phase> IncomePhase::getNextPhase() {
+    state_manager_.lock()->checkGameOver();
     state_manager_.lock()->nextPlayer();
     return std::make_shared<BuyPhase>(state_manager_.lock(), graphics_manager_.lock());
 }
