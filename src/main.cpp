@@ -5,6 +5,7 @@
 #include <sstream>
 
 #include "TileView.hpp"
+#include "Button.hpp"
 #include "Game.hpp"
 #include "Menu.hpp"
 #include "GameInitializer.hpp"
@@ -33,10 +34,21 @@ int main() {
 
     window.draw(loadingSprite);
     window.display();
+
+    Button exit_button = Button("Exit", std::make_pair<int, int>(100, 40), std::make_pair<int, int>(1820, 0));
+    Button music_button = Button("Music", std::make_pair<int, int>(100, 40), std::make_pair<int, int>(1720, 0));
+    
+    sf::SoundBuffer buffer;
+    if (!buffer.loadFromFile("../resources/sound/click.wav")) {
+        throw std::runtime_error("Could not load sound");
+    }
+    sf::Sound sound;
     sf::Music music;
+
     if (!music.openFromFile("../resources/sound/menu_music.ogg")) {
         throw std::runtime_error("Could not load music");
     }
+
     music.setLoop(true);
     music.play();
     std::shared_ptr<GameStateManager> game_state_manager = std::make_shared<GameStateManager>(std::make_pair<int, int>(22, 14), 2);
@@ -56,6 +68,20 @@ int main() {
                     game->handleEvent(event, window);
                 }
             }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                sound.setBuffer(buffer);
+                sound.play();
+                if (exit_button.isInside(event.mouseButton.x, event.mouseButton.y)) {
+                    window.close();
+                }
+                if (music_button.isInside(event.mouseButton.x, event.mouseButton.y)) {
+                    if (music.getStatus() == sf::Music::Playing) {
+                        music.pause();
+                    } else {
+                        music.play();
+                    }
+                }
+            }
         }
         window.clear();
         window.draw(backgroundSprite);
@@ -69,6 +95,8 @@ int main() {
                 game->draw(window);
             }
         }
+        exit_button.draw(window);
+        music_button.draw(window);
         window.display();
     }
     
