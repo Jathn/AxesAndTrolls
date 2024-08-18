@@ -18,12 +18,16 @@ class Menu {
 public:
     Menu();
 
+    /* Getter Functions */
     bool getGameActivated() const;
 
+    /* Setter Functions */
     void setGameActivated(bool game_activated);
 
+    
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
+    
 private:
     bool game_activated_;
     std::unique_ptr<Button> start_button_;

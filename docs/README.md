@@ -1,47 +1,188 @@
-# Game Structure README
+<p style="background-image: url('../resources/pics/background.png');
+    height: 200px;
+    width: 500px;
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+    font-family: 'Crimson Bold';
+    border-radius: 10px;
+    display: flex;
+    align-items: center;">
+    <img src="../resources/pics/rider.png" style="height: 200px;
+    width: 200px;">Design</p>
 
-This README provides an overview of the classes and their relationships in the game structure. The structure includes a variety of classes that handle different aspects of the game, from graphical representation to gameplay mechanics.
+## Hierarchy
+### *Top Level:*
 
-## Classes
+### 1. Menu
 
-### Tile
-- **Attributes:** Id, terrain type, Units & Building.
-- **Description:** Represents a single tile on the game map with specific terrain and may contain units or buildings.
+Renders the menu until a game has been started.
 
-### Units
-- **Subclasses:** Hit chance, Cost, Movement.
-- **Description:** Represents movable characters or objects within the game. Each unit has attributes like hit chance, cost, and movement capabilities.
+### 2. GameInitializer
 
-### Player
-- **Attributes:** Resources, Units & Buildings, Type.
-- **Description:** Represents individual players in the game with their resources and owned units & buildings.
+A helper class for initializing game. This class is responsible for the transition from menu to game.
 
-### GameStateManager
-- **Attributes:** Players & Current Map Phase.
-- **Description:** Manages the overall state of the game including current players, map and phase of gameplay.
+### 3. Game
 
-### GameGraphicManager 
-- **Attributes:** PlayerView TileView MouseHandling.
-- **Description**: Handles graphical representation for various elements within the game like players and tiles.
+Handles all responsiveness, rendering and back-end logic with it's members once  a game has been initialized.
+### State and Graphics managers
+Once the game is started, the Game takes over the game logic using the following two classes:
 
-### GraphicsOp 
-**Subclasses**: Phase RenderWindow GameGraphicsManager MenuGraphicsManager.
-**Description**: Operates all graphics-related tasks including rendering windows and managing graphics for both games and menus.
+- GameStateManager
+    - Handles most of the game logic, like:
+    Keeping track of Players, Units, Tiles etc. 
+- GameGraphicsManager
+    - Renders the graphic representations of objects.
 
-### MenuGraphicsManager 
-**Attributes**: RulebookDisplay Button.
-**Description**: Manages graphics specifically for menu displays including rulebooks and buttons.
+### Phases
+The game is initialized using a GameInitializer class, but for the rest of the game, the logics is controlled by Phases.
 
-### Button 
-**Attributes**: OnClick Visuals.
-**Description**: Represents interactive buttons within menus with specific visuals and click actions.
+See "Phase.hpp", with the following subclasses:
+- Placement phase:
+    - Only occurs once. This is where players place their first city.
+- Buy phase:
+    - The start of each players turn, self explanatory. :p
+- Move Phase, "CombatMovePhase.hpp".
+    - The player moves their units.
+- Combat Phase:
+    - The "contested areas" are to be resolved by battling.
+- Reinforcement Phase:
+    - Placement of purchased buildings and units.
 
-## Relationships
+Phases all have a function that returns a pointer to a new phase of the *next phase* class.
 
-1. `Tile` is associated with `Units` through its attributes which include units. It's also connected to `Player` through Buildings & Units attribute indicating ownership or occupation by a player’s units or buildings.
+<p style="background-image: url('../resources/pics/background.png');
+    height: 200px;
+    width: 500px;
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+    font-family: 'Crimson Bold';
+    border-radius: 10px;
+    display: flex;
+    align-items: center;">
+    <img src="../resources/pics/artillery.png" style="height: 200px;
+    width: 200px;">Functionality</p>
 
-2. `Player` is linked to `GameStateManager`, indicating that each player’s state is managed within this class which also handles overall gameplay state including phases etc.
+### Handle Event
 
-3. `GameGraphicManager` is associated with both `Tile` (through TileView) indicating it handles how tiles are graphically represented; it's also linked to ‘Player’ (through PlayerView) handling player-specific graphical elements 
+### Passed through to lower level components
 
-4. ‘GraphicsOp’ encompasses operations related to graphics across phases of gameplay as well as menu displays; it’s linked directly to ‘GameGraphicManager’ for in-game graphics operations as well as ‘MenuGraphicsManager
+<img src="handle-event.png" style="width: 400px; background-color: white; border-radius: 40px 20px">
+
+The function is responsible for handling responsiveness.
+
+### Draw
+
+### Passed through to lower level components
+
+<img src="draw.png" style="width: 400px; background-color: white; border-radius: 40px 20px">
+
+This function is always initiated from the top through graphics manager and is responsible for drawing all elements.
+
+<br><br>
+
+<p style="background-image: url('../resources/pics/background.png');
+    height: 200px;
+    width: 500px;
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+    font-family: 'Crimson Bold';
+    border-radius: 10px;
+    display: flex;
+    align-items: center;">
+    <img src="../resources/pics/mine.png" style="height: 150px;
+    width: 150px; margin-left: 25px; margin-right: 25px; border-radius: 15px">Game Components</p>
+
+### Key Components
+ - Unit
+ - Building
+ - Tile
+
+### Graphical representation
+
+Instead of having their own "draw" functions, they are paired up with graphical components when needed.
+
+#### Tile - Tileview
+As Tiles are drawn constantly, they have their own specific view - see TileView.hpp.
+
+#### Buildings and Units
+
+- Buildings are drawn on top of tiles as part of TileViews.
+- Units are displayed as needed:
+    - Tileview has a count displaying system.
+    - CurrentTileView in the move phase shows a graphic of the units and their count.
+    - The battle window also has unit graphics.
+<br>
+<br>
+<br>
+<br>
+<p style="background-image: url('../resources/pics/background.png');
+    height: 200px;
+    width: 500px;
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+    font-family: 'Crimson Bold';
+    border-radius: 10px;
+    display: flex;
+    align-items: center;">
+    <img src="../resources/pics/GameLogo.png" style="height: 150px;
+    width: 150px; margin-left: 25px; margin-right: 25px; border-radius: 15px">Code Structure</p>
+
+## Topics & Related Classes
+
+## Game progression
+ - GameStateManager
+ - Phase
+## Map
+ - GameStateManager
+ - Tile
+ - Randoms
+ - GameGraphicsManager
+ - MapView
+ - TileView
+    
+## Movement
+ - Unit
+ - Movement
+ - MovementHandler
+ - Player
+ - CombatMovePhase - "Move Phase"
+ - CurrentTileView
+ - UnitView
+
+## Battle
+ - CombatPhase
+ - BattleWindow
+ - UnitView
+ - DiceView
+ - BattleSimulator
+ - Randoms
+
+
+## Tile
+ - Tile
+ - TileView
+ - TileType
+ - Player
+ - Unit
+ - Building
+
+## Unit
+ - Unit
+ - UnitType
+ - Player
+ - Tile
+ - TileType
+
+## Player
+ - Player
+ - MovementHandler
+ - Territory
+ - Tile
+ - Unit
+ - GameStateManager
+ - PlayerView
+ - GameInitializer
