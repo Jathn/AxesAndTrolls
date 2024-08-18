@@ -21,6 +21,7 @@ void CombatMovePhase::handleLeftClick(sf::RenderWindow& window, const sf::Vector
             // Handle the confirm button
             setDone();
     }
+    current_tile_view_.handleLeftClick(window, position, state_manager_.lock());
     int tile_id = graphics_manager_.lock()->getTileId(position.x, position.y);
     if (tile_id == -1) {
         std::cout << "Something else clicked" << std::endl;
@@ -46,13 +47,12 @@ void CombatMovePhase::handleLeftClick(sf::RenderWindow& window, const sf::Vector
                 std::cout << e.what() << std::endl;
             }
             
+        } else {
+            state_manager_.lock()->setCurrentTile(tile_id);
+            current_tile_view_.wipeSelectedUnits();
         }
 
-        state_manager_.lock()->setCurrentTile(tile_id);
-        current_tile_view_.wipeSelectedUnits();
     }
-
-    current_tile_view_.handleLeftClick(window, position, state_manager_.lock());
 }
 
 void CombatMovePhase::draw(sf::RenderWindow& window) {
