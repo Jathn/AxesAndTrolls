@@ -38,8 +38,8 @@ int main() {
     window.display();
 
     /* Button Init */
-    Button exit_button = Button("Exit", std::make_pair<int, int>(100, 30), std::make_pair<int, int>(1820, 0));
-    Button music_button = Button("Music", std::make_pair<int, int>(100, 30), std::make_pair<int, int>(1720, 0));
+    Button exit_button = Button("Exit", std::make_pair<int, int>(100, 50), std::make_pair<int, int>(1820, 0));
+    Button music_button = Button("Music", std::make_pair<int, int>(100, 50), std::make_pair<int, int>(1720, 0));
     
     /* Music Init */
     sf::SoundBuffer buffer;

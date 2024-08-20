@@ -128,13 +128,13 @@ bool CurrentTileView::isMoveActive() const {
     return move_active_;
 }
 
-const std::vector<std::shared_ptr<Unit>> CurrentTileView::filterUnits(const std::vector<std::weak_ptr<Unit>>& units, UnitType type) {
+const std::vector<std::shared_ptr<Unit>> CurrentTileView::filterUnits(const std::vector<std::weak_ptr<Unit>>& units, UnitType type, const std::shared_ptr<Player>& player) {
     std::vector<std::shared_ptr<Unit>> filtered_units;
     for (const auto& unit : units) {
         if (unit.expired()) {
             continue;
         }
-        if (unit.lock()->getType() == type) {
+        if (unit.lock()->getType() == type && unit.lock()->getOwner()->getName() == player->getName()) {
             filtered_units.push_back(unit.lock());
         }
     }
@@ -161,7 +161,7 @@ void CurrentTileView::onSelectUnitButtonClicked(const int& index, const std::sha
         return;
     }
 
-    std::vector<std::shared_ptr<Unit>> filtered_units = filterUnits(state_manager->getCurrentTile()->getUnits(), type);
+    std::vector<std::shared_ptr<Unit>> filtered_units = filterUnits(state_manager->getCurrentTile()->getUnits(), type, state_manager->getCurrentPlayer());
 
     std::sort(filtered_units.begin(), filtered_units.end(), [](const std::shared_ptr<Unit>& a, const std::shared_ptr<Unit>& b) {
         return a->getMovementLeft() >= b->getMovementLeft();

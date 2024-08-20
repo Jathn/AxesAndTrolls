@@ -98,10 +98,15 @@ void Player::sellUnit(const std::shared_ptr<Unit>& unit) {
 }
 
 void Player::placeUnit(const std::shared_ptr<Unit>& unit, const std::shared_ptr<Tile>& tile) {
-    territory_->getTiles();
-
+    int tile_id = tile->getId();
+    
     /* Check whether the tile is own tile */
-    if (std::find(territory_->getTiles().begin(), territory_->getTiles().end(), tile) == territory_->getTiles().end()) {
+    std::vector<int> tile_ids;
+    for (auto t : getTiles()) {
+        tile_ids.push_back(t->getId());
+    }
+
+    if (std::find(tile_ids.begin(), tile_ids.end(), tile_id) == tile_ids.end()) {
         /* Tile is not owned by player */
         throw InvalidPlacementException();
     }
@@ -139,10 +144,14 @@ void Player::sellBuilding(const std::shared_ptr<Building>& building) {
 }
 
 void Player::placeBuilding(const std::shared_ptr<Building>& building, const std::shared_ptr<Tile>& tile) {
-    territory_->getTiles();
-
+    int tile_id = tile->getId();
     /* Check whether the tile is own tile */
-    if (std::find(territory_->getTiles().begin(), territory_->getTiles().end(), tile) == territory_->getTiles().end()) {
+    std::vector<int> tile_ids;
+    for (auto t : getTiles()) {
+        tile_ids.push_back(t->getId());
+    }
+
+    if (std::find(tile_ids.begin(), tile_ids.end(), tile_id) == tile_ids.end()) {
         /* Tile is not owned by player */
         throw InvalidPlacementException();
     }

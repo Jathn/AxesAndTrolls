@@ -88,7 +88,7 @@ public:
      * @param type UnitType type to filter by.
      * @return std::vector<std::shared_ptr<Unit>> filtered units.
      */
-    const std::vector<std::shared_ptr<Unit>> filterUnits(const std::vector<std::weak_ptr<Unit>>& units, UnitType type);
+    const std::vector<std::shared_ptr<Unit>> filterUnits(const std::vector<std::weak_ptr<Unit>>& units, UnitType type, const std::shared_ptr<Player>& player);
 
     /**
      * @brief Counts the units based on the type. Example: count_units(units)[UnitType::Infantry] returns the count of infantry units.
