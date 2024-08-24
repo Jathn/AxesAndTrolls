@@ -55,7 +55,7 @@ void CombatMovePhase::handleLeftClick(sf::RenderWindow& window, const sf::Vector
 }
 
 void CombatMovePhase::draw(sf::RenderWindow& window) {
-
+    graphics_manager_.lock()->draw(window);
     if (state_manager_.lock()->getCurrentTile() == nullptr) {
         return;
     }

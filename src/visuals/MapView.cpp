@@ -2,12 +2,6 @@
 
 MapView::MapView(std::vector<std::shared_ptr<Tile>> tiles, std::pair<int, int> position, std::pair<int, int> size, const std::vector<std::shared_ptr<Player>>& players)
  : position_(position), size_(size) {
-    font_.loadFromFile("../resources/fonts/TTF/Crimson-Bold.ttf");
-    text_.setFont(font_);
-    text_.setCharacterSize(24);
-    text_.setFillColor(sf::Color::White);
-    text_.setOutlineColor(sf::Color::Black);
-    text_.setOutlineThickness(1);
     
     for (auto player : players) {
         players_.push_back(player);

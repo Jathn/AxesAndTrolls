@@ -15,6 +15,43 @@
  * @version 0.1
  * @date 2024-01-23
  */
+
+/**
+ * @struct GameState
+ * @brief Struct for holding the state of the game.
+ * 
+ */
+struct GameState {
+    std::pair<int, int> map_size;
+    std::vector<std::shared_ptr<Tile>> map;
+    std::vector<std::shared_ptr<Player>> players;
+    int current_player_index;
+    bool game_over;
+    int winner_index;
+    std::shared_ptr<Tile> current_tile;
+    int round_nr;
+    std::vector<std::shared_ptr<Tile>> contested_tiles;
+};
+
+/**
+ * @class GameStateManager
+ * @author Jonathan Ramstedt
+ * @brief GameStateManager handles the state of the game from unit positions to tile types and handles communication between components.
+ * 
+ * Class variables:
+ *  - game_over_ (bool): True if the game is over.
+ * - map_ (std::vector<std::shared_ptr<Tile>>): The map of the game.
+ * - winner_index_ (int): The index of the winner in the players vector.
+ * - players_ (std::vector<std::shared_ptr<Player>>): The players in the game.
+ * - current_player_ (int): The index of the current player in the players vector.
+ * - round_nr_ (int): The current round number.
+ * - selected_units_ (std::vector<std::weak_ptr<Unit>>): The units that are currently selected.
+ * - map_size_ (std::pair<int, int>): The size of the map.
+ * - current_tile_ (std::shared_ptr<Tile>): The current tile.
+ * 
+ * 
+ * 
+ */
 class GameStateManager {
 public:
 
@@ -22,7 +59,7 @@ public:
      * @brief Constructor for GameStateManager class.
      * 
      */
-    GameStateManager(std::pair<int, int> mapSize = std::make_pair(10, 10), int num_players = 2);
+    GameStateManager(std::pair<int, int> mapSize = std::make_pair(10, 10));
 
     /**
      * @brief Destructor for GameStateManager class.
@@ -50,6 +87,7 @@ public:
     
     void checkGameOver();
     /* Getter functions */
+    GameState getGameState();
     bool isGameOver();
     std::shared_ptr<Player> getWinner();
     const std::vector<std::shared_ptr<Tile>>& getMap();

@@ -21,7 +21,9 @@ public:
     std::shared_ptr<Phase> getNextPhase() override;
 private:
     BuyWindow buy_window_;
-    std::shared_ptr<Button> confirm_button_;
+    std::unique_ptr<Button> confirm_button_;
+    std::unique_ptr<Button> buy_menu_button_;
+    bool buy_menu_open_;
 };
 
 #endif // BUY_PHASE_HPP

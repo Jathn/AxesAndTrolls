@@ -142,7 +142,7 @@ void ReinforcementPhase::drawUnplacedBuildings(sf::RenderWindow& window) {
 }
 
 void ReinforcementPhase::draw(sf::RenderWindow& window) {
-    
+    graphics_manager_.lock()->draw(window);
     if (!allUnitsPlaced()) {
         drawUnplacedUnits(window);
     } else if (!allBuildingsPlaced()) {

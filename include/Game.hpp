@@ -6,7 +6,7 @@
 #include "GameInfo.hpp"
 
 #include "Phase.hpp"
-#include "PlacementPhase.hpp"
+#include "InitializationPhase.hpp"
 
 /**
  * @file Game.hpp
@@ -19,7 +19,7 @@
  */
 class Game {
     public:
-        Game(const std::shared_ptr<GameStateManager>& state_manager);
+        Game();
 
         /* Getter Functions*/
         const int& getRound();

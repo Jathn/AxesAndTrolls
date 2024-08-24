@@ -18,7 +18,7 @@
  */
 class GameGraphicsManager {
 public:
-    GameGraphicsManager(const std::shared_ptr<GameStateManager>& game_state_manager);
+    GameGraphicsManager(GameState game_state);
 
     /**
      * @brief "Pass through" function for drawing the game graphics.
@@ -32,7 +32,7 @@ public:
      * 
      * @param game_state_manager 
      */
-    void update(const std::shared_ptr<GameStateManager>& game_state_manager);
+    void update(GameState game_state);
 
     /**
      * @brief Returns the id of a tile at a given position (x, y) on the map.
@@ -44,8 +44,8 @@ public:
     int getTileId(int x, int y);
 private:
     void drawPlayerViews(sf::RenderWindow& window);
-    void updatePlayerViews(const std::shared_ptr<GameStateManager>& game_state_manager);
-    void updateMapView(const std::shared_ptr<GameStateManager>& game_state_manager);
+    void updatePlayerViews(GameState game_state_manager);
+    void updateMapView(GameState game_state_manager);
     void drawMapView(sf::RenderWindow& window);
     std::vector<std::shared_ptr<PlayerView>> player_views_;
     MapView map_view_;

@@ -1,14 +1,15 @@
-#ifndef GAME_INITIALIZER_HPP
-#define GAME_INITIALIZER_HPP
+#ifndef INITIALIZATION_PHASE_HPP
+#define INITIALIZATION_PHASE_HPP
 
 #include <vector>
 #include <string>
 
 #include <SFML/Graphics.hpp>
-#include "GameGraphicsManager.hpp"
+
+#include "Phase.hpp"
 
 /**
- * @file GameInitializer.hpp
+ * @file InitializationPhase.hpp
  * @brief Class for initializing the game.
  * 
  * This class is responsible for initializing the game.
@@ -17,23 +18,18 @@
  * @version 1.0
  * @date 2024-04-25
  */
-class GameInitializer {
+
+class InitializationPhase : public Phase {
     public:
-        GameInitializer();
+        InitializationPhase(const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager);
 
         /* Getter functions */
         std::vector<std::string> getPlayerNames();
 
-        /* Setter functions */
-        void setDone(bool is_done);
-
-        void draw(sf::RenderWindow& window);
-
-        void handleEvent(sf::Event& event, const std::shared_ptr<GameStateManager>& state_manager, const std::shared_ptr<GameGraphicsManager>& graphics_manager);
-
-        bool isDone();
         
-        void toggleDone();
+        void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
+        void draw(sf::RenderWindow& window) override;
+        std::shared_ptr<Phase> getNextPhase() override;
     private:
         std::vector<std::string> player_names_;
         std::string current_name_;
@@ -41,4 +37,4 @@ class GameInitializer {
         bool is_done_;
 };
 
-#endif // GAME_INTIALIZER_HPP
+#endif // INITIALIZATION_PHASE_HPP

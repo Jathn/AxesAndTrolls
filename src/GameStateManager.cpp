@@ -1,6 +1,6 @@
 #include "GameStateManager.hpp"
 
-GameStateManager::GameStateManager(std::pair<int, int> map_size, int num_players) : map_size_(map_size) {
+GameStateManager::GameStateManager(std::pair<int, int> map_size) : map_size_(map_size) {
     winner_index_ = -1;
     game_over_ = false;
     generateMap();
@@ -74,6 +74,21 @@ bool GameStateManager::isGameOver() {
     return game_over_;
 }
 
+GameState GameStateManager::getGameState() {
+    GameState state;
+    state.map_size = map_size_;
+    state.map = map_;
+    state.players = players_;
+    state.current_player_index = current_player_;
+    state.game_over = game_over_;
+    state.winner_index = winner_index_;
+    state.current_tile = current_tile_;
+    state.round_nr = round_nr_;
+    state.contested_tiles = getContestedTiles();
+
+    return state;
+}
+
 std::shared_ptr<Player> GameStateManager::getWinner() {
     if (winner_index_ == -1) {
         throw std::runtime_error("No winner yet");
@@ -139,7 +154,12 @@ void GameStateManager::setCurrentPlayer(const std::shared_ptr<Player>& player) {
 }
 
 void GameStateManager::setPlayers(const std::vector<std::shared_ptr<Player>>& players) {
-    players_ = players;
+    players_.clear();
+    for (auto player : players) {
+        players_.push_back(player);
+    }
+
+    current_player_ = 0;
 }
 
 bool GameStateManager::isTileContested(const std::shared_ptr<Tile>& tile) const { 

@@ -24,7 +24,7 @@ std::vector<std::shared_ptr<Unit>> CombatPhase::getPlayerUnits(const std::shared
     // Get attacking units here
     std::vector<std::shared_ptr<Unit>> units;
     for (auto unit : tile->getUnits()) {
-        if (unit.lock()->getOwner() == player) {
+        if (unit.lock()->getOwner()->getName() == player->getName()) {
             units.push_back(unit.lock());
         }
     }
@@ -129,6 +129,7 @@ void CombatPhase::updateContestedTiles() {
 }
 
 void CombatPhase::draw(sf::RenderWindow& window) {
+    graphics_manager_.lock()->draw(window);
     updateContestedTiles();
 
     if (in_combat_ && battle_window_ != nullptr) {

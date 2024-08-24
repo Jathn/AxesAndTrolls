@@ -1,7 +1,7 @@
 #include "Player.hpp"
 
 Player::Player(const sf::Color& color, const std::string& name) {
-    name_ = "Unkknown player";
+    name_ = name;
     territory_ = std::make_shared<Territory>();
     movement_handler_ = std::make_shared<MovementHandler>(territory_);
     color_ = color;
