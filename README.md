@@ -1,30 +1,22 @@
-<img src="resources/pics/rider.png"></img>
-<img src="resources/pics/artillery.png"></img>
-<img src="resources/pics/infantry.png"></img>
-
-# 🛡️ Axes & Trolls 🪓
-
-Welcome to the Axes & Trolls page! Here, delve into the creating of this strategy board-game experience. Whether you’re interested in contributing to the project, understanding the game’s structure, or diving into the codebase, this is your go-to resource.
+# 🛡Axes & Trolls
 
 ## ⚙️ Project Overview
 Axes & Trolls is a strategy game that combines old and new strategy features from board games into a videogame. Local Play with friends to battle out is the current way to go. With this in mind, new features and extensibility is welcome.
 
-## 🗂️ Resources
+Features:
+- Play 1-4 players locally - old school style: You've got the red, the blue, the green and the yellow player
+- Strategy game where the goal is expansion
+- In-Game economy with 3 different resources: Gold, Wood and Food - all with their specific purpose
+- Different units with different strengths
 
-#### Official Website 🌐: Explore the full game experience, access the rulebook, game instructions, and more.
+## Technical details
 
-#### Code Documentation 📚: Visit the "docs" folder for detailed information about the code structure.
+The game was developed using C++ combined with the SFML library. Its main goal was creating a game from scratch, for practice and for fun.
 
-#### Contribution Guidelines 🤝: Learn how to contribute to the project, from submitting bug reports to developing new features.
-
-#### License 📜: Review the licensing terms that govern the use and distribution of Axes & Trolls.
-
-
-## 📌 Getting Started with Contributions
-
-#### Clone the Repository 🛠️: Start by cloning the project from our GitHub repository.
-
-#### Review the Docs 📄: Familiarize yourself with the codebase by reading through our documentation.
-
-#### Follow the Guidelines ✔️: Before contributing, please review our contribution guidelines to ensure a smooth collaboration process.
-
+The source code provides some solutions (some worse, but hopefully some better) for among other things these:
+- Map generation (with clustering of different area types.)
+- Tile system
+- Path finding
+- Unit type specific rules
+- Turn and turn phase handling
+and a lot of other unexpected features that needed implementing.
