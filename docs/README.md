@@ -1,16 +1,3 @@
-<p style="background-image: url('../resources/pics/background.png');
-    height: 200px;
-    width: 500px;
-    font-size: 40px;
-    font-weight: bold;
-    color: black;
-    font-family: 'Crimson Bold';
-    border-radius: 10px;
-    display: flex;
-    align-items: center;">
-    <img src="../resources/pics/rider.png" style="height: 200px;
-    width: 200px;">Design</p>
-
 ## Hierarchy
 ### *Top Level:*
 
@@ -51,19 +38,6 @@ See "Phase.hpp", with the following subclasses:
 
 Phases all have a function that returns a pointer to a new phase of the *next phase* class.
 
-<p style="background-image: url('../resources/pics/background.png');
-    height: 200px;
-    width: 500px;
-    font-size: 40px;
-    font-weight: bold;
-    color: black;
-    font-family: 'Crimson Bold';
-    border-radius: 10px;
-    display: flex;
-    align-items: center;">
-    <img src="../resources/pics/artillery.png" style="height: 200px;
-    width: 200px;">Functionality</p>
-
 ### Handle Event
 
 ### Passed through to lower level components
@@ -81,19 +55,6 @@ The function is responsible for handling responsiveness.
 This function is always initiated from the top through graphics manager and is responsible for drawing all elements.
 
 <br><br>
-
-<p style="background-image: url('../resources/pics/background.png');
-    height: 200px;
-    width: 500px;
-    font-size: 40px;
-    font-weight: bold;
-    color: black;
-    font-family: 'Crimson Bold';
-    border-radius: 10px;
-    display: flex;
-    align-items: center;">
-    <img src="../resources/pics/mine.png" style="height: 150px;
-    width: 150px; margin-left: 25px; margin-right: 25px; border-radius: 15px">Game Components</p>
 
 ### Key Components
  - Unit
@@ -114,22 +75,6 @@ As Tiles are drawn constantly, they have their own specific view - see TileView.
     - Tileview has a count displaying system.
     - CurrentTileView in the move phase shows a graphic of the units and their count.
     - The battle window also has unit graphics.
-<br>
-<br>
-<br>
-<br>
-<p style="background-image: url('../resources/pics/background.png');
-    height: 200px;
-    width: 500px;
-    font-size: 40px;
-    font-weight: bold;
-    color: black;
-    font-family: 'Crimson Bold';
-    border-radius: 10px;
-    display: flex;
-    align-items: center;">
-    <img src="../resources/pics/GameLogo.png" style="height: 150px;
-    width: 150px; margin-left: 25px; margin-right: 25px; border-radius: 15px">Code Structure</p>
 
 ## Topics & Related Classes
 
